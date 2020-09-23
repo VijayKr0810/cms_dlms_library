@@ -1,0 +1,12 @@
+{
+"FTP_SER_INFO":
+{
+"Enable":"1",
+"SerPort":"21",
+"UploadPeriod":"5",
+"LocDir":"dlms_api_dir",
+"Password":"radhey$123",
+"UserName":"vijay",
+"SerIp":"192.168.10.193"
+}
+}

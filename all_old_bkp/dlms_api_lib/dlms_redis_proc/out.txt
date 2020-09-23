@@ -1,0 +1,784 @@
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : main()               : Inside Main
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : read_dlms_config()   : Size of DCU Config strcut : 48502
+/dev/ttyUSB0, 10, 8 1 
+01_Jul_2020_15_48_11 : [Report] : Port-0 : Meter-0 : ipcSocketCreate()    : IpcSocketCreation Success..dbgLogIp 
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : main()               : >>>>>>>>>>> Root Data Directory is : /usr/cms/data/DlmsData
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : create_data_directory() : Creating ls data dir : /usr/cms/data/DlmsData/M1
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : create_data_directory() : Creating od ls data dir : /usr/cms/data/DlmsData/M1/od
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : main()               : max_num_meter : 5 init serial success with fd : 3
+Failed to opendir No such file or directory
+Failed to opendir No such file or directory
+Failed to opendir No such file or directory
+Failed to opendir No such file or directory
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_11 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 0
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 68
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 06  00  00  c3  46  09  0c  07  e4  07  01  03  0f  09  0c  07  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : e4  07  01  03  00  00  00  ff  80  00  00  06  00  13  40  27  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 06  00  00  04  93  06  00  00  00  50  06  00  00  03  67  06  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  06  00  2c  cd  29  06  00  54  06  00  2c  ef  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : c0  6e  98  7e  
+
+01_Jul_2020_15_48_14 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS Start Flag Not Found
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_14 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 34
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  04  00  00  00  01  08  04  00  00  00  01  6f  
+01_Jul_2020_15_48_14 : [Inform] : Port-0 : Meter-0 : ef  7e  
+
+01_Jul_2020_15_48_15 : [Inform] : Port-0 : Meter-0 : send_snrm()          : sending SNRM frame
+01_Jul_2020_15_48_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_15 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 3
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 14
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  
+
+01_Jul_2020_15_48_18 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS End Flag Not Found
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_18 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 34
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  04  00  00  00  01  08  04  00  00  00  01  6f  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : ef  7e  
+
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : send_aarq()          : sending AARQ frame
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_18 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 2
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 35
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : 61  29  a1  09  06  07  60  85  74  05  08  01  01  a2  03  02  
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : 01  00  a3  05  a1  03  02  01  00  be  10  04  0e  08  00  06  
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : 5f  1f  04  
+
+01_Jul_2020_15_48_21 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS Start Flag Not Found
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_21 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_21 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_22 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 19
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_24 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 16
+01_Jul_2020_15_48_24 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_24 : [Inform] : Port-0 : Meter-0 : 
+
+01_Jul_2020_15_48_24 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS End Flag Not Found
+01_Jul_2020_15_48_24 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_24 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_24 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 2
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_25 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 19
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_27 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 29
+01_Jul_2020_15_48_27 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_27 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  04  00  00  00  01  08  04  00  00  
+
+01_Jul_2020_15_48_27 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS End Flag Not Found
+01_Jul_2020_15_48_27 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_27 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_27 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 3
+01_Jul_2020_15_48_28 : [Report] : Port-0 : Meter-0 : init_dlms()          : AARQ Qry  failed
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-1 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-2 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-3 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-4 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : Write  Opening File : /usr/cms/config/met_ser_info_0 , len 30
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : 1 : Current MeterSerNum Stored : 
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-1 : check_met_ser_num()  : 2 : Current MeterSerNum Stored : 
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-2 : check_met_ser_num()  : 3 : Current MeterSerNum Stored : 
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-3 : check_met_ser_num()  : 4 : Current MeterSerNum Stored : 
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-4 : check_met_ser_num()  : 5 : Current MeterSerNum Stored : 
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_28 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 36
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : 81  80  14  05  02  02  00  06  02  02  00  07  04  00  00  00  
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : 01  08  04  00  00  00  01  6f  ef  7e  7e  a0  20  41  03  73  
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : 3e  9d  81  80  
+
+01_Jul_2020_15_48_30 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS Start Flag Not Found
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_30 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_30 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_31 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_31 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 34
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : 80  14  05  02  02  00  06  02  02  00  07  04  00  00  00  01  
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : 08  04  00  00  00  01  6f  ef  7e  7e  a0  07  41  03  1f  26  
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : ec  7e  
+
+01_Jul_2020_15_48_33 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS Start Flag Not Found
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_33 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_33 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 2
+01_Jul_2020_15_48_34 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_34 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 22
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 57
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : 7e  a0  37  41  03  30  21  79  e6  e7  00  61  29  a1  09  06  
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  a2  03  02  01  00  a3  05  a1  
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : 03  02  01  00  be  10  04  0e  08  00  06  5f  1f  04  00  00  
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : 10  14  02  00  00  07  bc  85  7e  
+
+01_Jul_2020_15_48_35 : [Inform] : Port-0 : Meter-0 : proc_read_resp()     : tot_seq : 30 Send Seq No : 0 stored recv sew num : 01
+01_Jul_2020_15_48_36 : [Inform] : Port-0 : Meter-0 : send_snrm()          : sending SNRM frame
+01_Jul_2020_15_48_36 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_36 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 3
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  11  58  05  7e  
+
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : send_aarq()          : sending AARQ frame
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  30  b1  c0  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_37 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 12
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_38 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_38 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+Inside Main while loop recv partial data, need to read more
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 26
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : 7e  a0  1e  e7  00  c4  01  81  00  09  0c  07  e4  07  01  03  
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : 0f  30  19  ff  80  00  00  ba  86  7e  
+
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_39 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_39 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  30  b1  c0  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  51  5c  47  7e  
+
+01_Jul_2020_15_48_40 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_40 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 2
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  30  b1  c0  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  51  5c  47  7e  
+
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_41 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 3
+01_Jul_2020_15_48_41 : [Report] : Port-0 : Meter-0 : init_dlms()          : AARQ Qry  failed
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5005
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_41 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  1f  26  ec  7e  
+
+01_Jul_2020_15_48_42 : [Inform] : Port-0 : Meter-0 : send_snrm()          : sending SNRM frame
+01_Jul_2020_15_48_42 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_42 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_43 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_43 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_44 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_44 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+Inside Main while loop recv partial data, need to read more
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 50
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : 7e  a0  37  41  03  30  21  79  e6  e7  00  61  29  a1  09  06  
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  a2  03  02  01  00  a3  05  a1  
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : 03  02  01  00  be  10  04  0e  08  00  06  5f  00  00  07  bc  
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : 85  7e  
+
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_45 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_45 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 13
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  31  5a  24  7e  
+
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : send_aarq()          : sending AARQ frame
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_46 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  31  5a  24  7e  
+
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_47 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_47 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 12
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 20
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  
+
+01_Jul_2020_15_48_50 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS End Flag Not Found
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_50 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 2
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_50 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 12
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  1f  26  ec  7e  
+
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_51 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 3
+01_Jul_2020_15_48_51 : [Report] : Port-0 : Meter-0 : init_dlms()          : AARQ Qry  failed
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_51 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Start Recv Data at  WaitCount : 19
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_53 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 34
+01_Jul_2020_15_48_53 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_53 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  04  00  00  00  01  08  04  00  00  00  01  6f  
+01_Jul_2020_15_48_53 : [Inform] : Port-0 : Meter-0 : ef  7e  
+
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : send_snrm()          : sending SNRM frame
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 4
+Inside Inner while Some extra bytes aval to read. Breaking inner loop
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_54 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_54 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_55 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_55 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+>>>Inside Inner while recv partial data, need to read more
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+Inside Main while loop recv partial data, need to read more
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 56
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : 7e  a0  37  41  03  30  21  79  e6  e7  00  61  29  a1  09  06  
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  a2  03  02  01  00  a3  05  a1  
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : 03  02  01  00  be  10  04  0e  08  00  06  1f  04  00  00  10  
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : 14  02  00  00  07  bc  85  7e  
+
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : Header FCS Not Matched
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_56 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_48_56 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  93  5a  64  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 34
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 7e  a0  20  41  03  73  3e  9d  81  80  14  05  02  02  00  06  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 02  02  00  07  04  00  00  00  01  08  04  00  00  00  01  6f  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : ef  7e  
+
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : send_aarq()          : sending AARQ frame
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_48_57 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 1
+Main while loop Reached Max Wait Cnt, breaking loop
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 7e  a0  10  41  03  30  53  a1  e6  
+
+01_Jul_2020_15_49_00 : [Report] : Port-0 : Meter-0 : validate_met_resp()  : DLMS End Flag Not Found
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_00 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 1
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+Inside Main while loop recv total data, breaking loop
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  41  03  31  5a  24  7e  
+
+01_Jul_2020_15_49_00 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_00 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Processing response failed, Retry Val : 2
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 70
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : 7e  a0  44  03  41  10  b3  e1  e6  e6  00  60  36  a1  09  06  
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8a  02  07  80  8b  07  60  85  
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  ac  0a  80  08  41  42  43  44  30  30  30  
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : 31  be  10  04  0e  01  00  00  00  06  5f  1f  04  00  00  18  
+01_Jul_2020_15_49_01 : [Inform] : Port-0 : Meter-0 : 1d  ff  ff  87  3d  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_03 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 3
+01_Jul_2020_15_49_03 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_04 : [Report] : Port-0 : Meter-0 : init_dlms()          : AARQ Qry  failed
+01_Jul_2020_15_49_04 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_49_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_04 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_06 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 1
+01_Jul_2020_15_49_06 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_07 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_09 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 2
+01_Jul_2020_15_49_09 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_10 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_12 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 3
+01_Jul_2020_15_49_12 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_13 : [Report] : Port-0 : Meter-0 : init_dlms()          : Disc Qry  failed
+01_Jul_2020_15_49_13 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5005
+01_Jul_2020_15_49_13 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_49_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_13 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_15 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 1
+01_Jul_2020_15_49_15 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_16 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_18 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 2
+01_Jul_2020_15_49_18 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_19 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_21 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 3
+01_Jul_2020_15_49_21 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_22 : [Report] : Port-0 : Meter-0 : init_dlms()          : Disc Qry  failed
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-1 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-2 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-3 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-4 : check_met_ser_num()  : Current Meter SerNum is empty, Move to check next.
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : Write  Opening File : /usr/cms/config/met_ser_info_0 , len 30
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : check_met_ser_num()  : 1 : Current MeterSerNum Stored : 
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-1 : check_met_ser_num()  : 2 : Current MeterSerNum Stored : 
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-2 : check_met_ser_num()  : 3 : Current MeterSerNum Stored : 
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-3 : check_met_ser_num()  : 4 : Current MeterSerNum Stored : 
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-4 : check_met_ser_num()  : 5 : Current MeterSerNum Stored : 
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_22 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_24 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 1
+01_Jul_2020_15_49_24 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_25 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_25 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_27 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 2
+01_Jul_2020_15_49_27 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004
+01_Jul_2020_15_49_28 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+01_Jul_2020_15_49_28 : [Inform] : Port-0 : Meter-0 : 7e  a0  07  03  41  53  56  a2  7e  
+
+Reched Max WaitCount : 40
+01_Jul_2020_15_49_30 : [Report] : Port-0 : Meter-0 : send_msg_meter()     : Read serial failed, Retry Val : 3
+01_Jul_2020_15_49_30 : [Inform] : Port-0 : Meter-0 : sentToUdp()          : DCU IPC message sent to Port : 5004

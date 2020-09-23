@@ -1,0 +1,16 @@
+{
+"GPRS_INFO":
+{
+"GprsEnable":"1",
+"PingInterval":"5",
+"NumPing":"10",
+"ConnType":"2",
+"PingEnable":"1",
+"Ping1IpAddr":"192.168.10.108",
+"Ping2IpAddr":"192.168.10.201",
+"AccPtName":"airtelgprs.com",
+"PhoneNum":"*99***1#",
+"Password":"internet",
+"UserName":"internet"
+}
+}

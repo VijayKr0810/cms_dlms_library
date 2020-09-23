@@ -1,0 +1,17 @@
+{
+"IEC104_INFO":
+{"Enable":"1",
+"AsduAddr":"3",
+"Time1":"20",
+"Time2":"15",
+"Time3":"10",
+"SentAck":"1",
+"RecvAck":"1",
+"CotSize":"2",
+"IoaSize":"3",
+"CycInterval":"30",
+"IecPort":"2404",
+"StDataIoa":"1000",
+"StDevStatusIoa":"5000"
+}
+}

@@ -1,0 +1,10 @@
+{
+"SER_MET_INFO":
+{"NumMeters":"5",
+"SerMeter_1Config":{"Enable":"1","MeterId":"1","MeterAddrSize":"4","MeterAddr":"17","MeterPass":"lnt1","MeterLoc":"DCU_MET_LOC_0"},
+"SerMeter_2Config":{"Enable":"1","MeterId":"2","MeterAddrSize":"4","MeterAddr":"18","MeterPass":"lnt1","MeterLoc":"DCU_MET_LOC_1"},
+"SerMeter_3Config":{"Enable":"1","MeterId":"3","MeterAddrSize":"4","MeterAddr":"19","MeterPass":"lnt1","MeterLoc":"DCU_MET_LOC_2"},
+"SerMeter_4Config":{"Enable":"1","MeterId":"4","MeterAddrSize":"4","MeterAddr":"20","MeterPass":"lnt1","MeterLoc":"DCU_MET_LOC_3"},
+"SerMeter_5Config":{"Enable":"1","MeterId":"5","MeterAddrSize":"4","MeterAddr":"21","MeterPass":"lnt1","MeterLoc":"DCU_MET_LOC_4"}
+}
+}

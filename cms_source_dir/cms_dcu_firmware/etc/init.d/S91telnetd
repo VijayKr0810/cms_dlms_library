@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#
+# Start telnetd
+#
+
+case "$1" in
+	start)
+  		echo -n "Starting telnetd: "
+  		telnetd -l login -f /etc/banner
+  		echo "OK"
+  		;;
+	stop)
+  		echo -n "Stopping telnetd: "
+  		killall telnetd
+  		echo "OK"
+  		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?

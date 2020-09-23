@@ -1,0 +1,1396 @@
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : init_comm()          : MetPass : lnt1, DestAddr : 18, AddrSize : 1
+No Handshake
+databits 48 
+None parity
+One - def stopbits
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : init_serial()        : SerPort Param details :: BaudRate : 13 FlowCtrl 0 sw_flow_ctrl 0 DataBits 48 Parity 0 StopBits 0
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : init_serial()        : Opening Comm Uart Port : /dev/ttyS4
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : init_serial()        : RS232 - COmmunication Port UART Init End
+Initilized communication success
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : send_disc()          : sending disconnect frame
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  53  56  A2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 9
+12_Jun_2020_15_52_01 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  41  03  1F  26  EC  7E  
+
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_snrm()          : sending SNRM frame
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  93  5A  64  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 32
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  1E  41  03  73  8E  7F  81  80  12  05  01  80  06  01  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 80  07  04  00  00  00  01  08  04  00  00  00  01  53  3B  7E  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 
+
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_aarq()          : sending AARQ frame
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 66
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  40  03  41  10  5F  93  E6  E6  00  60  32  A1  09  06  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  8A  02  07  80  8B  07  60  85  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 74  05  08  02  01  AC  06  80  04  6C  6E  74  31  BE  10  04  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 0E  01  00  00  00  06  5F  1F  04  00  00  18  1D  FF  FF  A3  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 6F  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 57
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  37  41  03  30  21  79  E6  E7  00  61  29  A1  09  06  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 07  60  85  74  05  08  01  01  A2  03  02  01  00  A3  05  A1  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 03  02  01  00  BE  10  04  0E  08  00  06  5F  1F  04  00  00  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 10  1C  04  00  00  07  06  94  7E  
+
+12_Jun_2020_15_52_02 : [Report] : Port-0 : Meter-0 : connect_to_meter()   : Meter connected succfully
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : get_curr_date_time() : Sending QryType : DATE_TIME_TYPE
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  32  3A  BD  E6  E6  00  C0  01  81  00  08  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 00  00  01  00  00  FF  02  00  65  D7  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 32
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  1E  41  03  52  05  4F  E6  E7  00  C4  01  81  00  09  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  06  0F  2C  39  FF  01  4A  00  DD  CE  7E  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 
+
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : get_meter_date_time() : Current Meter Date Time : 12_06_2020 15:44:57
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 0
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  54  0A  BB  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_02 : [Inform] : Port-0 : Meter-0 : 00  00  60  01  00  FF  02  00  8C  6D  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 32
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  1E  41  03  74  31  0B  E6  E7  00  C4  01  81  00  09  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 0C  48  31  38  30  36  30  31  37  20  20  20  20  68  1D  7E  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 1
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  76  1A  B9  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 00  00  60  01  01  FF  02  00  37  71  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 45
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  2B  41  03  96  88  ED  E6  E7  00  C4  01  81  00  09  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 19  4C  41  52  53  45  4E  20  41  4E  44  20  54  4F  55  42  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 52  4F  20  4C  49  4D  49  54  45  44  D1  92  7E  
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 2
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  98  6A  B7  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 01  00  00  02  00  FF  02  00  4E  76  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 28
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  1A  41  03  B8  BD  75  E6  E7  00  C4  01  81  00  09  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 08  4E  54  44  35  36  2E  30  32  39  1D  7E  
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 3
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  BA  7A  B5  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 00  00  5E  5B  09  FF  02  00  57  53  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 20
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  12  41  03  DA  71  D0  E6  E7  00  C4  01  81  00  11  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 02  BE  78  7E  
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 4
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  DC  4A  B3  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 01  00  00  04  02  FF  02  00  A0  74  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 23
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  15  41  03  FC  64  C3  E6  E7  00  C4  01  81  00  17  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 3F  80  00  00  98  92  7E  
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Sending QryType : NAME_PLATE_PARAMS_TYPE : 5
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  FE  5A  B1  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 01  00  00  04  03  FF  02  00  1B  68  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 23
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  15  41  03  1E  78  07  E6  E7  00  C4  01  81  00  17  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 3F  80  00  00  98  92  7E  
+
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter Serial Num : H1806017    
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter MNF Name : LARSEN AND TOUBRO LIMITED
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter FW Name : NTD56.02
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter Type : 2
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter CT Ratio : 1.00000
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_name_plate()     : Meter PT Ratio : 1.00000
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : get_event_entry_order() : Sending QryType : CHECK_LIFO_OR_FIFO
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  10  2A  BF  E6  E6  00  C0  01  81  00  07  
+12_Jun_2020_15_52_03 : [Inform] : Port-0 : Meter-0 : 00  00  63  62  00  FF  05  00  99  34  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 20
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  12  41  03  30  25  98  E6  E7  00  C4  01  81  00  16  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 01  2D  07  7E  
+
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : proc_read_resp()     : Meter storing order is  : LI_FO
+12_Jun_2020_15_52_04 : [Report] : Port-0 : Meter-0 : get_name_plate()     : Total time taken to proc Name plate details : 2
++++++++ Recv Nameplate info success
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : get_int_blk_period() : Sending QryType : BLOCK_INT_PERIOD_TYPE
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  32  3A  BD  E6  E6  00  C0  01  81  00  01  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 01  00  00  08  04  FF  02  00  0A  48  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 23
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  15  41  03  52  10  8F  E6  E7  00  C4  01  81  00  06  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 00  00  03  84  3F  37  7E  
+
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : proc_read_resp()     : Periof interval : 15 , Num of Blocks 96
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : get_inst_obis_code_det() : Sending QryType : BLOCK_VAL_OBIS_TYPE
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  54  0A  BB  E6  E6  00  C0  01  81  00  07  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 01  00  63  01  00  FF  03  00  89  5D  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  74  FF  E8  E6  E7  00  C4  01  81  00  01  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 13  02  04  12  00  08  09  06  00  00  01  00  00  FF  0F  02  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  0E  1B  00  FF  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 0F  02  12  00  00  02  04  12  00  03  09  06  01  00  20  1B  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 00  FF  0F  02  12  00  00  02  04  12  00  03  09  06  01  00  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 34  1B  00  FF  0F  02  12  00  00  02  04  12  00  03  09  06  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 01  00  48  1B  00  FF  0F  02  12  00  00  02  04  12  00  03  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 09  06  01  00  01  1D  00  FF  0F  02  12  00  00  02  04  12  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 00  03  09  06  01  00  10  1D  A4  B0  7E  
+
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : proc_ls_val_obis()   : num_of_element : 19 First Time Resp copied byte : 119
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : proc_ls_val_obis()   : Resp copied byte : 119, g_raw_data_idx : 119
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  76  ED  CB  00  FF  0F  02  12  00  00  02  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 04  12  00  03  09  06  01  00  02  1D  00  FF  0F  02  12  00  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 00  02  04  12  00  03  09  06  01  00  05  1D  00  FF  0F  02  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  06  1D  00  FF  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 0F  02  12  00  00  02  04  12  00  03  09  06  01  00  07  1D  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 00  FF  0F  02  12  00  00  02  04  12  00  03  09  06  01  00  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 08  1D  00  FF  0F  02  12  00  00  02  04  12  00  03  09  06  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 01  00  09  1D  00  FF  0F  02  12  00  00  02  04  12  00  03  
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 09  06  01  00  0A  1D  00  FF  9A  DA  7E  
+
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : proc_ls_val_obis()   : Resp copied byte : 128, g_raw_data_idx : 247
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_04 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 106
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  68  41  03  78  82  D0  0F  02  12  00  00  02  04  12  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  03  09  06  01  00  1F  1B  00  FF  0F  02  12  00  00  02  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 04  12  00  03  09  06  01  00  33  1B  00  FF  0F  02  12  00  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  02  04  12  00  03  09  06  01  00  47  1B  00  FF  0F  02  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  5E  5B  01  FF  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 0F  02  12  00  00  02  04  12  00  03  09  06  01  00  5E  5B  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 02  FF  0F  02  12  00  00  3A  3F  7E  
+
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : proc_ls_val_obis()   : Resp copied byte : 95, g_raw_data_idx : 342
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : get_inst_obis_code_det() : Sending QryType : BLOCK_SCALER_OBIS_TYPE
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  B6  16  7F  E6  E6  00  C0  01  81  00  07  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 01  00  5E  5B  04  FF  03  00  A0  E4  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  9A  8F  E6  E6  E7  00  C4  01  81  00  01  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 12  02  04  12  00  03  09  06  01  00  0E  1B  00  FF  0F  03  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  20  1B  00  FF  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 0F  03  12  00  00  02  04  12  00  03  09  06  01  00  34  1B  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  FF  0F  03  12  00  00  02  04  12  00  03  09  06  01  00  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 48  1B  00  FF  0F  03  12  00  00  02  04  12  00  03  09  06  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 01  00  01  1D  00  FF  0F  03  12  00  00  02  04  12  00  03  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 09  06  01  00  10  1D  00  FF  0F  03  12  00  00  02  04  12  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  03  09  06  01  00  02  1D  67  9A  7E  
+
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_obis() : num_of_element : 18 First Time Resp copied byte : 119
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_obis() : Resp copied byte : 119, g_raw_data_idx : 119
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  9C  B9  83  00  FF  0F  03  12  00  00  02  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 04  12  00  03  09  06  01  00  05  1D  00  FF  0F  03  12  00  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  02  04  12  00  03  09  06  01  00  06  1D  00  FF  0F  03  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  07  1D  00  FF  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 0F  03  12  00  00  02  04  12  00  03  09  06  01  00  08  1D  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  FF  0F  03  12  00  00  02  04  12  00  03  09  06  01  00  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 09  1D  00  FF  0F  03  12  00  00  02  04  12  00  03  09  06  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 01  00  0A  1D  00  FF  0F  03  12  00  00  02  04  12  00  03  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 09  06  01  00  1F  1B  00  FF  1E  0F  7E  
+
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_obis() : Resp copied byte : 128, g_raw_data_idx : 247
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 88
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  56  41  03  9E  0A  B0  0F  03  12  00  00  02  04  12  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  03  09  06  01  00  33  1B  00  FF  0F  03  12  00  00  02  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 04  12  00  03  09  06  01  00  47  1B  00  FF  0F  03  12  00  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 00  02  04  12  00  03  09  06  01  00  5E  5B  01  FF  0F  03  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 12  00  00  02  04  12  00  03  09  06  01  00  5E  5B  02  FF  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 0F  03  12  00  00  9E  9D  7E  
+
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_obis() : Resp copied byte : 77, g_raw_data_idx : 324
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : get_inst_obis_code_det() : Sending QryType : BLOCK_SCALER_VALUE_TYPE
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  18  62  33  E6  E6  00  C0  01  81  00  07  
+12_Jun_2020_15_52_05 : [Inform] : Port-0 : Meter-0 : 01  00  5E  5B  04  FF  02  00  78  FD  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 130
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A0  80  41  03  B0  94  CB  E6  E7  00  C4  01  81  00  01  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 01  02  12  02  02  0F  FE  16  2C  02  02  0F  FE  16  23  02  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 02  0F  FE  16  23  02  02  0F  FE  16  23  02  02  0F  FE  16  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 1E  02  02  0F  FE  16  1E  02  02  0F  FE  16  1E  02  02  0F  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : FE  16  20  02  02  0F  FE  16  20  02  02  0F  FE  16  20  02  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 02  0F  FE  16  20  02  02  0F  FE  16  1F  02  02  0F  FE  16  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 1F  02  02  0F  FD  16  21  02  02  0F  FD  16  21  02  02  0F  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : FD  16  21  02  02  0F  FE  16  20  02  02  0F  FE  16  20  25  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 89  7E  
+
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_val() : num_of_element : 18 First Time Resp copied byte : 108
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : proc_ls_scalar_val() :  Resp copied byte : 108, g_raw_data_idx : 108
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : get_curr_date_time() : Sending QryType : DATE_TIME_TYPE
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_get_request()   : sending get_request frame
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 27
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A0  19  03  41  3A  72  31  E6  E6  00  C0  01  81  00  08  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  00  01  00  00  FF  02  00  65  D7  7E  
+
+Start Recv Data at  WaitCount : 2
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 32
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A0  1E  41  03  D2  0D  CB  E6  E7  00  C4  01  81  00  09  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  06  0F  2D  00  FF  01  4A  00  43  4F  7E  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 
+
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : get_meter_date_time() : Current Meter Date Time : 12_06_2020 15:45:00
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : read_today_ls_data() : Getting  ls data for start date_time : 12_06_2020 00:04:00
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : read_today_ls_data() : Getting  ls data for end date_time : 12_06_2020 15:45:00
+12_Jun_2020_15_52_06 : [Report] : Port-0 : Meter-0 : read_today_ls_data() : Removing Current days LS file : /M1/12_06_2020
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : read_ls_data()       : Sending QryType : BLOCK_VALUES_TYPE
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 78
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A0  4C  03  41  5C  03  8C  E6  E6  00  C0  01  81  00  07  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 01  00  63  01  00  FF  02  01  01  02  04  02  04  12  00  08  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 09  06  00  00  01  00  00  FF  0F  02  12  00  00  09  0C  07  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  00  04  00  FF  80  00  FF  09  0C  07  E4  06  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 0C  FF  0F  2D  00  FF  80  00  FF  01  00  CB  C2  7E  
+
+Start Recv Data at  WaitCount : 6
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  F4  F7  6C  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  00  01  00  82  03  BC  01  3F  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 0C  FF  00  0F  FF  FF  01  4A  00  06  00  00  13  87  06  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  18  2E  06  00  00  18  29  06  00  00  18  29  06  00  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  AF  7A  7E  
+
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Numof ls block : 63, First Time Resp copied byte : 111
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 111, g_raw_data_idx : 111
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_06 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  F6  E5  4F  E4  06  0C  FF  00  1E  FF  FF  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  8A  06  00  00  18  1B  06  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 18  16  06  00  00  18  16  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  00  2D  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 13  8B  06  00  00  18  1A  06  0B  50  7E  
+
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 239
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  F8  9B  A6  00  00  18  15  06  00  00  18  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 15  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 01  00  FF  FF  01  4A  00  06  00  00  13  88  06  00  00  18  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 10  06  00  00  18  0A  06  00  00  18  0A  06  00  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  5C  DB  7E  
+
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 367
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  FA  89  85  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  0C  FF  01  0F  FF  FF  01  4A  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  88  06  00  00  18  10  06  00  00  18  0A  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  0A  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  5D  92  7E  
+
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 495
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  FC  BF  E0  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  01  1E  FF  FF  01  4A  00  06  00  00  13  88  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  17  06  00  00  18  12  06  00  00  18  12  06  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  6F  94  7E  
+
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 623
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_07 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  FE  AD  C3  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  01  2D  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  8C  06  00  00  18  24  06  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  18  1F  06  00  00  18  1F  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  43  F3  7E  
+
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 751
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  F0  D3  2A  02  00  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  13  8C  06  00  00  18  2F  06  00  00  18  2A  06  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  18  2A  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 0C  FF  02  0F  FF  FF  01  4A  00  06  00  00  13  8B  06  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  18  40  06  00  00  18  3B  24  F8  7E  
+
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 879
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 86
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A0  54  41  03  F2  16  20  06  00  00  18  3B  06  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  00  00  46  11  7E  
+
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 75, g_raw_data_idx : 954
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : Adding Header for new file : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 00:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 00:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 00:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 01:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 01:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 01:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 01:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 02:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_08 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 02:15 
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 1
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  5E  FE  C8  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_08 : [Inform] : Port-0 : Meter-0 : 00  01  73  7F  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  14  F9  8B  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  02  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 02  1E  FF  FF  01  4A  00  06  00  00  13  87  06  00  00  18  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 36  06  00  00  18  31  06  00  00  18  31  06  00  00  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  9F  4F  7E  
+
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  16  EB  A8  0C  FF  02  2D  FF  FF  01  4A  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  8A  06  00  00  18  41  06  00  00  18  3C  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  3C  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  03  00  FF  FF  01  4A  00  06  00  00  13  8A  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  44  06  00  00  C9  4B  7E  
+
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  18  95  41  18  3E  06  00  00  18  3E  06  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  03  0F  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  88  06  00  00  18  43  06  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  18  3E  06  00  00  18  3E  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  23  CC  7E  
+
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_09 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  1A  87  62  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  03  1E  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  13  89  06  00  00  18  3C  06  00  00  18  37  06  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  18  37  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  3C  34  7E  
+
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  1C  B1  07  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 0C  FF  03  2D  FF  FF  01  4A  00  06  00  00  13  87  06  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  18  42  06  00  00  18  3D  06  00  00  18  3D  06  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  7C  19  7E  
+
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  1E  A3  24  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  04  00  FF  FF  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  89  06  00  00  18  44  06  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 18  3E  06  00  00  18  3E  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  04  0F  48  5A  7E  
+
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  10  DD  CD  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 13  88  06  00  00  18  3A  06  00  00  18  34  06  00  00  18  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 34  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 04  1E  FF  FF  01  4A  00  06  00  00  13  87  06  00  00  18  
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 34  06  00  00  18  2E  06  00  D8  23  7E  
+
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_10 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  12  82  8C  00  18  2E  06  00  00  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  70  FE  7E  
+
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 02:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 02:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 03:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 03:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 03:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 03:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 04:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 04:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_11 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 04:30 
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 2
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  50  80  21  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  02  E8  4D  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  34  FB  AA  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  03  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 04  2D  FF  FF  01  4A  00  06  00  00  13  87  06  00  00  18  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 2F  06  00  00  18  2A  06  00  00  18  2A  06  00  00  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  B3  B4  7E  
+
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  36  E9  89  0C  FF  05  00  FF  FF  01  4A  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  88  06  00  00  18  26  06  00  00  18  21  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  21  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  05  0F  FF  FF  01  4A  00  06  00  00  13  89  
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  31  06  00  00  3B  8F  7E  
+
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_11 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  38  97  60  18  2C  06  00  00  18  2C  06  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  05  1E  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  89  06  00  00  18  17  06  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  18  12  06  00  00  18  12  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  03  D6  7E  
+
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  3A  85  43  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  05  2D  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  13  88  06  00  00  17  F6  06  00  00  17  F1  06  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  17  F1  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  5C  8D  7E  
+
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  3C  B3  26  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 0C  FF  06  00  FF  FF  01  4A  00  06  00  00  13  89  06  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  17  E9  06  00  00  17  E4  06  00  00  17  E4  06  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  51  79  7E  
+
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_12 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  3E  A1  05  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  06  0F  FF  FF  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  81  06  00  00  17  E3  06  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 17  DE  06  00  00  17  DE  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  06  1E  28  2D  7E  
+
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  30  DF  EC  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 13  7F  06  00  00  17  B2  06  00  00  17  AD  06  00  00  17  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : AD  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 06  2D  FF  FF  01  4A  00  06  00  00  13  87  06  00  00  17  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 8A  06  00  00  17  85  06  00  1F  62  7E  
+
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  32  80  AD  00  17  85  06  00  00  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  67  8B  7E  
+
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 04:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 05:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 05:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 05:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 05:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 06:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 06:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 06:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_13 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 06:45 
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 3
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  52  92  02  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_13 : [Inform] : Port-0 : Meter-0 : 00  03  61  5C  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  54  FD  C9  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  04  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 07  00  FF  FF  01  4A  00  06  00  00  13  88  06  00  00  17  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 65  06  00  00  17  60  06  00  00  17  60  06  00  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  99  49  7E  
+
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  56  EF  EA  0C  FF  07  0F  FF  FF  01  4A  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  87  06  00  00  18  0F  06  00  00  18  0A  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  0A  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  07  1E  FF  FF  01  4A  00  06  00  00  13  86  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  27  06  00  00  95  69  7E  
+
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  58  91  03  18  22  06  00  00  18  22  06  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  07  2D  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  87  06  00  00  18  07  06  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  18  02  06  00  00  18  02  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  58  98  7E  
+
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  5A  83  20  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  08  00  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  13  88  06  00  00  17  F0  06  00  00  17  EA  06  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  17  EA  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  C3  61  7E  
+
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_14 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  5C  B5  45  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 0C  FF  08  0F  FF  FF  01  4A  00  06  00  00  13  84  06  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  17  FB  06  00  00  17  F6  06  00  00  17  F6  06  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  1E  B1  7E  
+
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  5E  A7  66  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  08  1E  FF  FF  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  86  06  00  00  18  29  06  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 18  24  06  00  00  18  24  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  08  2D  34  6C  7E  
+
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  50  D9  8F  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 13  87  06  00  00  18  1A  06  00  00  18  15  06  00  00  18  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 15  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 09  00  FF  FF  01  4A  00  06  00  00  13  88  06  00  00  18  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 10  06  00  00  18  0B  06  00  DF  13  7E  
+
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  52  86  CE  00  18  0B  06  00  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : 00  D8  A7  7E  
+
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_15 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_15 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 07:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_15 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 07:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 07:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 07:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 08:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 08:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 08:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 08:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_16 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 09:00 
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 4
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  54  A4  67  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  04  DE  28  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  74  FF  E8  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 09  0F  FF  FF  01  4A  00  06  00  00  13  87  06  00  00  17  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : D9  06  00  00  17  D4  06  00  00  17  D4  06  00  00  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  A2  FD  7E  
+
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  76  ED  CB  0C  FF  09  1E  FF  FF  01  4A  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  83  06  00  00  17  AD  06  00  00  17  A8  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 06  00  00  17  A8  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  09  2D  FF  FF  01  4A  00  06  00  00  13  89  
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 06  00  00  17  7F  06  00  00  B1  EC  7E  
+
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_16 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  78  93  22  17  7A  06  00  00  17  7A  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  0A  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  8A  06  00  00  17  65  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  17  60  06  00  00  17  60  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  21  1C  7E  
+
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  7A  81  01  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  0A  0F  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  13  8D  06  00  00  17  35  06  00  00  17  30  06  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  17  30  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  64  23  7E  
+
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  7C  B7  64  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 0C  FF  0A  1E  FF  FF  01  4A  00  06  00  00  13  8C  06  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  17  7B  06  00  00  17  76  06  00  00  17  75  06  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  2A  65  7E  
+
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  7E  A5  47  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  0A  2D  FF  FF  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  89  06  00  00  17  92  06  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 17  8D  06  00  00  17  8D  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  0B  00  A7  15  7E  
+
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_17 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  70  DB  AE  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 13  85  06  00  00  17  84  06  00  00  17  7F  06  00  00  17  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7F  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 0B  0F  FF  FF  01  4A  00  06  00  00  13  85  06  00  00  17  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : A8  06  00  00  17  A3  06  00  1F  8D  7E  
+
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  72  84  EF  00  17  A3  06  00  00  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  57  D5  7E  
+
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 09:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 09:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 09:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 10:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 10:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 10:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 10:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 11:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_18 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 11:15 
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 5
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  56  B6  44  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  05  57  39  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  94  F1  0F  E6  E7  00  C4  02  81  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 0B  1E  FF  FF  01  4A  00  06  00  00  13  83  06  00  00  17  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : A1  06  00  00  17  9B  06  00  00  17  9B  06  00  00  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  40  C8  7E  
+
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_18 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  96  E3  2C  0C  FF  0B  2D  FF  FF  01  4A  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  85  06  00  00  17  9C  06  00  00  17  97  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 06  00  00  17  97  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  0C  00  FF  FF  01  4A  00  06  00  00  13  7A  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 06  00  00  17  A1  06  00  00  CA  19  7E  
+
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  98  9D  C5  17  9C  06  00  00  17  9C  06  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  0C  0F  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  86  06  00  00  17  B0  06  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  17  AB  06  00  00  17  AB  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  89  B5  7E  
+
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  9A  8F  E6  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  0C  1E  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  13  88  06  00  00  17  7B  06  00  00  17  76  06  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  17  76  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  0C  5C  7E  
+
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_19 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  9C  B9  83  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 0C  FF  0C  2D  FF  FF  01  4A  00  06  00  00  13  87  06  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  17  51  06  00  00  17  4C  06  00  00  17  4C  06  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  61  DB  7E  
+
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  9E  AB  A0  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  0D  00  FF  FF  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  89  06  00  00  17  63  06  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 17  5E  06  00  00  17  5E  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  0D  0F  E8  72  7E  
+
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  90  D5  49  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 13  91  06  00  00  17  C1  06  00  00  17  BB  06  00  00  17  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : BC  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 0D  1E  FF  FF  01  4A  00  06  00  00  13  8A  06  00  00  17  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : D4  06  00  00  17  CF  06  00  C4  9E  7E  
+
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  92  8A  08  00  17  CF  06  00  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  37  38  7E  
+
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 11:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 11:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 12:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 12:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 12:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 12:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 13:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 13:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_20 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 13:30 
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_get_next_blk()  : sending Next block val : 6
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 21
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 7E  A0  13  03  41  58  C8  AD  E6  E6  00  C0  02  81  00  00  
+12_Jun_2020_15_52_20 : [Inform] : Port-0 : Meter-0 : 00  06  CC  0B  7E  
+
+Start Recv Data at  WaitCount : 5
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  B4  F3  2E  E6  E7  00  C4  02  81  01  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  07  00  82  03  BA  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 0D  2D  FF  FF  01  4A  00  06  00  00  13  88  06  00  00  18  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 0D  06  00  00  18  07  06  00  00  18  07  06  00  00  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  02  13  09  0C  07  E4  06  97  8E  7E  
+
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 113, g_raw_data_idx : 113
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  71  46  A0  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  B6  E1  0D  0C  FF  0E  00  FF  FF  01  4A  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  13  89  06  00  00  18  26  06  00  00  18  20  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 06  00  00  18  21  06  00  00  00  00  05  00  00  00  00  06  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  05  00  00  00  00  05  00  00  00  00  02  13  09  0C  07  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : E4  06  0C  FF  0E  0F  FF  FF  01  4A  00  06  00  00  13  BA  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 06  00  00  16  EA  06  00  00  D0  36  7E  
+
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 241
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  91  48  47  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  B8  9F  E4  16  E5  06  00  00  16  E5  06  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  05  00  00  00  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  0E  1E  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : FF  FF  01  4A  00  06  00  00  13  7E  06  00  00  17  A9  06  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  17  A4  06  00  00  17  A4  06  00  00  00  00  05  00  
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  CA  38  7E  
+
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 369
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_21 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  B1  4A  66  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  BA  8D  C7  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  05  00  00  00  00  05  00  00  00  00  02  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 13  09  0C  07  E4  06  0C  FF  0E  2D  FF  FF  01  4A  00  06  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  13  84  06  00  00  17  D5  06  00  00  17  D0  06  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  17  D0  06  00  00  00  00  05  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  94  0D  7E  
+
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 497
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  D1  4C  05  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  BC  BB  A2  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  05  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 0C  FF  0F  00  FF  FF  01  4A  00  06  00  00  13  88  06  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  17  E1  06  00  00  17  DC  06  00  00  17  DC  06  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  06  00  00  00  00  06  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  79  57  7E  
+
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 625
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  F1  4E  24  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  BE  A9  81  00  05  00  00  00  00  05  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  00  02  13  09  0C  07  E4  06  0C  FF  0F  0F  FF  FF  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 01  4A  00  06  00  00  13  8C  06  00  00  17  DD  06  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 17  D8  06  00  00  17  D8  06  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 00  00  00  05  00  00  00  00  05  00  00  00  00  02  13  09  
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 0C  07  E4  06  0C  FF  0F  1E  E6  AE  7E  
+
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 753
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_22 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  11  40  C3  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 139
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 7E  A8  89  41  03  B0  D7  68  FF  FF  01  4A  00  06  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 13  8C  06  00  00  17  CE  06  00  00  17  C9  06  00  00  17  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : C9  06  00  00  00  00  05  00  00  00  00  06  00  00  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 06  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  05  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  05  00  00  00  00  02  13  09  0C  07  E4  06  0C  FF  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 0F  2D  FF  FF  01  4A  00  06  00  00  13  8C  06  00  00  17  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : D4  06  00  00  17  CF  06  00  0D  D3  7E  
+
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 128, g_raw_data_idx : 881
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Write 9
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 7E  A0  07  03  41  31  42  E2  7E  
+
+Start Recv Data at  WaitCount : 1
+Inside Inner while recv total data, breaking loop
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : send_msg_meter()     : Num Bytes Read 84
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 7E  A0  52  41  03  B2  88  29  00  17  CF  06  00  00  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 05  00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  00  06  00  00  00  00  06  00  00  00  00  06  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  00  06  00  00  00  00  05  00  00  00  00  05  00  00  00  
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : 00  37  38  7E  
+
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : Resp copied byte : 73, g_raw_data_idx : 954
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : proc_ls_value()      : g_num_ls_param : 19 g_raw_data_idx : 954
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 13:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 14:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 14:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 14:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 14:45 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 15:00 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 15:15 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 15:30 
+1. Currp_file_name : /M1/12_06_2020
+12_Jun_2020_15_52_23 : [Report] : Port-0 : Meter-0 : save_ls_data_file()  : New time entry found need to store , 15:45 
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : read_today_ls_data() : Received  ls data for start date_time : 12_06_2020 00:04:00
+12_Jun_2020_15_52_23 : [Inform] : Port-0 : Meter-0 : read_today_ls_data() : Received  ls data for end date_time : 12_06_2020 15:45:00

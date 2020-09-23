@@ -1,0 +1,93 @@
+struct stat st;
+	uint8_t obis_buff[16],idx=0,cnt=0;
+	FILE *p_file_ptr=NULL;
+	
+	if(stat(MASTER_DP_OBIS_FILE,&st)==-1)
+	{
+		dbg_log(REPORT,"%-20s : Master Daily Profile obis list file is not available\n",fun_name);
+		
+		p_file_ptr=fopen(MASTER_DP_OBIS_FILE,"w");
+		if(p_file_ptr==NULL)
+		{
+			dbg_log(REPORT,"%-20s : Failed to create Master Daily Profile obis list file, Error : %s\n",fun_name,strerror(errno));
+			return RET_VAL_OBIS_DP_FAIL;
+		}
+		else
+		{
+			for(idx=0; idx<gen_dp_param_det.tot_num_val_obis; idx++)
+			{
+				memset(obis_buff,0,sizeof(obis_buff));
+				sprintf(obis_buff,"%d,%d,%d,%d,%d,%d",
+				gen_dp_param_det.val_obis[idx][0],
+				gen_dp_param_det.val_obis[idx][1],
+				gen_dp_param_det.val_obis[idx][2],
+				gen_dp_param_det.val_obis[idx][3],
+				gen_dp_param_det.val_obis[idx][4],
+				gen_dp_param_det.val_obis[idx][5]);
+				
+				fprintf(p_file_ptr,"%s\tdp_param_%d",obis_buff,idx+1);
+				fflush(p_file_ptr);
+			}
+			
+			fclose(p_file_ptr);
+		}
+	}
+	else
+	{
+		int32_t file_fd=-1;
+		char *text=NULL;
+		
+		file_fd = open(MASTER_DP_OBIS_FILE, O_RDONLY);
+		if (file_fd == -1) 
+		{
+			printf("can't open file - %s", MASTER_DP_OBIS_FILE);
+			return RET_VAL_OBIS_DP_FAIL;
+		}
+		  
+		// Read file
+		text = (char*)malloc(st.st_size+1); // this is not going to be freed
+		if (st.st_size!=read(file_fd, text, st.st_size)) 
+		{
+			printf("can't read file - %s", MASTER_DP_OBIS_FILE);
+			close(file_fd);
+			return RET_VAL_OBIS_DP_FAIL;
+		}
+		
+		close(file_fd);
+		
+		// Add null char
+		text[st.st_size]='\0';
+	}
+	
+	MASTER_DP_OBIS_FILE
+	
+	cnt=0;
+	for(idx=0;idx<gen_dp_param_det.tot_num_val_obis;idx++)
+	{
+		memset(obis_buff,0,sizeof(obis_buff));
+				sprintf(obis_buff,"%d,%d,%d,%d,%d,%d",
+				gen_dp_param_det.val_obis[idx][0],
+				gen_dp_param_det.val_obis[idx][1],
+				gen_dp_param_det.val_obis[idx][2],
+				gen_dp_param_det.val_obis[idx][3],
+				gen_dp_param_det.val_obis[idx][4],
+				gen_dp_param_det.val_obis[idx][5]);
+		
+		if(strstr(text,obis_buff)==NULL)
+		{
+			printf("This Obis code  : %s Not found in Master list\n",obis_buff);
+			p_file_ptr=fopen(MASTER_DP_OBIS_FILE,"a");
+			if(p_file_ptr==NULL)
+			{
+				dbg_log(REPORT,"%-20s : Failed to create Master Daily Profile obis list file, Error : %s\n",fun_name,strerror(errno));
+				return RET_VAL_OBIS_DP_FAIL;
+			}
+			else
+			{
+				fprintf(p_file_ptr,"%s\tdp_param_%d",obis_buff,cnt+1);
+				fflush(p_file_ptr);
+				cnt++;
+			}
+		}
+		//memcpy(gen_dp_param_det.val_obis[idx],&g_raw_data_buff[(18*idx)+7],6);
+	}

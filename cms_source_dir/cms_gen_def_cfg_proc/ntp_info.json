@@ -1,0 +1,11 @@
+{
+"NTP_INFO":
+{"Ntp1Enable":"1",
+"Ntp2Enable":"1",
+"Ntp1Port":"123",
+"Ntp2Port":"123",
+"Interval":"30",
+"Ntp2IpAddr":"192.168.10.75",
+"Ntp1IPAddr":"192.168.10.92"
+}
+}

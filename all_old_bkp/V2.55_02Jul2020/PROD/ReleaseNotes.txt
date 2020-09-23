@@ -1,0 +1,150 @@
+Dcu Version 0.1 08Nov2k18
+1. First version of DCU
+
+Dcu Version 0.1.1 13Nov2K18
+
+Fixed -- 
+1. If WDT jumper is inserted, Unit is continously restarting
+2. FTP functionality (Pushing Load profile file to FTP server) developed, 
+3. Same Subnet should not allow to configure for Eth0 and Eth1 port
+4. Debug log IP and FTP server IP should in the same subnet of either Eth0 or Eth1 subnet
+5. Allowed Master is getting enable automatically after Save and Restart
+6. In DLMS meter configuration, "Meter address" allowing Special characters and Alphabets
+7. In Dlms meter configuration, for port 1 only 2 meter configured but  its creating 5 meters Directory
+8. In Modbus configration, for signed/Unsigned 16 bit format, the No. of Regs should display as "1 with greyed out" but it is displaying "2 with greyed out"
+9. In Modbus meter configuration, It should not allow to configure same start address for same function type
+10. In Modbus meter configuration, "Node Address" should not allow to configure the same address
+11. In Modbus meter configuration, Content inside the "Retries" tab is not visible
+12. In DLMS meter configuration, "Meter address" should not allow to configure the same address
+13. If ModTCP protocol selected, all the parameters related to IEC-104 should get greyed out
+
+Dcu version 1.0 21Nov2K18
+Fixed --
+1. Load Survey Data swapping 
+2. Meter Address greater than 255 becomes 0
+3. Web UI Name Correction and other webpage related changes are made
+4.  
+
+Added --
+
+1. Ftp Push Feature
+2. MidNight Data Profile
+3. Events/Tamper Data
+4. Load Survey Data for 45 Days 
+
+26Nov2k18
+
+1. FTP Push feature removed
+
+30Nov2K18
+
+1. Polling Config Added
+2. Ntp Client Add
+3. ResetSwitch Proc Added
+4. 
+
+05Dec2k18
+1. Polling interval values are taken from config and applied in dlms proc
+2. Bug in creation of default json is fixed
+3. all the opened file descriptors are closed , ( ls files were not getting created due to too many open files error, this might have also caused segmentation fault, so process was restarted )
+4. New config parameters are added in web UI
+
+15Mar2k19
+1. Added fix to support 1/2/4 bytes size of meter address, only 1 and 4 bytes size meters are tested, 
+2. Modified in Status proc to store status json file every 5 s.
+3. Enabled ftp push option
+
+28Mar2k19
+1. Added meter response timeout ( in s ) in web interface
+2. Added RS232 n RS485 option in web interface
+3. Modified in processing of frame for midnight data
+4. Added a check to reboot the unit ( wdt disable ) if a process crashes ( closes ) continuously within a min for 20 times
+
+23Apr2k19
+1. Made the time delay after DISC command configurable (5,10,15... 60 s )
+2. Earlier if the same meter is configured multiple times for a port, DISC command was not sent but only after the last meter in cfg is polled
+3. Added More info in log file, ( like no. of commands sent, valid response received, error response received and the timeouts ), statistics for each counters are added in seperate files
+4. If the polling for block data happens at boundary conditions of meter time like 00,15,30,45 min of the hour, sometimes the meter responds with only one entry , ie the first block, but most of the times it responds with 3 entries. So a patch is added so that if it is the boundary condition, a min is reduced , this is done for all boundaries like 15 ( 14 ), 30 ( 29 ) and 45 ( 44 ) except for 00.
+5. Created dbg logs port wise, modified debuglogger 
+6. Also if GetNextFrame command fails for some reason, the command was not retried ( as the flag for GetNextResponse was not set ). Now setting the flag if the command fails for 3 times.
+7. Removed the call to function checkCommnStatus in multiple places, now it is called only once per poll for a meter
+DCU Version 2.2 30Apr2k19 ( with all the above corrections )
+
+23May2K19
+1. reduce the all dbglog file to Max 500 kB.
+
+2. Reading 90 min of load survey data - 6 blocks , modified time interval part of load survey function
+
+26Jun2k19
+1. UI changes, General1 and General2 merged into one screen - General 
+2. Project enquires added
+3. Size of some controls increased
+4. Model number and fw version displayed seperately in UI
+
+27Jun2k19
+1. Some more UI corrections
+2. Changed the product code as CS-MDAS-DCU-.....
+
+02Jul2k19
+1. Modified in UI js files to read the serial num from info/serial.txt file instead of from dcuFeatures.json
+2. Modified in install script to copy serial.txt from /root to /srv/www/htdcos/info
+
+30thNov2019
+1. Added ondemand command for event,inst,ls(curr_date+max 5 days period),midnight.
+2. Added Poll last 45days ls data as option in UI.
+3. Remove Poll setting option from UI.
+4. Added at boundry time ls poll (mint val 1,16,31,46)
+5. Inside Idle poll cont inst+event poll.
+6. Added web-socket concept
+	a) To send live diag info.
+	b) To proc various ondemand command
+	
+04thDec2019
+	1. DCU Dual Port added.
+	2. Reduce Max Num of port from 4 to 2.
+06thDec2019
+	1. Found Buffer over flow while reading Midnigt data.
+	   Fixes this issue.
+24thDec2019
+	1. Added Timing Info
+	2. Added Features about Ondemand.
+	3. Event.txt and MidNight.txt in readable form
+	4. Change Default Ip from 192.168.1.55 to 192.168.11.55
+	5. Fixes recv bugs in Trello for prev Version.
+
+3rd Feb 2020.
+	1. Added View data facility.
+	2. Added category wise Diagnostic
+	3. fixed prev bugs.
+06th Feb 2020.
+	1. Added more infomatic reboot log. 
+	2. Reboot log is circular type.
+	3. In WebUI added option after selecting data directory as get ls,midnight,event
+	4. change energy values in Kilo watt from watt.
+	5. Added enable/disable option for 104 master.
+	6. Added all master individual enable option.
+	7. Added product name in feature files.
+	8. This version using cgi instead of web-socket for config related things.
+19th Feb 2020.
+	1. Added Upload download config history log.
+	2. Removed exp devide by 1000 in case of Midnight.
+	3. Fixed In 104S proc numof element check. 
+	4. Fixed In 104S Proc CI Command.
+	5. Upload FW issue Fixed.
+	6. Upload/Download Config issue Fixed.
+	7. In View Data Page LS file name sorted .
+29th Feb 2020.
+
+	1. Ondemand LS was not polling all 5 back days. only 4 days data was receiving.
+	2. In Web UI. In Iec104 Section . after selecting master enebale, after save&restart config was not saved.
+	3. In case of Meter change in DCU. All prev data was not deleting in case of L&T to Secure and vice versa.
+	4. In dual Port case, After some time Meter was going on Hang state. i.e qry was issusing from DCU but meter was not responding. After Meter On/Off it start responding.
+
+29th Feb 2020.
+	1. Fixed Ondemand St date should not greater than End date.
+	2. Observe Midnight data multiplication factor, And added to devide by 1000.
+	3. Ls Polling Prev data order changed. Now It will poll today, yesterday, prev day... like that upto data avail in Meter. Max 45 Days.
+
+19th June 2020.
+	1. Remove 23:59 concept to 24:00 time in LS file.
+	2. Update param name in LS from kvarh_lead/lag to kvarh_q1/q2/q3/q4.

@@ -1,0 +1,11 @@
+{
+"DCU_ETH_INFO":
+{"NumDcuEth":"2",
+"DcuEth1Ip":"192.168.10.55",
+"DcuEth1Gw":"192.168.10.201",
+"DcuEth1NetMask":"255.255.255.255",
+"DcuEth2Ip":"192.168.10.55",
+"DcuEth2Gw":"192.168.10.201",
+"DcuEth2NetMask":"255.255.255.255"
+}
+}

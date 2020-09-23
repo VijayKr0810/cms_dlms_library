@@ -1,0 +1,13 @@
+{
+"CMS_EMS_INFO":
+{
+"Enable":"1",
+"BrokerIp":"15.206.196.77",
+"EventSendEnable":"0",
+"DiagSendEnable":"0",
+"PubSec":"0",
+"PubMint":"5",
+"PubHr":"0",
+"BrokerPort":"8010"
+}
+}

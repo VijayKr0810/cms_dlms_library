@@ -1,0 +1,10 @@
+{
+"MODTCP_INFO":
+{"Enable":"1",
+"RespAllId":"1",
+"SlaveId":"1",
+"HoldRegStAddr":"3000",
+"InputRegStAddr":"4000",
+"ReadCoilStAddr":"1000"
+}
+}

@@ -1,0 +1,10 @@
+{
+"ETH_MET_INFO":
+{"NumMeters":"5",
+"EthMeter_1Config":{"MeterId":"1","MeterAddrSize":"4","MeterAddr":"17","MeterPass":"lnt1","MeterIp":"254.254.256.254","MeterLoc":"DCU_MET_LOC_0"},
+"EthMeter_2Config":{"MeterId":"2","MeterAddrSize":"4","MeterAddr":"18","MeterPass":"lnt1","MeterIp":"254.254.256.254","MeterLoc":"DCU_MET_LOC_1"},
+"EthMeter_3Config":{"MeterId":"3","MeterAddrSize":"4","MeterAddr":"19","MeterPass":"lnt1","MeterIp":"254.254.256.254","MeterLoc":"DCU_MET_LOC_2"},
+"EthMeter_4Config":{"MeterId":"4","MeterAddrSize":"4","MeterAddr":"20","MeterPass":"lnt1","MeterIp":"254.254.256.254","MeterLoc":"DCU_MET_LOC_3"},
+"EthMeter_5Config":{"MeterId":"5","MeterAddrSize":"4","MeterAddr":"21","MeterPass":"lnt1","MeterIp":"254.254.256.254","MeterLoc":"DCU_MET_LOC_4"}
+}
+}

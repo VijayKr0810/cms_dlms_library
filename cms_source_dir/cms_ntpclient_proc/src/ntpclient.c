@@ -235,115 +235,6 @@ int32_t write_hc_on_redis()
 	return 0;
 }
 
-#if 0
-
-int sentToUdp(char *message,unsigned int msgLen,int sendToPort)
-{
-	static char fun_name[]="sentToUdp()";
-	int fromPort = 0;
-	struct			sockaddr_in	sockAddr;
-	
-	memset(&sockAddr,0,sizeof(sockAddr));
-
-	switch(sendToPort)
-	{
-		case STATUS_MODULE_IPC_PORT:
-			memcpy(&sockAddr,&g_status_addr,sizeof(g_addr_len)); 
-		break;
-
-		default : 
-		
-		return RET_UDP_SOC_SEND_FAIL;
-		break;
-	}
-	
-	if ((sendto(g_ipc_sock_fd, message, msgLen, 0, (struct sockaddr*)&sockAddr, g_addr_len)) == -1)
-	{
-		/* dbg_log(RTU_DLMS,g_pidx,g_midx,REPORT,"%-20s : Error in sending bytes in udp : %s ipcSockFd %d\n",
-		fun_name,strerror(errno),g_ipc_sock_fd); */
-		
-		return RET_UDP_SOC_SEND_FAIL;
-	}
-	
-	fromPort = ntohs(sockAddr.sin_port);
-	
-	/* dbg_log(RTU_DLMS,g_pidx,g_midx,INFORM,"%-20s : DCU IPC message sent to Port : %d\n",fun_name,fromPort); */
-
-	return RET_OK;
-}
-
-int32_t create_ipc_socket(void)
-{
-	static char fun_name[]="create_ipc_socket()";
-	unsigned int on=1;
-		
-	if ((g_ipc_sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1)
-	{
-		/* dbg_log(RTU_DLMS,g_pidx,g_midx,REPORT,"%-20s : Socket Creation Failed. %s\n",fun_name,strerror(errno)); */
-		return RET_UDP_SOC_CREATE_FAIL;
-	}
-
-	(void)setsockopt(g_ipc_sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&on, (socklen_t)sizeof(on));
-	
-	memset((char *) &g_ntp_addr, 0, sizeof(g_ntp_addr));
-	g_ntp_addr.sin_family = AF_INET;
-	g_ntp_addr.sin_port = htons((unsigned short)(NTP_MODULE_IPC_PORT));
-	g_ntp_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	
-	if (bind(g_ipc_sock_fd, (struct sockaddr *)&g_ntp_addr, sizeof(g_ntp_addr))==-1)
-	{
-		/* dbg_log(RTU_DLMS,g_pidx,g_midx,REPORT,"%-20s : Binding Error in Udp Socket : %s\n",fun_name,strerror(errno)); */
-		return RET_UDP_SOC_CREATE_FAIL;
-	}
-	
-	memset((void *) &g_status_addr, 0, sizeof(g_status_addr));
-	g_status_addr.sin_family = AF_INET;
-	g_status_addr.sin_port = htons((unsigned short)(STATUS_MODULE_IPC_PORT));
-	g_status_addr.sin_addr.s_addr =  htonl(INADDR_ANY);
-
-	return RET_OK;
-}
-
-int send_diag_info(uint8_t midx, const char *format, ...)
-{
-	struct tm	*curr_time_str=NULL;
-	char		time_str[SIZE_64];
-	time_t 		curr_time = 0;
-	static	char						g_dbg_buff[256];
-	
-	va_list arg;
-	
-	memset(g_dbg_buff,0,sizeof(g_dbg_buff));
-	va_start (arg, format);
-	vsprintf ((char *)g_dbg_buff, (const char *)format, arg);
-	
-	curr_time = time(NULL);
-	curr_time_str = localtime(&curr_time);
-	strftime(time_str, SIZE_64,"%d_%b_%Y_%H_%M_%S", curr_time_str);
-	
-	dcu_ipc_msg.procId = CMS_NTP_PROC;
-	dcu_ipc_msg.msgType = DIAG_MSG;
-	dcu_ipc_msg.msgLen = 0;
-	
-	char *local_msg = malloc(SIZE_1024 + SIZE_64 + 1);
-	
-	sprintf(local_msg,"%s : %s",time_str,g_dbg_buff);
-	
-	local_msg[strlen(local_msg)] = 0;
-	
-	memcpy((void*)&dcu_ipc_msg.msg,(void *)local_msg,strlen(local_msg)+1);
-	
-	sentToUdp((char *)&dcu_ipc_msg,sizeof(dcu_ipc_msg),STATUS_MODULE_IPC_PORT); 
-	
-	free(local_msg);
-	
-	va_end(arg);
-	
-	return RET_OK;
-}
-
-#endif
-
 void send_packet(int usd)
 {
 	__u32 data[12];
@@ -474,43 +365,37 @@ void rfc1305print(char *data, struct ntptime *arrival)
 		}
 	}
 
-	if (debug) {
-	printf("LI=%d  VN=%d  Mode=%d  Stratum=%d  Poll=%d  Precision=%d\n",
-		li, vn, mode, stratum, poll, prec);
-	printf("Delay=%.1f  Dispersion=%.1f  Refid=%u.%u.%u.%u\n",
-		sec2u(delay),sec2u(disp),
-		refid>>24&0xff, refid>>16&0xff, refid>>8&0xff, refid&0xff);
-	printf("Reference %u.%.10u\n", reftime.coarse, reftime.fine);
-	printf("Originate %u.%.10u\n", orgtime.coarse, orgtime.fine);
-	printf("Receive   %u.%.10u\n", rectime.coarse, rectime.fine);
-	printf("Transmit  %u.%.10u\n", xmttime.coarse, xmttime.fine);
-	printf("Our recv  %u.%.10u\n", arrival->coarse, arrival->fine);
+	if (debug) 
+	{
+		printf("LI=%d  VN=%d  Mode=%d  Stratum=%d  Poll=%d  Precision=%d\n",li, vn, mode, stratum, poll, prec);
+		printf("Delay=%.1f  Dispersion=%.1f  Refid=%d.%d.%d.%d\n",sec2u(delay),sec2u(disp),refid>>24&0xff, refid>>16&0xff, refid>>8&0xff, refid&0xff);
+		printf("Reference %u.%.10u\n", reftime.coarse, reftime.fine);
+		printf("Originate %u.%.10u\n", orgtime.coarse, orgtime.fine);
+		printf("Receive   %u.%.10u\n", rectime.coarse, rectime.fine);
+		printf("Transmit  %u.%.10u\n", xmttime.coarse, xmttime.fine);
+		printf("Our recv  %u.%.10u\n", arrival->coarse, arrival->fine);
 	}
 	etime=ntpdiff(&orgtime,arrival);
 	stime=ntpdiff(&rectime,&xmttime);
 	skew1=ntpdiff(&orgtime,&rectime);
 	skew2=ntpdiff(&xmttime,arrival);
 	freq=get_current_freq();
-	if (debug) {
-	printf("Total elapsed: %9.2f\n"
-	       "Server stall:  %9.2f\n"
-	       "Slop:          %9.2f\n",
-		etime, stime, etime-stime);
-	printf("Skew:          %9.2f\n"
-	       "Frequency:     %9d\n"
-	       " day   second     elapsed    stall     skew  dispersion  freq\n",
-		(skew1-skew2)/2, freq);
+	if (debug) 
+	{
+		printf("Total elapsed: %9.2f\n""Server stall:  %9.2f\n""Slop:%9.2f\n",etime, stime, etime-stime);
+		//printf("Skew:%9.2f\n""Frequency:%9d\n"" day second     elapsed    stall     skew  dispersion  freq\n",(skew1-skew2)/2, freq);
 	}
-	printf("%d %5d.%.3d  %8.1f %8.1f  %8.1f %8.1f %9d\n",
+	printf("%u %5u.%.3u  %8.1f %8.1f  %8.1f %8.1f %9d\n",
 		arrival->coarse/86400+15020, arrival->coarse%86400,
 		arrival->fine/4294967, etime, stime,
 		(skew1-skew2)/2, sec2u(disp), freq);
 	fflush(stdout);
-	if (live) {
-		int new_freq;
-		new_freq = contemplate_data(arrival->coarse, (skew1-skew2)/2,
-			etime+sec2u(disp), freq);
-		if (!debug && new_freq != freq) set_freq(new_freq);
+	if (live) 
+	{
+		/* int new_freq;
+		new_freq = contemplate_data(arrival->coarse, (skew1-skew2)/2,etime+sec2u(disp), freq);
+		if (!debug && new_freq != freq) 
+			set_freq(new_freq); */
 	}
 }
 
@@ -593,11 +478,8 @@ void primary_loop(int usd, int num_probes, int interval)
 {
 	fd_set fds;
 	struct sockaddr sa_xmit;
-	int i, pack_len, probes_sent;
+	int pack_len, probes_sent;
 	struct timeval to;
-
-	if (debug) 
-		printf("Listening...\n");
 
 	probes_sent=0;
 	
@@ -605,11 +487,13 @@ void primary_loop(int usd, int num_probes, int interval)
 	
 	to.tv_sec=0;
 	to.tv_usec=0;
+	
 	for (;;) 
 	{
 		FD_ZERO(&fds);
 		FD_SET(usd,&fds);
 		
+		int i;
 		i=select(usd+1,&fds,NULL,NULL,&to);  /* Wait on read or error */
 		if ((i!=1)||(!FD_ISSET(usd,&fds))) 
 		{
@@ -674,11 +558,11 @@ void primary_loop(int usd, int num_probes, int interval)
 			break;
 	}
 }
-
+#if 0
 void do_replay(void)
 {
 	char line[100];
-	int n, day, freq, absolute;
+	int day, freq, absolute;
 	float sec, etime, stime, disp;
 	double skew, errorbar;
 	int simulated_freq = 0;
@@ -687,6 +571,7 @@ void do_replay(void)
 
 	while (fgets(line,sizeof(line),stdin)) 
 	{
+		int n;
 		n=sscanf(line,"%d %f %f %f %lf %f %d",&day, &sec, &etime, &stime, &skew, &disp, &freq);
 		
 		if (n==7) 
@@ -694,7 +579,7 @@ void do_replay(void)
 			fputs(line,stdout);
 			absolute=(day-15020)*86400+(int)sec;
 			errorbar=etime+disp;
-			if (debug) printf("contemplate %u %.1f %.1f %d\n",
+			if (debug) printf("contemplate %d %.1f %.1f %d\n",
 				absolute,skew,errorbar,freq);
 				
 			if (last_fake_time==0) 
@@ -718,6 +603,8 @@ void do_replay(void)
 		}
 	}
 }
+
+#endif
 
 void usage(char *argv0)
 {
@@ -795,20 +682,22 @@ int main(int argc, char *argv[])
 	static char fun_name[]="main()";
 	
 	int usd;  /* socket */
-	int c;
+	
 	/* These parameters are settable from the command line
 	   the initializations here provide default behavior */
+	   
 	short int udp_local_port=0;   /* default of 0 means kernel chooses */
 	int cycle_time=600;           /* seconds */
 	int probe_count=0;            /* default of 0 means loop forever */
-	/* int debug=0; is a global above */
 	char *hostname=NULL;          /* must be set */
 	char *altHostname=NULL;
 	char *tempHostname=NULL;
 	int replay=0;                 /* replay mode overrides everything */
 	int ntpPort,altPort,tempPort;
 
-	for (;;) {
+	for (;;) 
+	{
+		int c;
 		c = getopt( argc, argv, "c:" DEBUG_OPTION "h:i:lp:rs");
 		if (c == EOF) break;
 		switch (c) {
@@ -858,23 +747,6 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-#if 0
-	int ret = readConfigFile();
-	if ( ret < 0 )
-	{
-		printf("Failed to read configuration\n");
-		exit(1);
-	}
-
-	if(create_ipc_socket() < 0)
-	{
-		printf("%-20s : Error to create IPC Socket\n",fun_name);
-		
-		return RET_FAILURE;
-	}
-	
-#endif
-	
 	hostname = dlms_dcu_config.ntp_cfg.ntp1_ip_addr;
 	ntpPort = dlms_dcu_config.ntp_cfg.ntp1_port;
 	//hostname = "192.168.10.15";
@@ -902,15 +774,11 @@ int main(int argc, char *argv[])
 
 	cycle_time = dlms_dcu_config.ntp_cfg.interval;
 
-//	printf("Time adjustment in seconds : %d\n",pcCfg.genInfo.timeAdj);
-
-	//createSockFor61850();
-
 	set_clock++;
 
 	if (replay) 
 	{
-		do_replay();
+		//do_replay();
 		exit(0);
 	}
 	
@@ -943,12 +811,9 @@ int main(int argc, char *argv[])
 
 	printf("Setup tx\n");
 
-
-	int ret;
 	while ( 1 )
 	{
-		//ret =	setup_transmit(usd, hostname, NTP_PORT);
-		
+		int ret;
 		p_ntp_ser_host = hostname;
 		
 		ret =	setup_transmit(usd, hostname, ntpPort);

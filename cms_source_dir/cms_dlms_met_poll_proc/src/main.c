@@ -47,6 +47,8 @@ uint8_t 				g_event_resp_time_cnt;
 uint8_t 				g_bill_resp_time_cnt;
 
 
+gen_data_val_info_t			gen_data_val_info[128];
+
 all_param_obis_val_info_t 	g_all_inst_param_obis_val,
 							g_all_ls_param_obis_val,
 							g_all_event_param_obis_val,
@@ -55,6 +57,17 @@ all_param_obis_val_info_t 	g_all_inst_param_obis_val,
 							
 dlms_dcu_config_t 			dlms_dcu_config;
 
+meter_comm_params_t 			meter_comm_params;
+gen_params_det_t 				gen_inst_param_det[MAX_NO_OF_METER_PER_PORT],
+								gen_ls_param_det[MAX_NO_OF_METER_PER_PORT],
+								gen_event_param_det[MAX_NO_OF_METER_PER_PORT],
+								gen_bill_param_det[MAX_NO_OF_METER_PER_PORT],
+								gen_daily_prof_param_det[MAX_NO_OF_METER_PER_PORT];
+								
+obis_name_plate_info_t 			name_plate_info[MAX_NO_OF_METER_PER_PORT];
+inst_val_info_t					g_inst_data_val;
+
+	
 redisContext 			*p_redis_handler=NULL;
 redisReply 				*p_redis_reply=NULL;
 char					g_curr_meter_ser_info[MAX_NO_OF_METER_PER_PORT][32];
@@ -849,18 +862,14 @@ int32_t delete_old_files(uint8_t midx)
 
 void send_hc_msg(void)
 {
-	static char fun_name[]="send_hc_msg()";
 	time_t curr_time=time(NULL);
 	
-	g_midx=0;
-	curr_time=time(NULL);
 	if((curr_time-g_last_hc_msg_time)>=15)
 	{
 		g_last_hc_msg_time=curr_time;
 		p_redis_reply = redisCommand(p_redis_handler,"hmset P%d_dlms_poll_proc_hc_msg updatetime %d",g_port_idx,curr_time);
 		
-		//printf("============= %s\n",p_redis_reply->str);
-		
+		static char fun_name[]="send_hc_msg()";
 		if(p_redis_reply!=NULL)
 		{
 			met_poll_dbg_log(REPORT,"%-20s : !!!!HC Send msg Status : %s\n",fun_name,p_redis_reply->str);
@@ -871,6 +880,16 @@ void send_hc_msg(void)
 		met_poll_dbg_log(REPORT,"%-20s : >>>>Sending HC Msg to Redis server time in sec : %ld\n",fun_name,curr_time);
 	}
 }
+
+void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val)
+{
+	static char fun_name[]="val_obis_det()";
+	
+	dbg_log(INFORM,"%-20s : ValObis : %d.%d.%d.%d.%d.%d, ScalObis : %d.%d.%d.%d.%d.%d, ScalVal : %d\n",fun_name,
+	val_obis[0],val_obis[1],val_obis[2],val_obis[3],val_obis[4],val_obis[5],
+	scalar_obis[0],scalar_obis[1],scalar_obis[2],scalar_obis[3],scalar_obis[4],scalar_obis[5],scalar_val);
+}
+
 
 int main(int argc, char **argv)
 {
@@ -902,14 +921,6 @@ int main(int argc, char **argv)
 	sprintf(poll_debug_file_name,"%s/%s_%d.log",LOG_DIR,MET_POLL_LOG_FILE_NAME,g_port_idx);
 	
 	met_poll_dbg_log(REPORT,"%-20s : !!!!! Meter Poll Proc Started Now!!!!!!!!!!!!\n",fun_name);
-	
-	meter_comm_params_t 			meter_comm_params;
-	gen_params_det_t 				gen_inst_param_det,gen_ls_param_det,
-									gen_event_param_det,gen_bill_param_det,
-									gen_daily_prof_param_det;
-	obis_name_plate_info_t 			name_plate_info;
-	inst_val_info_t					g_inst_data_val;
-	all_param_obis_val_info_t 		g_all_inst_param_obis_val;
 	
 	if(redis_init("127.0.0.1",6379)!=RET_SUCCESS)
 	{
@@ -983,8 +994,8 @@ int main(int argc, char **argv)
 #if 1
 	for(midx=0; midx<MAX_NO_OF_METER_PER_PORT; midx++)
 	{
-		g_midx=midx;
 		send_hc_msg();
+		g_midx=midx;
 		
 		if(dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].enable)
 		{
@@ -1009,14 +1020,14 @@ int main(int argc, char **argv)
 			
 			send_hc_msg();
 			
-			memset(&gen_inst_param_det,0,sizeof(gen_params_det_t));
-			memset(&gen_ls_param_det,0,sizeof(gen_params_det_t));
-			memset(&gen_bill_param_det,0,sizeof(gen_params_det_t));
-			memset(&gen_daily_prof_param_det,0,sizeof(gen_params_det_t));
-			memset(&gen_event_param_det,0,sizeof(gen_params_det_t));
-			memset(&name_plate_info,0,sizeof(obis_name_plate_info_t));
+			memset(&gen_inst_param_det[midx],0,sizeof(gen_params_det_t));
+			memset(&gen_ls_param_det[midx],0,sizeof(gen_params_det_t));
+			memset(&gen_bill_param_det[midx],0,sizeof(gen_params_det_t));
+			memset(&gen_daily_prof_param_det[midx],0,sizeof(gen_params_det_t));
+			memset(&gen_event_param_det[midx],0,sizeof(gen_params_det_t));
+			memset(&name_plate_info[midx],0,sizeof(obis_name_plate_info_t));
 			
-			fun_ret = get_nameplate_details(&meter_comm_params, &name_plate_info);
+			fun_ret = get_nameplate_details(&meter_comm_params, &name_plate_info[midx]);
 			if(fun_ret<0)
 			{
 				met_poll_dbg_log(REPORT,"%-20s : Failed to get nameplate info from Meter Error Code : %d\n",
@@ -1027,15 +1038,15 @@ int main(int argc, char **argv)
 			{
 				met_poll_dbg_log(INFORM,"%-20s : Recv Nameplate from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
 				
-				update_np_det_to_redis(&name_plate_info,midx);
+				update_np_det_to_redis(&name_plate_info[midx],midx);
 			}
 			
 			send_hc_msg();
 			
 			time_now=time(NULL);
 			
-			fun_ret = get_obis_codes(&meter_comm_params,&gen_inst_param_det,&gen_ls_param_det,
-			&gen_event_param_det,&gen_bill_param_det,&gen_daily_prof_param_det);
+			fun_ret = get_obis_codes(&meter_comm_params,&gen_inst_param_det[midx],&gen_ls_param_det[midx],
+			&gen_event_param_det[midx],&gen_bill_param_det[midx],&gen_daily_prof_param_det[midx]);
 			if(fun_ret<0)
 			{
 				g_need_to_read_obis[midx]=1;
@@ -1046,7 +1057,24 @@ int main(int argc, char **argv)
 			{
 				met_poll_dbg_log(INFORM,"%-20s : Recv all obis code from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
 				g_need_to_read_obis[midx]=0;
+				
+				for(idx=0; idx<gen_inst_param_det[midx].tot_num_val_obis; idx++)
+					print_val_scal_onis_val_info(gen_inst_param_det[midx].val_obis[idx],gen_inst_param_det[midx].scalar_val[idx].obis_code,gen_inst_param_det[midx].scalar_val[idx].value);
+				
+				for(idx=0; idx<gen_ls_param_det[midx].tot_num_val_obis; idx++)
+					print_val_scal_onis_val_info(gen_ls_param_det[midx].val_obis[idx],gen_ls_param_det[midx].scalar_val[idx].obis_code,gen_ls_param_det[midx].scalar_val[idx].value);
+				
+				for(idx=0; idx<gen_event_param_det[midx].tot_num_val_obis; idx++)
+					print_val_scal_onis_val_info(gen_event_param_det[midx].val_obis[idx],gen_event_param_det[midx].scalar_val[idx].obis_code,gen_event_param_det[midx].scalar_val[idx].value);
+				
+				for(idx=0; idx<gen_bill_param_det[midx].tot_num_val_obis; idx++)
+					print_val_scal_onis_val_info(gen_bill_param_det[midx].val_obis[idx],gen_bill_param_det[midx].scalar_val[idx].obis_code,gen_bill_param_det[midx].scalar_val[idx].value);
+				
+				for(idx=0; idx<gen_daily_prof_param_det[midx].tot_num_val_obis; idx++)
+					print_val_scal_onis_val_info(gen_daily_prof_param_det[midx].val_obis[idx],gen_daily_prof_param_det[midx].scalar_val[idx].obis_code,gen_daily_prof_param_det[midx].scalar_val[idx].value);
 			}
+			
+			return 0;
 			
 			send_hc_msg();
 			time_now=time(NULL);
@@ -1082,9 +1110,6 @@ int main(int argc, char **argv)
 			
 			send_hc_msg();
 			uint8_t event_class_type=0;
-			event_val_info_t event_val_info;
-			
-			time_now = time(NULL);
 			
 			for(event_class_type=0; event_class_type<7; event_class_type++)
 			{
@@ -1224,7 +1249,7 @@ int main(int argc, char **argv)
 	
 #endif
 	
-	time_t curr_time = time(NULL),ls_curr_time,time_of_day;
+	time_t curr_time ,ls_curr_time,time_of_day;
 	struct tm st_time,time_stamp;
 	
 	time_t g_last_inst_read_time = time(NULL);
@@ -1320,14 +1345,14 @@ int main(int argc, char **argv)
 			
 				if(g_need_to_read_obis[midx]==1)
 				{
-					memset(&gen_inst_param_det,0,sizeof(gen_params_det_t));
-					memset(&gen_ls_param_det,0,sizeof(gen_params_det_t));
-					memset(&gen_bill_param_det,0,sizeof(gen_params_det_t));
-					memset(&gen_daily_prof_param_det,0,sizeof(gen_params_det_t));
-					memset(&gen_event_param_det,0,sizeof(gen_params_det_t));
+					memset(&gen_inst_param_det[midx],0,sizeof(gen_params_det_t));
+					memset(&gen_ls_param_det[midx],0,sizeof(gen_params_det_t));
+					memset(&gen_bill_param_det[midx],0,sizeof(gen_params_det_t));
+					memset(&gen_daily_prof_param_de[midx]t,0,sizeof(gen_params_det_t));
+					memset(&gen_event_param_det[midx],0,sizeof(gen_params_det_t));
 					
-					fun_ret = get_obis_codes(&meter_comm_params,&gen_inst_param_det,&gen_ls_param_det,
-					&gen_event_param_det,&gen_bill_param_det,&gen_daily_prof_param_det);
+					fun_ret = get_obis_codes(&meter_comm_params,&gen_inst_param_det[midx],&gen_ls_param_det[midx],
+					&gen_event_param_det[midx],&gen_bill_param_det[midx],&gen_daily_prof_param_det[midx]);
 					if(fun_ret<0)
 					{
 						met_poll_dbg_log(REPORT,"%-20s : Failed to obis info from Meter Error Code : %d\n",fun_name,fun_ret);
@@ -1341,10 +1366,9 @@ int main(int argc, char **argv)
 				
 				if(dlms_dcu_config.dcu_poll_info.inst_poll_info.enable)
 				{
-					time_t curr_inst_time;
-
 					if((curr_time-g_last_inst_read_time)>=REFF_INST_POLL_TIME)
 					{
+						time_t curr_inst_time;
 						curr_inst_time=time(NULL);
 						g_last_inst_read_time=curr_time;
 						memset(&g_inst_data_val,0,sizeof(g_inst_data_val));
@@ -1394,10 +1418,9 @@ int main(int argc, char **argv)
 				
 				if(dlms_dcu_config.dcu_poll_info.bill_poll_info.enable)
 				{
-					time_t curr_bill_time=time(NULL);
-					
 					if((curr_time-g_last_bill_read_time)>dlms_dcu_config.dcu_poll_info.bill_poll_info.poll_hr*60*60)
 					{
+						time_t curr_bill_time=time(NULL);
 						send_hc_msg();
 						g_last_bill_read_time=curr_time;
 						
@@ -1449,7 +1472,6 @@ int main(int argc, char **argv)
 						
 						for(event_class_type=0; event_class_type<7; event_class_type++)
 						{
-							events_type_info_t events_type_info;
 							fun_ret = get_event_data(&meter_comm_params,event_class_type);
 							if(fun_ret<0)
 							{

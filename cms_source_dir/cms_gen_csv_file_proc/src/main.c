@@ -32,7 +32,7 @@ int32_t redis_init(char *hostname, uint16_t port);
 int32_t form_csv_file_format(void)
 {	
 	static char 	fun_name[]="form_csv_file_format()";
-	uint8_t 		idx=0,pidx=0;
+	uint8_t 		idx,pidx;
 	DIR 			*p_data_dir=NULL;
 	struct dirent 	*p_dir_str=NULL;
 	char 			file_name[64],dir_data_path[64],csv_file_path[64];
@@ -194,14 +194,13 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	
-	time_t curr_time=time(NULL);
 	time_t g_last_ls_read_time=time(NULL);
 	
 	while(1)
 	{
 		sleep(5);
 		
-		curr_time=time(NULL);
+		time_t curr_time=time(NULL);
 		
 		if((curr_time-g_last_ls_read_time)>REFF_FORM_CSV_TIME)
 		{

@@ -628,7 +628,7 @@ void gen_eth_meter_info_redis(void)
 
 void gen_ser_meter_info_redis(void)
 {
-	uint8_t idx=0,port_idx=0;
+	uint8_t idx,port_idx=0;
 	
 	for (port_idx=0; port_idx<MAX_NO_OF_SERIAL_PORT; port_idx++)
 	{
@@ -746,8 +746,8 @@ void gen_dcu_info_redis(void)
 
 uint16_t modbus_crc16(char *data,int32_t cnt)
 {
-	uint32_t	i=0,j=0;
-    uint16_t	temp=0,temp2=0,flag=0;
+	uint32_t	i=0,j;
+    uint16_t	temp=0,temp2=0,flag;
 
     temp=0xFFFF;
 	
@@ -778,7 +778,6 @@ int32_t read_bin_cfg(char *cfg_file_name)
 {
 	FILE *p_file_ptr=NULL;
 	
-	printf("Sizeof cfg str : %d\n",sizeof(dlms_dcu_config));
 	p_file_ptr=fopen(cfg_file_name,"r");
 	
 	if(p_file_ptr==NULL)

@@ -63,18 +63,18 @@ void send_od_event_det1(uint32_t seq_num, const char *met_ser_num, uint8_t event
 void send_od_ls_range_det(uint32_t seq_num, const char *met_ser_num, date_time_t st_date_time, date_time_t end_date_time);
 void send_od_inst_det(uint32_t seq_num, const char *met_ser_num);
 void fill_user_obis_det(char *file_name, char *param_type);
-int32_t send_met_ser_num_det(int32_t seq_num);
+int32_t send_met_ser_num_det(uint32_t seq_num);
 int32_t send_file_content_det(uint32_t seq_num, const char *met_ser_num, char *user_file_json, char *root_param_name, char *data_file_name,const char *dir_name, const char *file_name, const char *view_type, char *type);
 int32_t send_event_file_content(uint32_t seq_num, const char *met_ser_num,const char *dir_name,const char *file_name,const char *view_type);
 int32_t send_bill_file_content(uint32_t seq_num, const char *met_ser_num,const char *dir_name,const char *file_name,const char *view_type);
 int32_t send_dp_file_content(uint32_t seq_num, const char *met_ser_num,const char *dir_name,const char *file_name,const char *view_type);
 int32_t send_ls_file_content(uint32_t seq_num, const char *met_ser_num,const char *dir_name,const char *file_name,const char *view_type);
-int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type, char *dir_path, char *key_word, uint8_t read_ls, char* dir_name);
-int32_t send_od_ls_file_list_det(int32_t seq_num, const char *met_ser_num);
-int32_t send_ls_file_list_det(int32_t seq_num, const char *met_ser_num);
-int32_t send_event_file_list_det(int32_t seq_num, const char *met_ser_num);
-int32_t send_dp_file_list_det(int32_t seq_num, const char *met_ser_num);
-int32_t send_bill_file_list_det(int32_t seq_num, const char *met_ser_num);
-int32_t send_dir_list_det(int32_t seq_num);
+int32_t send_file_list_det(uint32_t seq_num, const char *met_ser_num, char *type, char *dir_path, char *key_word, uint8_t read_ls, char* dir_name);
+int32_t send_od_ls_file_list_det(uint32_t seq_num, const char *met_ser_num);
+int32_t send_ls_file_list_det(uint32_t seq_num, const char *met_ser_num);
+int32_t send_event_file_list_det(uint32_t seq_num, const char *met_ser_num);
+int32_t send_dp_file_list_det(uint32_t seq_num, const char *met_ser_num);
+int32_t send_bill_file_list_det(uint32_t seq_num, const char *met_ser_num);
+int32_t send_dir_list_det(uint32_t seq_num);
 
 #endif

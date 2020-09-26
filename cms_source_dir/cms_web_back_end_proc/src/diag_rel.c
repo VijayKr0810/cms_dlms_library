@@ -32,7 +32,7 @@ void send_modem_status_det(uint32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -50,7 +50,7 @@ void send_modem_status_det(uint32_t seq_num)
 	strcat(json_text,"{\n");
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cStatus%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cStatus%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget MODEM_DIAG_INFO Status SignalStrength NwType RegStatus Operator IMEI");
@@ -111,8 +111,7 @@ void send_modem_status_det(uint32_t seq_num)
 
 void send_commn_status_det(uint32_t seq_num)
 {
-	uint8_t port_idx=0, midx=0;
-	char 	port_det[16];
+	uint8_t port_idx,midx;
 	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -124,7 +123,7 @@ void send_commn_status_det(uint32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -169,6 +168,7 @@ void send_commn_status_det(uint32_t seq_num)
 				}
 			}
 			
+			char 	port_det[16];
 			memset(port_det,0,sizeof(port_det));
 			sprintf(port_det,"PORT%d",port_idx+1);
 			
@@ -245,6 +245,7 @@ void send_commn_status_det(uint32_t seq_num)
 			
 		strcat(json_text,"[");
 		
+		port_idx = 0;
 		for(midx=0; midx<dlms_dcu_config.eth_meter_cfg.num_meter; midx++)
 		{
 			p_redis_reply = redisCommand(p_redis_handler, "HMGET EthPort%dMet%dStatus VALUE",port_idx,midx);

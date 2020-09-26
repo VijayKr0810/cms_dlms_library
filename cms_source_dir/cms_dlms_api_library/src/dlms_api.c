@@ -38,10 +38,7 @@ uint8_t							g_append_event_file_flag;
 int8_t init_comm(meter_comm_params_t *meter_comm_params)
 {
 	static char 	fun_name[]="init_comm()";
-	struct 			stat dir_st = {0};
-	
-	printf("MeterId : %d\n",meter_comm_params->meter_id);
-	
+
 	//memset(lib_dbg_file_name,0,sizeof(lib_dbg_file_name));
 	//sprintf(lib_dbg_file_name,"%s/cms_dlms_api.log",LOG_DIR);
 	
@@ -50,17 +47,9 @@ int8_t init_comm(meter_comm_params_t *meter_comm_params)
 	
 	//printf("meter_comm_params Library side size : %d\n",sizeof(meter_comm_params_t));
 	
-	dbg_log(INFORM,"%-20s : Created Root ls data dir : %s\n",fun_name,g_ls_data_dir_path);
+	/* dbg_log(INFORM,"%-20s : Created Root ls data dir : %s\n",fun_name,g_ls_data_dir_path);
 	dbg_log(INFORM,"%-20s : CMS DLMS API Version :: %s\n",fun_name,DLMS_API_VERSION);
-	dbg_log(INFORM,"%-20s : Communicatin started for DLMS API.\n",fun_name);
-	
-/* 	if (stat(g_ls_data_dir_path, &dir_st) == -1) 
-	{
-		if( (mkdir(g_ls_data_dir_path,0777) ) < 0 )					
-		{
-			dbg_log(INFORM,"%-20s : Created Root ls data dir : %s\n",fun_name,g_ls_data_dir_path);
-		}
-	} */
+	dbg_log(INFORM,"%-20s : Communicatin started for DLMS API.\n",fun_name); */
 	
 	if(meter_comm_params->inf_type==INF_SERIAL)
 	{
@@ -88,8 +77,6 @@ int8_t init_comm(meter_comm_params_t *meter_comm_params)
 int8_t connect_to_meter(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="connect_to_meter()";
-	uint8_t comm_fd, meter_id, meter_type;
-	char password[16];
 	int8_t ret_val=0;
 	
 	//ret_val = send_disc(meter_comm_params->fd,meter_comm_params->meter_id,meter_comm_params->meter_addr_format);
@@ -514,13 +501,13 @@ int8_t get_billing_info(meter_comm_params_t *meter_comm_params)
 ********************************************************************************************************/
 int8_t disconnect_meter(meter_comm_params_t *meter_comm_params)
 {
-	static char fun_name[]="disconnect_meter()";
 	int8_t ret_val=0;
 	
 	//ret_val = send_disc(meter_comm_params->fd,meter_comm_params->meter_id,meter_comm_params->meter_addr_format);
 	ret_val = send_disc(meter_comm_params);
 	if(ret_val<0)
 	{
+		static char fun_name[]="disconnect_meter()";
 		dbg_log(REPORT,"%-20s : DISC Frame Qry  failed\n",fun_name);
 		return ret_val;
 	}

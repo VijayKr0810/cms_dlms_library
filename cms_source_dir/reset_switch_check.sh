@@ -66,8 +66,8 @@ do
 	sleep 2
 	if [ 0 -eq "$(cat </sys/class/gpio/gpio"$gpio"/value)" ]
 	then
-		cp /usr/cms/def/* /usr/cms/config/
-		cp /usr/cms/def/interfaces/* /etc/network/interfaces/
+		cp /usr/cms/def/dlms_api_config.cfg /usr/cms/config/
+		cp /usr/cms/def/interfaces/interfaces /etc/network/interfaces
 		write_to_redis_server 
 		echo "reset switch is pressed"
 	fi

@@ -54,8 +54,8 @@ WSOpcode 						g_opcode;
 
 uint16_t modbus_crc16(char *data,int32_t cnt)
 {
-	uint32_t	i=0,j=0;
-    uint16_t	temp=0,temp2=0,flag=0;
+	uint32_t	i,j;
+    uint16_t	temp,temp2=0,flag;
 
     temp=0xFFFF;
 	
@@ -142,7 +142,7 @@ void restart_unit(uint32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -201,7 +201,7 @@ void update_config_restart_procs(uint32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -251,17 +251,10 @@ void update_config_restart_procs(uint32_t seq_num)
 		
 		freeReplyObject(p_redis_reply);	
 	}
-	
-	//dbg_log(INFORM,"%-20s : Launching cms mon proc\n",fun_name);
-	
-	//system("/usr/cms/bin/cms_mon_proc > /dev/null &");
 }
 
-int32_t send_dlms_inst_master_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_inst_master_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -272,7 +265,7 @@ int32_t send_dlms_inst_master_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -287,23 +280,7 @@ int32_t send_dlms_inst_master_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(INST_MASTER_OBIS_PARAMS_JSON,"InstParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_MASTER_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_MASTER_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_MASTER_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_MASTER_OBIS_PARAMS_JSON,"EventParams");  */
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -317,11 +294,8 @@ int32_t send_dlms_inst_master_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_ls_master_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_ls_master_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -332,7 +306,7 @@ int32_t send_dlms_ls_master_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -347,23 +321,7 @@ int32_t send_dlms_ls_master_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(LS_MASTER_OBIS_PARAMS_JSON,"LsParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_MASTER_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_MASTER_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_MASTER_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_MASTER_OBIS_PARAMS_JSON,"EventParams");  */
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -379,11 +337,8 @@ int32_t send_dlms_ls_master_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_bill_master_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_bill_master_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -394,7 +349,7 @@ int32_t send_dlms_bill_master_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -409,23 +364,7 @@ int32_t send_dlms_bill_master_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(BILL_MASTER_OBIS_PARAMS_JSON,"BillParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_MASTER_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_MASTER_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_MASTER_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_MASTER_OBIS_PARAMS_JSON,"EventParams");  */
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -437,11 +376,8 @@ int32_t send_dlms_bill_master_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_dp_master_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_dp_master_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -452,7 +388,7 @@ int32_t send_dlms_dp_master_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -467,23 +403,7 @@ int32_t send_dlms_dp_master_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(DP_MASTER_OBIS_PARAMS_JSON,"DpParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_MASTER_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_MASTER_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_MASTER_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_MASTER_OBIS_PARAMS_JSON,"EventParams");  */
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -495,11 +415,8 @@ int32_t send_dlms_dp_master_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_event_master_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_event_master_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -510,7 +427,7 @@ int32_t send_dlms_event_master_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -525,24 +442,7 @@ int32_t send_dlms_event_master_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(EVENT_MASTER_OBIS_PARAMS_JSON,"EventParams");  
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_MASTER_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_MASTER_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_MASTER_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_MASTER_OBIS_PARAMS_JSON,"InstParams");
-	*/
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -554,11 +454,8 @@ int32_t send_dlms_event_master_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_dp_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_dp_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -569,7 +466,7 @@ int32_t send_dlms_dp_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -584,24 +481,7 @@ int32_t send_dlms_dp_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(DP_OBIS_PARAMS_JSON,"DpParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_OBIS_PARAMS_JSON,"EventParams"); 
-	 */
-	
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -614,11 +494,8 @@ int32_t send_dlms_dp_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_inst_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_inst_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -629,7 +506,7 @@ int32_t send_dlms_inst_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -644,24 +521,8 @@ int32_t send_dlms_inst_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(INST_OBIS_PARAMS_JSON,"InstParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_OBIS_PARAMS_JSON,"EventParams"); 
-	 */
-	//strcat(json_text,"}\n"); // End of DATA
-	
+
 	strcat(json_text,"}"); // End of Json
 	
 	printf("\n%s\n",json_text);
@@ -673,11 +534,8 @@ int32_t send_dlms_inst_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_event_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_event_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -688,7 +546,7 @@ int32_t send_dlms_event_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -703,24 +561,8 @@ int32_t send_dlms_event_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(EVENT_OBIS_PARAMS_JSON,"EventParams"); 
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_OBIS_PARAMS_JSON,"DpParams");
-	fill_user_obis_det(INST_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	 */
-	//strcat(json_text,"}\n"); // End of DATA
-	
+
 	strcat(json_text,"}"); // End of Json
 	
 	printf("\n%s\n",json_text);
@@ -732,11 +574,8 @@ int32_t send_dlms_event_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_bill_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_bill_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -747,7 +586,7 @@ int32_t send_dlms_bill_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -762,23 +601,7 @@ int32_t send_dlms_bill_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(BILL_OBIS_PARAMS_JSON,"BillParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(LS_OBIS_PARAMS_JSON,"LsParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_OBIS_PARAMS_JSON,"EventParams"); 
-	 */
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -791,11 +614,8 @@ int32_t send_dlms_bill_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_ls_param_cfg_det(int32_t seq_num)
+int32_t send_dlms_ls_param_cfg_det(uint32_t seq_num)
 {
-	char *p_gen_ptr=NULL;
-	uint8_t idx=0;
-	
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
 		
@@ -806,7 +626,7 @@ int32_t send_dlms_ls_param_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -821,23 +641,7 @@ int32_t send_dlms_ls_param_cfg_det(int32_t seq_num)
 	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
-	//strcat(json_text,"{\n");
-	
 	fill_user_obis_det(LS_OBIS_PARAMS_JSON,"LsParams");
-	/* strcat(json_text,",\n");
-	
-	fill_user_obis_det(DP_OBIS_PARAMS_JSON,"DpParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(BILL_OBIS_PARAMS_JSON,"BillParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(INST_OBIS_PARAMS_JSON,"InstParams");
-	strcat(json_text,",\n");
-	
-	fill_user_obis_det(EVENT_OBIS_PARAMS_JSON,"EventParams"); 
-	 */
-	//strcat(json_text,"}\n"); // End of DATA
 	
 	strcat(json_text,"}"); // End of Json
 	
@@ -850,18 +654,16 @@ int32_t send_dlms_ls_param_cfg_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_cyclic_inst_data_det(int32_t seq_num)
+int32_t send_cyclic_inst_data_det(uint32_t seq_num)
 {
-	uint8_t pidx=0,midx=0,tot_num_meters=0,meter_idx=0, meter_type=0, status=0,file_num_param=0;
-	uint8_t idx=0,jdx=0,num_params=0;
+	uint8_t tot_num_meters=0, meter_type=0,file_num_param=0;
+	uint8_t idx;
 	
 	char 	*p_loc_data=NULL;
 	char 	*p_loc_data1=NULL;
 	char 	*p_loc_data2=NULL;
 	int32_t file_fd=0;
 	struct 	stat obis_st;
-	char 	key_name[32];
-	
 	
 	if(stat(INST_OBIS_PARAMS_JSON,&obis_st)==-1)
 	{
@@ -895,8 +697,6 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 	sprintf(p_loc_data1,"%s",p_loc_data);
 	
 	close(file_fd);
-	
-	//printf("\n%s\n",p_loc_data1);
 	
 	const   nx_json *p_root_value = NULL;
 	const   nx_json *p_gen_trav = NULL;
@@ -1009,7 +809,7 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -1052,15 +852,20 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 	
 	strcat(json_text,"[\n");
 	
+	uint8_t meter_idx=0;
 	if(meter_type==1)
 	{
+		uint8_t pidx;
 		for(pidx=0; pidx<MAX_NO_OF_SERIAL_PORT; pidx++)
 		{
+			uint8_t midx;
 			for(midx=0; midx<MAX_NO_OF_METER_PER_PORT; midx++)
 			{
-				status=0;
-				strcat(json_text,"{");
+				uint8_t status=0;
+				uint8_t num_params=0;
 				
+				strcat(json_text,"{");
+				char 	key_name[32];
 				memset(key_name,0,sizeof(key_name));
 				sprintf(key_name,"Port%dMet%d%s",pidx,midx,INST_INFO_KEY);
 				p_redis_reply = redisCommand(p_redis_handler, "HMGET %s NUM_PARAM",key_name);
@@ -1125,7 +930,6 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 				strcat(json_text,g_temp_str);
 				
 				p_redis_reply = redisCommand(p_redis_handler,"hmget P_%dSerMeter_%dConfig MeterLoc",pidx,midx+1);
-		
 				if(p_redis_reply!=NULL)
 				{
 					if(p_redis_reply->element[0]->str!=NULL)
@@ -1179,6 +983,7 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 				strcat(json_text,"[\n");
 				for(idx=0; idx<file_num_param; idx++)
 				{
+					uint8_t jdx;
 					strcat(json_text,"{");
 					for(jdx=0; jdx<num_params; jdx++)
 					{
@@ -1220,20 +1025,14 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 					strcat(json_text,"}\n");
 				else
 					strcat(json_text,"},\n");
+				
 				printf("Completed for meter_idx : %d\n",meter_idx);
 				
 				meter_idx++;
 			}
 		}
 	}
-	else
-	{
-		for(midx=0; midx<MAX_NO_OF_ETH_METER; midx++)
-		{
-			;
-		}
-	}
-
+	
 	strcat(json_text,"]\n");// End of INST_PARAM
 	
 	strcat(json_text,"}\n"); // End of DATA
@@ -1249,7 +1048,7 @@ int32_t send_cyclic_inst_data_det(int32_t seq_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dlms_cfg_det(int32_t seq_num)
+int32_t send_dlms_cfg_det(uint32_t seq_num)
 {
 	char *p_gen_ptr=NULL;
 	uint8_t idx=0;
@@ -1264,7 +1063,7 @@ int32_t send_dlms_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -1704,7 +1503,7 @@ int32_t send_dlms_cfg_det(int32_t seq_num)
 		return RET_NO_RESP;
 }
 
-int32_t send_upstream_cfg_det(int32_t seq_num)
+int32_t send_upstream_cfg_det(uint32_t seq_num)
 {
 	char *p_gen_ptr=NULL;
 	uint8_t idx=0;
@@ -1719,7 +1518,7 @@ int32_t send_upstream_cfg_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2064,7 +1863,7 @@ int32_t send_upstream_cfg_det(int32_t seq_num)
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget FTP_SER_INFO SerPort UploadPeriod LocDir Password UserName SerIp DiffLogSer LogSerPort LogUploadPeriod LogLocDir LogPassword LogUserName LogSerIp");
 	
-	printf("FTP_SER_INFO Total num of elements : %d\n",p_redis_reply->elements);
+	//printf("FTP_SER_INFO Total num of elements : %d\n",p_redis_reply->elements);
 	if(p_redis_reply!=NULL)
 	{
 		p_gen_ptr=p_redis_reply->element[0]->str;
@@ -2223,7 +2022,7 @@ int32_t send_upstream_cfg_det(int32_t seq_num)
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget MQTT_INFO BrokerIp BrokerPass BrokerUname BrokerPort PerDataTopic CmdSubTopic DiagTopicEnable DiagPubTopic EventTopicEnable EventPubTopic PubHr PubMint PubSec");
 	
-	printf("MQTT_INFO Total num of elements : %d\n",p_redis_reply->elements);
+	//printf("MQTT_INFO Total num of elements : %d\n",p_redis_reply->elements);
 	if(p_redis_reply!=NULL)
 	{
 		p_gen_ptr=p_redis_reply->element[0]->str;
@@ -2380,7 +2179,7 @@ int32_t send_upstream_cfg_det(int32_t seq_num)
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget CMS_EMS_INFO BrokerIp BrokerPort EventSendEnable DiagSendEnable PubHr PubMint PubSec");
 	
-	printf("CMSEMSCfg Total num of elements : %d\n",p_redis_reply->elements);
+	//printf("CMSEMSCfg Total num of elements : %d\n",p_redis_reply->elements);
 	if(p_redis_reply!=NULL)
 	{
 		p_gen_ptr=p_redis_reply->element[0]->str;
@@ -2480,7 +2279,7 @@ int32_t send_upstream_cfg_det(int32_t seq_num)
 		return RET_NO_RESP;
 }
 
-int32_t send_gen_config_det(int32_t seq_num)
+int32_t send_gen_config_det(uint32_t seq_num)
 {
 	char *p_gen_ptr=NULL;
 	uint8_t idx=0;
@@ -2495,7 +2294,7 @@ int32_t send_gen_config_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2519,7 +2318,7 @@ int32_t send_gen_config_det(int32_t seq_num)
 	strcat(json_text,"{\n");
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_GEN_INFO DcuDevId DcuDevLoc DbgLogEnable DbgLogIp DbgLogLevel SerNum");
-	printf("Total num of elements for dcu general : %d\n",p_redis_reply->elements);
+	//printf("Total num of elements for dcu general : %d\n",p_redis_reply->elements);
 	
 	if(p_redis_reply!=NULL)
 	{
@@ -3101,7 +2900,7 @@ int32_t send_gen_config_det(int32_t seq_num)
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget IPSECCFG KeyLifeTime AggrMode NatTrav Pfs TunnelName PreSharedKey RightIp RightId Left LeftSubnet LeftId LeftSrcIp KeyingMode RightSubnet");
 	
-	printf("IPSECCFG, tot num of elements : %d\n",p_redis_reply->elements);
+	//printf("IPSECCFG, tot num of elements : %d\n",p_redis_reply->elements);
 	if(p_redis_reply!=NULL)
 	{
 		p_gen_ptr=p_redis_reply->element[0]->str;
@@ -3421,7 +3220,7 @@ int32_t send_gen_config_det(int32_t seq_num)
 int32_t send_set_upstream_cfg_det(uint32_t seq_num, char *temp_json)
 {
 	static char fun_name[]="send_set_gen_cfg_det()";
-	int32_t 	idx=0,jdx=0,cnt=0;
+	int32_t 	idx=0,cnt=0;
 	char 		*update_json = NULL;
 	char 		status[32];
 	
@@ -3456,9 +3255,7 @@ int32_t send_set_upstream_cfg_det(uint32_t seq_num, char *temp_json)
 	const   nx_json *json_trav=NULL, *gen_trav=NULL;
 	const   nx_json *item_trav=NULL;
 	const char  	*gen_ptr=NULL;
-	char 	temp_str[32];
-	uint8_t loc_idx=0;
-	
+
 	memset(status,0,sizeof(status));
 	
 	root_value = nx_json_parse(update_json, 0);
@@ -3537,6 +3334,7 @@ int32_t send_set_upstream_cfg_det(uint32_t seq_num, char *temp_json)
 			gen_ptr = nx_json_get(gen_trav,"FileFormatSupp")->text_value;
 			if(gen_ptr != NULL)
 			{
+				uint8_t loc_idx;
 				for(loc_idx=0; loc_idx<4; loc_idx++)
 				{
 					if(strcmp(gen_ptr, g_file_format_buff[loc_idx])==0)
@@ -4046,7 +3844,7 @@ int32_t send_set_upstream_cfg_det(uint32_t seq_num, char *temp_json)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -4073,7 +3871,7 @@ int32_t send_set_upstream_cfg_det(uint32_t seq_num, char *temp_json)
 int32_t send_set_dlms_cfg_det(uint32_t seq_num, char *temp_json)
 {
 	static char fun_name[]="send_set_gen_cfg_det()";
-	int32_t 	idx=0,jdx=0,cnt=0;
+	int32_t 	idx=0,cnt=0;
 	char 		*update_json = NULL;
 	char 		status[32];
 	
@@ -4110,9 +3908,7 @@ int32_t send_set_dlms_cfg_det(uint32_t seq_num, char *temp_json)
 	const   nx_json *json_trav=NULL, *gen_trav=NULL;
 	const   nx_json *item_trav=NULL;
 	const char  	*gen_ptr=NULL;
-	char 	temp_str[32];
-	uint8_t loc_idx=0;
-	
+
 	memset(status,0,sizeof(status));
 	
 	root_value = nx_json_parse(update_json, 0);
@@ -4147,6 +3943,7 @@ int32_t send_set_dlms_cfg_det(uint32_t seq_num, char *temp_json)
 			gen_ptr = nx_json_get(gen_trav,"MeterType")->text_value;
 			if(gen_ptr != NULL)
 			{
+				uint8_t loc_idx;
 				for(loc_idx=0; loc_idx<3; loc_idx++)
 				{
 					if(strcmp(gen_ptr, g_met_type_buff[loc_idx])==0)
@@ -4481,7 +4278,7 @@ int32_t send_set_dlms_cfg_det(uint32_t seq_num, char *temp_json)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -4526,7 +4323,7 @@ int32_t send_set_dlms_param_cfg_det(uint32_t seq_num, char *temp_json, char *typ
 {
 	static char fun_name[]="send_set_gen_cfg_det()";
 	FILE		*p_file_ptr=NULL;
-	int32_t 	idx=0,jdx=0,cnt=0;
+	int32_t 	idx=0,cnt=0;
 	char 		*update_json = NULL;
 	char 		status[32];
 	
@@ -4586,7 +4383,7 @@ int32_t send_set_dlms_param_cfg_det(uint32_t seq_num, char *temp_json, char *typ
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -4720,7 +4517,7 @@ void send_version_cfg_det(uint32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -4764,7 +4561,7 @@ void send_version_cfg_det(uint32_t seq_num)
 int32_t send_set_gen_cfg_det(uint32_t seq_num, char *temp_json)
 {
 	static char fun_name[]="send_set_gen_cfg_det()";
-	int32_t 	idx=0,jdx=0,cnt=0;
+	int32_t 	idx=0,cnt=0;
 	char 		*update_json = NULL;
 	char 		status[32];
 	
@@ -4801,9 +4598,7 @@ int32_t send_set_gen_cfg_det(uint32_t seq_num, char *temp_json)
 	const   nx_json *json_trav=NULL, *gen_trav=NULL;
 	const   nx_json *item_trav=NULL;
 	const char  	*gen_ptr=NULL;
-	char 	temp_str[32];
-	uint8_t loc_idx=0;
-	
+
 	memset(status,0,sizeof(status));
 	
 	root_value = nx_json_parse(update_json, 0);
@@ -4996,6 +4791,7 @@ int32_t send_set_gen_cfg_det(uint32_t seq_num, char *temp_json)
 					item_trav = nx_json_item(ser_trav, idx);
 					if(item_trav!=NULL)
 					{
+						uint8_t loc_idx;
 						gen_ptr = nx_json_get(item_trav,"BaudRate")->text_value;
 						if(gen_ptr != NULL)
 						{
@@ -5657,7 +5453,7 @@ int32_t send_set_gen_cfg_det(uint32_t seq_num, char *temp_json)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -5936,7 +5732,8 @@ int32_t proc_recv_client_msg(WSClient * client, WSOpcode opcode, int client_fd, 
 				{
 					const char 	*ser_num=NULL;
 					const char 	*p_loc_ptr=NULL;
-					int16_t year=0;
+					const char 	*p_loc_ptr1=NULL;
+					//int16_t 	year;
 					
 					ser_num = nx_json_get(p_root_value,"MET_SERNUM")->text_value;
 					if(ser_num!=NULL)
@@ -5944,15 +5741,15 @@ int32_t proc_recv_client_msg(WSClient * client, WSOpcode opcode, int client_fd, 
 						p_loc_ptr = nx_json_get(p_root_value,"YEAR")->text_value;
 						if(p_loc_ptr!=NULL)
 						{
-							year = atoi(p_loc_ptr);
-						}
-						else
-							goto EXIT;
-						
-						p_loc_ptr = nx_json_get(p_root_value,"MONTH")->text_value;
-						if(p_loc_ptr!=NULL)
-						{
-							send_od_midnight_det(seq_num,ser_num,atoi(p_loc_ptr),year);
+							//year = atoi(p_loc_ptr);
+							
+							p_loc_ptr1 = nx_json_get(p_root_value,"MONTH")->text_value;
+							if(p_loc_ptr1!=NULL)
+							{
+								send_od_midnight_det(seq_num,ser_num,atoi(p_loc_ptr1),atoi(p_loc_ptr));
+							}
+							else
+								goto EXIT;
 						}
 						else
 							goto EXIT;

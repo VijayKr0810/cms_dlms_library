@@ -152,14 +152,16 @@ SHA1Transform (uint32_t state[5], uint8_t buffer[64])
   R4 (d, e, a, b, c, 77);
   R4 (c, d, e, a, b, 78);
   R4 (b, c, d, e, a, 79);
+  
   /* Add the working vars back into context.state[] */
   state[0] += a;
   state[1] += b;
   state[2] += c;
   state[3] += d;
   state[4] += e;
+  
   /* Wipe variables */
-  a = b = c = d = e = 0;
+  //a = b = c = d = e = 0;
 }
 
 
@@ -207,7 +209,7 @@ SHA1Update (SHA1_CTX * context, uint8_t * data, unsigned int len)
 void
 SHA1Final (uint8_t digest[20], SHA1_CTX * context)
 {
-  uint32_t i, j;
+  uint32_t i;
   uint8_t finalcount[8];
 
   for (i = 0; i < 8; i++) {
@@ -224,7 +226,8 @@ SHA1Final (uint8_t digest[20], SHA1_CTX * context)
       ((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
   }
   /* Wipe variables */
-  i = j = 0;
+  //i = j = 0;
+  
   memset (context->buffer, 0, 64);
   memset (context->state, 0, 20);
   memset (context->count, 0, 8);

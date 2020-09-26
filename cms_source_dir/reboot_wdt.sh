@@ -36,7 +36,7 @@ write_into_file()
 {
 	size=`wc -c /usr/cms/log/cms_reboot_wdt.log | awk '{print $1}'`
 	#echo "$size"
-	if [ $size -ge 1024*1024 ]
+	if [ $size -ge 1024000 ]
 	then
 		echo "Reached Max size file : $size"
 		cp -v /usr/cms/log/cms_reboot_wdt.log /usr/cms/log/cms_reboot_wdt_bkp.log

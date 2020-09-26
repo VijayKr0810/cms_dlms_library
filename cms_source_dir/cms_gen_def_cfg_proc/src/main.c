@@ -42,8 +42,8 @@ char 	temp_text[256];
 
 uint16_t modbus_crc16(char *data,int32_t cnt)
 {
-	uint32_t	i=0,j=0;
-    uint16_t	temp=0,temp2=0,flag=0;
+	uint32_t	i,j;
+    uint16_t	temp=0,temp2=0,flag;
 
     temp=0xFFFF;
 	
@@ -152,7 +152,7 @@ void fill_default_cfg(void)
 		{	
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].enable=1;
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_id=idx+1;
-			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr_size=1;
+			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr_size=4;
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr=17+idx;
 			strcpy(dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_pass,"lnt1");
 			memset(loc_buff,0,sizeof(loc_buff));
@@ -442,15 +442,15 @@ void create_feature_json(void)
 	if ( p_file_ptr == NULL )
 		return;
 	
-	fscanf(p_file_ptr,"%s",version_buff);
+	fscanf(p_file_ptr,"%31s",version_buff);
 	strcpy(dcu_model_num,version_buff);
 	memset(version_buff,0,sizeof(version_buff));
 	
-	fscanf(p_file_ptr,"%s",version_buff);
+	fscanf(p_file_ptr,"%31s",version_buff);
 	strcat(dcu_fw_ver,version_buff);
 	strcat(dcu_fw_ver,"_");
 	
-	fscanf(p_file_ptr,"%s",version_buff);
+	fscanf(p_file_ptr,"%31s",version_buff);
 	strcat(dcu_fw_ver,version_buff);
 	
 	//fgets(version_buff,128,p_file_ptr);
@@ -512,7 +512,7 @@ int main(int argc, char** argv)
 {
 	printf("Creating Default Config\n");
 	
-	printf("Size of Config Structure : %ld\n",sizeof(dlms_dcu_config_t));
+	//printf("Size of Config Structure : %ld\n",sizeof(dlms_dcu_config_t));
 	
 	fill_default_cfg();
 	

@@ -1,0 +1,61 @@
+1st Version of Generic DLMS DCU Library based.
+
+Login Details.
+	GUI : 
+		username : admin
+		password : softel
+	Telnet :
+		username : root
+		password : softel
+
+This is Generic version of DLMS DCU. It can support any kind of DLMS 
+meters. 
+
+Configuration. (Port Wise 2/4/6)
+Port Config :
+	RS232 : Only 1 meters.
+	RS485 : can have MAX of 5 meters.
+	
+First Initilization based of interface type selected. (SERIAL/TCP-IP)
+this taken care when we make release.
+
+Polling Concept.
+
+for all configured Meters.
+	Connect To meters. Providing required config details.
+	Get Nameplate details from Meters.
+	Get All kind of OBIS Details.
+	Get Inst value.
+	Get Midnight data all. (File name will be store as month wise in data directory)
+	for all event type(0-6)
+		if events available
+			Get Event all. (File name will be store as event type wise in data directory)
+	Get Billing info.
+	Get Current days load survey data.(00:04 to current time)
+	If read Prev days ls data enable
+		get last -45 days ls data.
+
+Ideal Poll Loop.
+	check meter serial num mismatch
+	
+	for all configured Meters.
+		deleting old ls files( older than 46 days)
+		Connecting to meters, by Providing required config details.
+		Get Nameplate details from Meters.
+		If time to poll Inst data .(every 2 Sec)
+			Poll Inst data, Update to redis server.
+		If time to poll Event data .(every 5 Mint)
+			for all event type(0-6)
+				if events available
+					Get Event data. (File name will be store as event type wise in data directory)
+		If time to poll Loadsurvey data .(every 15 Mint)
+			Poll Load survey data, (last 1 hour data).
+		If Poll midnight data enable
+			if time to poll midnight data
+				poll midnight data.
+		If Poll billing data enable
+			if time to poll billing data
+				poll billing data.
+		
+	
+

@@ -59,7 +59,7 @@ int32_t update_np_det_to_redis(obis_name_plate_info_t *name_plate_info, uint32_t
 	name_plate_info->meter_ser_num.param_obis_code[5]
 	);
 	
-	printf("obis_buff : %s, strlen : %d\n",obis_buff,strlen(obis_buff));
+	//printf("obis_buff : %s, strlen : %d\n",obis_buff,strlen(obis_buff));
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmset Port%dMet%dnp_info MeterSerNum %s MeterSerNumObis %s",g_port_idx,midx,
 	name_plate_info->meter_ser_num.param_value,obis_buff);

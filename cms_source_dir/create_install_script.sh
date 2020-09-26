@@ -201,16 +201,28 @@ then
 		echo "Two ethernet ports"
 		cp -Rf network cms_dcu_firmware/etc/
 		mv cms_dcu_firmware/etc/network/interfaces2 cms_dcu_firmware/etc/network/interfaces
+		rm -Rf cms_dcu_firmware/usr/cms/def/interfaces/*
+		cp cms_dcu_firmware/etc/network/interfaces cms_dcu_firmware/usr/cms/def/interfaces/interfaces
 	else
 		echo "One ethernet port"
 		cp -Rf network cms_dcu_firmware/etc/
+		rm -Rf cms_dcu_firmware/usr/cms/def/interfaces/*
+		cp cms_dcu_firmware/etc/network/interfaces cms_dcu_firmware/usr/cms/def/interfaces/interfaces
 		rm cms_dcu_firmware/etc/network/interfaces2
 	fi	
 	cp newInstall.sh ../cms_install_dir/newInstall.sh
 else
 	echo "Upgrade version"
+	if [ $eth = 2 ]; 
+	then 
+		rm -Rf cms_dcu_firmware/usr/cms/def/interfaces/*
+		cp network/interfaces2 cms_dcu_firmware/usr/cms/def/interfaces/interfaces
+	else
+		rm -Rf cms_dcu_firmware/usr/cms/def/interfaces/*
+		cp network/interfaces cms_dcu_firmware/usr/cms/def/interfaces/interfaces
+	fi
+	
 	rm -Rf cms_dcu_firmware/etc/network
-	echo "No VPN upgrade version..."
 	cp newInstall.sh.Upgrade ../cms_install_dir/newInstall.sh
 fi
 

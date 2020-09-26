@@ -20,6 +20,7 @@ void createNetworkFile(char *ipAddr,char *netMask, char *gw,char *interface)
 	if ( fp2 == NULL )
 	{
 		printf("Failed open bs file for writing\n");
+		fclose(fp1);
 		return;
 	}
 	

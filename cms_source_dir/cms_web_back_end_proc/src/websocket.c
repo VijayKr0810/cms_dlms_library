@@ -73,8 +73,7 @@
 #define 		MAX_CHNK_SIZE 4000
 
 int g_send_cliend_fd;
-extern WSServer *server;
-
+//extern WSServer *server;
 
 typedef struct
 {
@@ -141,9 +140,10 @@ static uint32_t
 verify_utf8 (uint32_t * state, const char *str, int len)
 {
   int i;
-  uint32_t type;
 
-  for (i = 0; i < len; ++i) {
+  for (i = 0; i < len; ++i) 
+  {
+	  uint32_t type;
     type = utf8d[(uint8_t) str[i]];
     *state = utf8d[256 + (*state) * 16 + type];
 
@@ -214,13 +214,13 @@ sanitize_utf8 (const char *str, int len)
 }
 
 /* Allocate memory for a websocket server */
-static WSServer *
-new_wsserver (void)
+/* static WSServer * new_wsserver (void)
 {
-  WSServer *server = xcalloc (1, sizeof (WSServer));
+	WSServer *server;
 
-  return server;
-}
+	server = xcalloc (1, sizeof (WSServer));
+	return server;
+} */
 
 /* Allocate memory for a websocket client */
 static WSClient *
@@ -493,7 +493,7 @@ ws_clear_handshake_headers (WSHeaders * headers)
 {
   ws_free_header_fields (headers);
   free (headers);
-  headers = NULL;
+  //headers = NULL;
 }
 
 /* Remove the given client from the list. */
@@ -583,14 +583,13 @@ ws_clear_fifo_packet (WSPacket * packet)
 static void
 ws_clear_pipein (WSPipeIn * pipein)
 {
-	static char fun_name[]="ws_clear_pipein()";
-	
   WSPacket **packet = &pipein->packet;
   if (!pipein)
     return;
 
   if (pipein->fd != -1  && !wsconfig.use_stdin)
   {
+	static char fun_name[]="ws_clear_pipein()";
 	  dbg_log(INFORM,"%-20s : Closing Pipe In , Fd : %d\n",fun_name, pipein->fd);
     close (pipein->fd);
   }
@@ -606,12 +605,12 @@ ws_clear_pipein (WSPipeIn * pipein)
 static void
 ws_clear_pipeout (WSPipeOut * pipeout)
 {
-	static char fun_name[]="ws_clear_pipein()";
   if (!pipeout)
     return;
 
   if (pipeout->fd != -1 && !wsconfig.use_stdout)
   {
+	static char fun_name[]="ws_clear_pipein()";
 	  dbg_log(INFORM,"%-20s : Closing Pipe Out , Fd : %d\n",fun_name,pipeout->fd);
     close (pipeout->fd);
   }
@@ -974,13 +973,13 @@ send_ssl_buffer (WSClient * client, const char *buffer, int len)
 static int
 read_ssl_socket (WSClient * client, char *buffer, int size)
 {
-  int bytes = 0, done = 0, err = 0;
   do {
 #if OPENSSL_VERSION_NUMBER < 0x10100000L
     ERR_clear_error ();
 #endif
 
-    done = 0;
+	 int bytes = 0, done = 0, err = 0;
+  
     if ((bytes = SSL_read (client->ssl, buffer, size)) > 0)
       break;
 
@@ -1093,7 +1092,6 @@ ws_parse_request (char *line, char **method, char **protocol)
 {
   const char *meth;
   char *req = NULL, *request = NULL, *proto = NULL;
-  ptrdiff_t rlen;
 
   if ((meth = ws_get_method (line)) == NULL) {
     return NULL;
@@ -1104,6 +1102,7 @@ ws_parse_request (char *line, char **method, char **protocol)
       return NULL;
 
     req++;
+	ptrdiff_t rlen;
     if ((rlen = proto - req) <= 0)
       return NULL;
 
@@ -1228,7 +1227,7 @@ parse_headers (WSHeaders * headers)
   char *tmp = NULL;
   const char *buffer = headers->buf;
   const char *line = buffer, *next = NULL;
-  int len = 0;
+  int len;
 
   while (line) {
     if ((next = strstr (line, "\r\n")) != NULL)
@@ -1911,6 +1910,7 @@ ws_validate_string (const char *str, int len)
 
 //handle_writes (conn, server);
 
+#if 0
 void send_client_msg(char *msg, int len)
 {
 	static char fun_name[]="send_client_msg()";
@@ -1943,6 +1943,8 @@ void send_client_msg(char *msg, int len)
     handle_write_close (g_send_cliend_fd, client, server);
 }
 
+#endif
+
 int32_t final_send_msg(char *msg, int len)
 {
 	static char fun_name[] = "send_msg()";
@@ -1971,6 +1973,7 @@ int32_t final_send_msg(char *msg, int len)
 	return 0;
 }
 
+#if 0
 int32_t final_send_msg_old(char *msg, int len) 
 {
 	static char fun_name[] = "send_msg()";
@@ -2022,6 +2025,8 @@ int32_t final_send_msg_old(char *msg, int len)
 
   return 0;
 }
+#endif
+
 
 int32_t send_msg(char *p_recv_msg)
 //int32_t send_msg(char *recv_msg)
@@ -2537,10 +2542,15 @@ ws_get_frm_payload (WSClient * client, WSServer * server)
 static int
 ws_get_message (WSClient * client, WSServer * server)
 {
-  int bytes = 0;
   if ((client->frame == NULL) || (client->frame->reading))
+  {
+	  int bytes = 0;
     if ((bytes = ws_get_frm_header (client)) < 1 || client->frame->reading)
+	{
+		
       return bytes;
+	}
+  }
   return ws_get_frm_payload (client, server);
 }
 
@@ -2712,12 +2722,12 @@ handle_writes (int conn, WSServer * server)
 static void
 ws_listen (int listener, int conn, WSServer * server)
 {
-	static char fun_name[]="ws_listen()";
 	
   /* handle new connections */
   if (FD_ISSET (conn, &fdstate.rfds) && conn == listener)
   {
-	  dbg_log(INFORM,"%-20s : Accepting new client connection for ConnIdx : %d\n",fun_name,conn);
+	static char fun_name[]="ws_listen()";
+	 dbg_log(INFORM,"%-20s : Accepting new client connection for ConnIdx : %d\n",fun_name,conn);
     handle_accept (listener, server);
   }
 
@@ -3115,9 +3125,9 @@ handle_strict_fifo (WSServer * server)
 {
   WSPipeIn *pi = server->pipein;
   WSPacket **pa = &pi->packet;
-  int bytes = 0, readh = 0, need = 0;
+  int bytes, readh, need;
 
-  char *ptr = NULL;
+  char *ptr;
   uint32_t listener = 0, type = 0, size = 0;
 
   readh = pi->hlen;     /* read from header so far */
@@ -3539,7 +3549,9 @@ ws_set_config_stdout (int use_stdout)
 WSServer *
 ws_init (const char *host, const char *port)
 {
-  WSServer *server = new_wsserver ();
+  WSServer *server ;
+  server = xcalloc (1, sizeof (WSServer));
+  
   server->pipein = new_wspipein ();
   server->pipeout = new_wspipeout ();
   memset (server->self_pipe, 0, sizeof (server->self_pipe));

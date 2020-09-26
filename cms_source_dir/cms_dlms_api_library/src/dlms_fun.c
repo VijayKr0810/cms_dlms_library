@@ -165,7 +165,8 @@ uint8_t 					g_no_ls_data_avl_flag,g_num_ls_param,g_secure_met_flag;
 char 						g_float_str[16];
 uint8_t 					g_event_type_idx,g_num_event_param,g_max_num_event[8],g_tot_event_entry;
 uint8_t						g_raw_data_buff[8*1024];
-uint32_t 					g_raw_data_idx,g_name_plate_idx,g_int_period_blk,g_num_blocks_blk_data;
+int8_t 						g_int_period_blk;
+uint32_t 					g_raw_data_idx,g_name_plate_idx,g_num_blocks_blk_data;
 uint8_t 					OFFSET,g_query_type,g_meter_store_order;
 uint8_t						g_send_buff[256],g_temp_buff[256],g_recv_buff[1024];
 uint8_t 					g_src_addr=0x41,g_meter_mfg_type;
@@ -226,9 +227,11 @@ uint16_t fcstab[256] = {
 };
 
 /* ---------------------------------------------------------------------- */
-void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val)
+void print_val_scal_obis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val)
 {
-	static char fun_name[]="print_val_scal_onis_val_info()";
+	return ;
+	
+	static char fun_name[]="print_val_scal_obis_val_info()";
 	
 	dbg_log(INFORM,"%-20s : ValObis : %d.%d.%d.%d.%d.%d, ScalObis : %d.%d.%d.%d.%d.%d, ScalVal : %d\n",fun_name,
 	val_obis[0],val_obis[1],val_obis[2],val_obis[3],val_obis[4],val_obis[5],
@@ -285,7 +288,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					{
 						gen_inst_param_det.scalar_val[idx].value=g_raw_data_buff[index]&0XFF;
 						index += 6;
-						print_val_scal_onis_val_info(gen_inst_param_det.val_obis[idx],gen_inst_param_det.scalar_val[jdx].obis_code,gen_inst_param_det.scalar_val[idx].value);
+						print_val_scal_obis_val_info(gen_inst_param_det.val_obis[idx],gen_inst_param_det.scalar_val[jdx].obis_code,gen_inst_param_det.scalar_val[idx].value);
 						break;
 					}
 				}
@@ -373,7 +376,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					{
 						gen_ls_param_det.scalar_val[idx].value = g_raw_data_buff[index];
 						index += 6;
-						print_val_scal_onis_val_info(gen_ls_param_det.val_obis[idx],gen_ls_param_det.scalar_val[jdx].obis_code,gen_ls_param_det.scalar_val[idx].value);
+						print_val_scal_obis_val_info(gen_ls_param_det.val_obis[idx],gen_ls_param_det.scalar_val[jdx].obis_code,gen_ls_param_det.scalar_val[idx].value);
 						break;
 					}
 				}
@@ -412,7 +415,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					{
 						gen_event_param_det.scalar_val[idx].value=g_raw_data_buff[index];
 						index += 6;
-						print_val_scal_onis_val_info(gen_event_param_det.val_obis[idx],gen_event_param_det.scalar_val[jdx].obis_code,gen_event_param_det.scalar_val[idx].value);
+						print_val_scal_obis_val_info(gen_event_param_det.val_obis[idx],gen_event_param_det.scalar_val[jdx].obis_code,gen_event_param_det.scalar_val[idx].value);
 						break;
 					}
 				}
@@ -516,7 +519,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					{
 						gen_dp_param_det.scalar_val[idx].value=g_raw_data_buff[index];
 						index += 6;
-						print_val_scal_onis_val_info(gen_dp_param_det.val_obis[idx],gen_dp_param_det.scalar_val[jdx].obis_code,gen_dp_param_det.scalar_val[idx].value);
+						print_val_scal_obis_val_info(gen_dp_param_det.val_obis[idx],gen_dp_param_det.scalar_val[jdx].obis_code,gen_dp_param_det.scalar_val[idx].value);
 						break;
 					}
 				}
@@ -528,7 +531,6 @@ int32_t fill_val_obis_det(uint8_t type)
 		{
 			uint8_t dp_index=0;
 			uint32_t index = 0;
-			idx = 0;
 			
 			dbg_log(INFORM,"%-20s : total num of dp entry : %d\n",fun_name,gen_dp_param_det.tot_num_value);
 			
@@ -541,7 +543,7 @@ int32_t fill_val_obis_det(uint8_t type)
 				}
 				index = index+2;
 				
-				printf("DpIdx : %d, Index : %d\n",dp_index,index);
+				//printf("DpIdx : %d, Index : %d\n",dp_index,index);
 				
 				for(idx=0; idx<g_num_ls_param; idx++)
 				{
@@ -624,7 +626,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					{
 						gen_bill_param_det.scalar_val[idx].value=g_raw_data_buff[index]&0XFF;
 						index += 6;
-						print_val_scal_onis_val_info(gen_bill_param_det.val_obis[idx],gen_bill_param_det.scalar_val[jdx].obis_code,gen_bill_param_det.scalar_val[idx].value);
+						print_val_scal_obis_val_info(gen_bill_param_det.val_obis[idx],gen_bill_param_det.scalar_val[jdx].obis_code,gen_bill_param_det.scalar_val[idx].value);
 						break;
 					}
 				}
@@ -636,7 +638,6 @@ int32_t fill_val_obis_det(uint8_t type)
 		{
 			uint8_t bill_index=0;
 			uint32_t index = 0;
-			idx = 0;
 			
 			dbg_log(INFORM,"%-20s : total num of bill entry : %d Tot num of bill params : %d\n",
 			fun_name,gen_bill_param_det.tot_num_value,g_num_ls_param);
@@ -716,7 +717,6 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 {
 	static char fun_name[]="get_gen_scalar_val()";
 
-	uint8_t temp_nxt_blk_flag = 0;
 	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
@@ -733,6 +733,7 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 		return -1;
 	}
 	
+	uint8_t temp_nxt_blk_flag;
 	while(g_rr_frame || g_get_nxt_blk)
 	{
 		if(g_get_nxt_blk)
@@ -777,8 +778,6 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 {
 	static char fun_name[]="get_gen_scalar_obis()";
 
-	uint8_t temp_nxt_blk_flag = 0;
-	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
 	g_get_nxt_blk_val=1;
@@ -789,12 +788,13 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 
 	g_query_type = recv_qry_type;
 	
-	
 	if(send_get_request(meter_comm_params, int_class, obis_code, obis_len, attr_no)<0)
 	{
 		dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
 		return -1;
 	}
+	
+	uint8_t temp_nxt_blk_flag;
 	
 	while(g_rr_frame || g_get_nxt_blk)
 	{
@@ -840,8 +840,6 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 {
 	static char fun_name[]="get_inst_val_obis()";
 	
-	uint8_t temp_nxt_blk_flag = 0;
-	
 	g_get_nxt_blk_val=1;
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
@@ -858,6 +856,7 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 		return -1;
 	}
 	
+	uint8_t temp_nxt_blk_flag;
 	while(g_rr_frame || g_get_nxt_blk)
 	{
 		if(g_get_nxt_blk)
@@ -882,7 +881,6 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 				dbg_log(REPORT,"%-20s : failed to get inst val obis get next blk frame\n",fun_name);
 				return -1;
 			}
-			temp_nxt_blk_flag=0;
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
 		}
 	}
@@ -904,10 +902,6 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 int32_t get_num_bill_entries(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="get_num_bill_entries()";
-	
-	uint8_t 	idx=0;
-	
-	uint8_t 	temp_nxt_blk_flag = 0;
 	uint8_t 	obis[6]={0};
 	
 	g_rr_frame = 0;
@@ -927,6 +921,7 @@ int32_t get_num_bill_entries(meter_comm_params_t *meter_comm_params)
 		return -1;
 	}
 	
+	uint8_t temp_nxt_blk_flag;
 	while(g_rr_frame || g_get_nxt_blk)
 	{
 		if(g_get_nxt_blk)
@@ -985,7 +980,6 @@ void print_bill_data_info(void)
 	char 		curr_ls_file_path[64];
 	float 		flt_val=0.0;
 	int32_t 	int_val = 0;
-	struct stat 		st;
 	char 		value_buff[32],obis_buff[32];
 	date_time_t date_time;
 	
@@ -1147,7 +1141,6 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="get_bill_data_info()";
 	uint8_t obis[6] = {0};
-	uint8_t temp_nxt_blk_flag = 0;
 	
 	/* uint8_t comm_fd = meter_comm_params->fd;
 	uint32_t dlms_met_addr = meter_comm_params->meter_id;
@@ -1177,7 +1170,8 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 		dbg_log(REPORT,"%-20s : failed to get daily profile  value info\n",fun_name);
 		return -1;
 	}
-
+	
+	uint8_t temp_nxt_blk_flag;
 	while(g_rr_frame || g_get_nxt_blk)
 	{
 		if(g_get_nxt_blk)
@@ -1203,7 +1197,6 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 				dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
 				return -1;
 			}
-			temp_nxt_blk_flag=0;
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
 		}
 	}
@@ -1230,8 +1223,8 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 int32_t store_bill_date_time(uint8_t bill_index, uint8_t index)
 {
 	uint16_t 	year=0;
-	uint8_t 	bill_dt_idx=0;
-	date_time_t loc_date_time={0};
+	uint8_t 	bill_dt_idx;
+	date_time_t loc_date_time;
 	
 	date_time_t date_time;
 	
@@ -1372,260 +1365,12 @@ int32_t store_bill_date_time(uint8_t bill_index, uint8_t index)
 ********************************************************************************************************/
 int32_t store_bill_val(uint8_t dp_index, uint8_t index, float recv_flt_val)
 {
-	uint8_t idx = 0;
-	
 	memcpy(&g_all_bill_param_obis_val.param_obis_val_info[index].obis_code,gen_bill_param_det.val_obis[index],6);
 	memcpy(&g_all_bill_param_obis_val.param_obis_val_info[index].data_type,&gen_data_val_info[index].data_type,1);
 	memcpy(&g_all_bill_param_obis_val.param_obis_val_info[index].value,&recv_flt_val,4);
 	
 	return RET_SUCCESS;
-	
-	//for(idx=0; idx<gen_bill_param_det.tot_num_val_obis; idx++)
-	for(idx=0; idx<MAX_NUM_BILL_PARAMS; idx++)
-	{
-		if( (memcmp(gen_bill_param_det.val_obis[index],g_billing_param_det[idx].obis_code,6)) == 0)
-		{
-/* 			printf("--->>>>Param Obis and Val Obis matched:: Index : %d Idx : %d g_ls_entry_idx : %d recv_flt_val : %0.5f\n",
-			index,idx,g_ls_entry_idx,recv_flt_val); */
-			
-			if( (memcmp(g_billing_param_det[idx].param_name,"sys_pf",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.sys_pf.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.sys_pf.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.sys_pf.param_name,"%s","BILL_SYS_PF");
-			}
-			
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh.param_name,"%s","BILL_KWH");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz1",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz1.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz1.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz1.param_name,"%s","BILL_KWH_TZ1");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz2",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz2.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz2.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz2.param_name,"%s","BILL_KWH_TZ2");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz3",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz3.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz3.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz3.param_name,"%s","BILL_KWH_TZ3");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz4",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz4.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz4.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz4.param_name,"%s","BILL_KWH_TZ4");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz5",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz5.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz5.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz5.param_name,"%s","BILL_KWH_TZ5");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz6",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz6.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz6.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz6.param_name,"%s","BILL_KWH_TZ6");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz7",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz7.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz7.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz7.param_name,"%s","BILL_KWH_TZ7");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwh_tz8",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwh_tz8.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwh_tz8.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwh_tz8.param_name,"%s","BILL_KWH_TZ8");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvarh_lag",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvarh_lag.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvarh_lag.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvarh_lag.param_name,"%s","BILL_KVARH_LAG");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvarh_lead",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvarh_lead.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvarh_lead.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvarh_lead.param_name,"%s","BILL_KVARH_LEAD");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah.param_name,"%s","BILL_KVAH");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz1",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz1.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz1.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz1.param_name,"%s","BILL_KVAH_TZ1");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz2",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz2.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz2.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz2.param_name,"%s","BILL_KVAH_TZ2");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz3",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz3.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz3.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz3.param_name,"%s","BILL_KVAH_TZ3");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz4",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz4.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz4.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz4.param_name,"%s","BILL_KVAH_TZ4");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz5",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz5.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz5.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz5.param_name,"%s","BILL_KVAH_TZ5");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz6",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz6.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz6.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz6.param_name,"%s","BILL_KVAH_TZ6");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz7",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz7.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz7.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz7.param_name,"%s","BILL_KVAH_TZ7");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvah_tz8",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvah_tz8.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvah_tz8.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvah_tz8.param_name,"%s","BILL_KVAH_TZ8");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd.param_name,"%s","BILL_KWMD");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz1",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz1.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz1.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz1.param_name,"%s","BILL_KWMD_TZ1");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz2",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz2.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz2.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz2.param_name,"%s","BILL_KWMD_TZ2");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz3",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz3.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz3.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz3.param_name,"%s","BILL_KWMD_TZ3");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz4",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz4.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz4.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz4.param_name,"%s","BILL_KWMD_TZ4");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz5",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz5.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz5.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz5.param_name,"%s","BILL_KWMD_TZ5");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz6",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz6.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz6.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz6.param_name,"%s","BILL_KWMD_TZ6");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz7",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz7.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz7.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz7.param_name,"%s","BILL_KWMD_TZ7");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kwmd_tz8",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kwmd_tz8.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kwmd_tz8.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kwmd_tz8.param_name,"%s","BILL_KWMD_TZ8");
-			}else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd.param_name,"%s","BILL_KVAMD");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz1",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz1.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz1.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz1.param_name,"%s","BILL_KVAMD_TZ1");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz2",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz2.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz2.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz2.param_name,"%s","BILL_KVAMD_TZ2");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz3",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz3.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz3.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz3.param_name,"%s","BILL_KVAMD_TZ3");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz4",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz4.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz4.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz4.param_name,"%s","BILL_KVAMD_TZ4");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz5",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz5.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz5.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz5.param_name,"%s","BILL_KVAMD_TZ5");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz6",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz6.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz6.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz6.param_name,"%s","BILL_KVAMD_TZ6");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz7",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz7.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz7.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz7.param_name,"%s","BILL_KVAMD_TZ7");
-			}
-			else if( (memcmp(g_billing_param_det[idx].param_name,"kvamd_tz8",strlen(g_billing_param_det[idx].param_name))) == 0)
-			{
-				memcpy(g_bill_val_info.kvamd_tz8.param_obis_code,gen_dp_param_det.val_obis[index],6);
-				memcpy(g_bill_val_info.kvamd_tz7.param_value,&recv_flt_val,4);
-				sprintf(g_bill_val_info.kvamd_tz8.param_name,"%s","BILL_KVAMD_TZ8");
-			}
-		}
-	}
-	
-	return RET_SUCCESS;
+
 }
 
 /**************************************************************************************************
@@ -1685,6 +1430,7 @@ int32_t get_billing_obis_code_det(meter_comm_params_t *meter_comm_params,gen_par
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
+	memcpy(recv_gen_billing_param_det,&gen_bill_param_det,sizeof(gen_params_det_t));
 	return RET_SUCCESS;
 }
 
@@ -1699,7 +1445,7 @@ int32_t proc_billing_val_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_billing_val_obis()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -1769,7 +1515,7 @@ int32_t proc_billing_scalar_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_billing_scalar_obis()";
 
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -1840,7 +1586,7 @@ int32_t proc_billing_scalar_val( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_billing_scalar_val()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -1909,7 +1655,7 @@ int32_t proc_billing_value( uint8_t* msg, uint32_t len)
 	static char fun_name[]="proc_billing_value()";
 	
 	uint8_t loc_idx=0;
-	uint32_t index=0;
+	uint32_t index;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -2176,6 +1922,8 @@ int32_t get_dp_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_d
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
+	memcpy(recv_gen_daily_prof_param_det,&gen_dp_param_det,sizeof(gen_params_det_t));
+	
 	return RET_SUCCESS;
 }
 
@@ -2251,7 +1999,7 @@ int32_t store_dp_date_time(uint8_t dp_index, uint8_t index)
 ********************************************************************************************************/
 int32_t store_dp_val(uint8_t dp_index, uint8_t index, float recv_flt_val)
 {
-	uint8_t idx = 0;
+	uint8_t idx;
 	
 	memcpy(&g_all_dp_param_obis_val.param_obis_val_info[index].obis_code,gen_dp_param_det.val_obis[index],6);
 	memcpy(&g_all_dp_param_obis_val.param_obis_val_info[index].data_type,&gen_data_val_info[index].data_type,1);
@@ -2750,14 +2498,7 @@ int32_t save_dp_data_file1(void)
 int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t dp_all)
 {
 	static char fun_name[]="get_daily_profile_scalar_val()";
-	
-	uint8_t obis[6] = {0};
-	
-	uint8_t temp_nxt_blk_flag = 0;
-	
-	uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format;
+	uint8_t obis[6];
 	
 	GET_OBIS_OCTETS(DP_DATA_VAL_OBIS_STR,obis);
 	g_dp_entry_idx = 0;
@@ -2802,6 +2543,7 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 		}
 	}
 	
+	uint8_t temp_nxt_blk_flag;
 	while(g_rr_frame || g_get_nxt_blk)
 	{
 		if(g_get_nxt_blk)
@@ -2827,7 +2569,6 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 				dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
 				return -1;
 			}
-			temp_nxt_blk_flag=0;
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
 		}
 	}
@@ -2851,7 +2592,7 @@ int32_t proc_daily_profile_val_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_daily_profile_val_obis()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -2910,7 +2651,6 @@ int32_t proc_daily_profile_val_obis( uint8_t* msg, uint32_t len)
 	
 	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
-	//
 	return RET_SUCCESS;
 }
 
@@ -2925,7 +2665,7 @@ int32_t proc_daily_profile_scalar_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_daily_profile_scalar_obis()";
 
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -2998,7 +2738,7 @@ int32_t proc_daily_profile_scalar_val( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_daily_profile_scalar_val()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -3070,7 +2810,7 @@ int32_t proc_daily_profile_value( uint8_t* msg, uint32_t len)
 	static char fun_name[]="proc_daily_profile_value()";
 	
 	uint8_t loc_idx=0;
-	uint32_t index=0;
+	uint32_t index;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -3410,200 +3150,6 @@ int32_t store_event_det_file(uint8_t event_class)
 	return RET_SUCCESS;
 }
 
-int32_t store_event_det_file1(uint8_t event_class)
-{
-	static char fun_name[]="store_event_det_file()";
-	uint8_t 	e_idx=event_class,idx=0;
-	FILE		*p_file_ptr=NULL;
-	char 		curr_ls_file_path[64];
-	float 		flt_val=0.0;
-	int32_t 	intval = 0.0;
-	struct stat 		st;
-	
-	memset(curr_ls_file_path,0,sizeof(curr_ls_file_path));
-	sprintf(curr_ls_file_path,"%s/event",g_ls_data_dir_path);
-	
-	if(stat(curr_ls_file_path,&st)==-1)
-	{
-		p_file_ptr = fopen(curr_ls_file_path,"w");
-		if(p_file_ptr == NULL)
-		{
-			dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
-			return -1;
-		}
-		fprintf(p_file_ptr,"EVENT_CODE\tEVENT_TIME\tCURR_R\tCURR_Y\tCURR_B\tVOLT_R\tVOLT_Y\tVOLT_B\tKWH\tPF_R\tPR_Y\tPF_B\n");
-		fprintf(p_file_ptr,"%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t\%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\n",
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].event_code.param_obis_code[5],
-		
-			g_date_time_obis[0],g_date_time_obis[1],g_date_time_obis[2],g_date_time_obis[3],
-			g_date_time_obis[4],g_date_time_obis[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ir.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_iy.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].cur_ib.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_r.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_y.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].volt_b.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].kwh.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_r.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_y.param_obis_code[5],
-			
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[0],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[1],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[2],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[3],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[4],
-			all_events_data_value.events_type_info[0].event_val_info[0].pf_b.param_obis_code[5]
-			);
-		fflush(p_file_ptr);
-	}
-	else
-	{
-		p_file_ptr = fopen(curr_ls_file_path,"a");
-		if(p_file_ptr == NULL)
-		{
-			dbg_log(REPORT,"%-20s : Event File is not opened Apend mode, Error : %s\n",fun_name,strerror(errno));
-			return -1;
-		}
-	}
-
-	//for(e_idx=0; e_idx<MAX_EVENT_TYPE; e_idx++) 
-	{
-		dbg_log(INFORM,"%-20s : Etpye : %d, TotNumEvents : %d\n",
-		fun_name,e_idx,all_events_data_value.events_type_info[e_idx].num_event);
-		
-		for(idx=0; idx<all_events_data_value.events_type_info[e_idx].num_event; idx++)
-		{
-			if(idx==all_events_data_value.events_type_info[e_idx].num_event-1)
-			{
-				memcpy(&g_event_val_info,&all_events_data_value.events_type_info[e_idx].event_val_info[idx],sizeof(event_val_info_t));
-			}
-			
-			intval=0;
-			memcpy(&intval,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].event_code.param_value,4);
-			
-			if(intval==0)
-			{
-				dbg_log(INFORM,"%-20s : Etpye : %d, EventNumIdx : %d, Event code can't be ZERO.\n",fun_name,e_idx,idx);
-				continue;
-			}
-			
-			fprintf(p_file_ptr,"%d\t%02d/%02d/%04d %02d:%02d:%02d\t",intval,
-			
-			all_events_data_value.events_type_info[e_idx].event_val_info[idx].date_time.day,
-			all_events_data_value.events_type_info[e_idx].event_val_info[idx].date_time.month,
-			all_events_data_value.events_type_info[e_idx].event_val_info[idx].date_time.year,
-			all_events_data_value.events_type_info[e_idx].event_val_info[idx].date_time.hour,
-			all_events_data_value.events_type_info[e_idx].event_val_info[idx].date_time.minute,
-			0);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].cur_ir.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-	
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].cur_iy.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].cur_ib.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].volt_r.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].volt_y.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);flt_val=0.0;
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].volt_b.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].kwh.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].pf_r.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].pf_y.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\t",flt_val);
-			
-			flt_val=0.0;
-			memcpy(&flt_val,&all_events_data_value.events_type_info[e_idx].event_val_info[idx].pf_b.param_value,4);
-			fprintf(p_file_ptr,"%0.5f\n\n",flt_val);
-
-			fflush(p_file_ptr);
-		}
-	}
-	
-	fclose(p_file_ptr);
-	
-	return RET_SUCCESS;
-}
-
 /**************************************************************************************************
 *Function 					: get_num_event_entries()
 *Input Parameters 			: obis code info.
@@ -3614,9 +3160,7 @@ int32_t store_event_det_file1(uint8_t event_class)
 int32_t get_num_event_entries(meter_comm_params_t *meter_comm_params, uint8_t* obis)
 {
 	static char fun_name[]="get_num_event_entries()";
-	
-	uint8_t idx=0;
-	uint8_t temp_nxt_blk_flag = 0;
+	uint8_t temp_nxt_blk_flag;
 	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
@@ -3674,8 +3218,6 @@ int32_t get_num_event_entries(meter_comm_params_t *meter_comm_params, uint8_t* o
 int32_t store_event_date_time( uint8_t e_idx, uint8_t index)
 {
 	uint16_t 	year=0;
-	
-	uint8_t idx = g_event_type_idx;
 
 	date_time_t date_time;
 	
@@ -3696,12 +3238,12 @@ int32_t store_event_date_time( uint8_t e_idx, uint8_t index)
 	if(memcmp(gen_event_param_det.val_obis[index],g_date_time_obis,6)==0)
 	{
 		year = (gen_data_val_info[index].value[0]<<8)|(gen_data_val_info[index].value[1]);
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.day= gen_data_val_info[index].value[3];
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.month= gen_data_val_info[index].value[2];
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.year =  year;
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.hour= gen_data_val_info[index].value[5];
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.minute= gen_data_val_info[index].value[6];
-		all_events_data_value.events_type_info[idx].event_val_info[e_idx].date_time.second= gen_data_val_info[index].value[7];
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.day= gen_data_val_info[index].value[3];
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.month= gen_data_val_info[index].value[2];
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.year =  year;
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.hour= gen_data_val_info[index].value[5];
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.minute= gen_data_val_info[index].value[6];
+		all_events_data_value.events_type_info[g_event_type_idx].event_val_info[e_idx].date_time.second= gen_data_val_info[index].value[7];
 
 		return RET_SUCCESS;
 	}
@@ -3720,103 +3262,12 @@ int32_t store_event_date_time( uint8_t e_idx, uint8_t index)
 ********************************************************************************************************/
 int32_t store_event_val( uint8_t event_class, uint8_t index, float recv_flt_val)
 {
-	uint8_t idx=0;
-	
-	uint8_t e_idx = g_event_type_idx;
-	
 	memcpy(&g_all_event_param_obis_val.param_obis_val_info[index].obis_code,gen_event_param_det.val_obis[index],6);
 	memcpy(&g_all_event_param_obis_val.param_obis_val_info[index].data_type,&gen_data_val_info[index].data_type,1);
 	memcpy(&g_all_event_param_obis_val.param_obis_val_info[index].value,&recv_flt_val,4);
 	
 	return RET_SUCCESS;
-	
-	//printf("store_event_val ::---->>> Index : %d recv  fltval : %0.5f\n",index,recv_flt_val);
-	
-	//for(idx=0; idx<gen_event_param_det.tot_num_val_obis; idx++)
-	for(idx=0; idx<MAX_NUM_EVENT_PARAMS; idx++)
-	{
-		if( (memcmp(gen_event_param_det.val_obis[index], g_event_param_det[idx].obis_code, 6)) == 0)
-		{
-			if( (memcmp(g_event_param_det[idx].param_name,"cur_ir",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ir.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ir.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ir.param_name,"%s","EVENT_CUR_IR");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"cur_iy",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_iy.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_iy.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_iy.param_name,"%s","EVENT_CUR_IY");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"cur_ib",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ib.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ib.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].cur_ib.param_name,"%s","EVENT_CUR_IB");
-			}
-			else if( (memcmp(g_event_param_det[idx].param_name,"volt_r",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_r.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_r.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_r.param_name,"%s","EVENT_VOLT_R");
-			}
-			else if( (memcmp(g_event_param_det[idx].param_name,"volt_y",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_y.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_y.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_y.param_name,"%s","EVENT_VOLT_Y");
-			}
-			else if( (memcmp(g_event_param_det[idx].param_name,"volt_b",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_b.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_b.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].volt_b.param_name,"%s","EVENT_VOLT_B");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"pf_r",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_r.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_r.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_r.param_name,"%s","EVENT_PF_R");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"pf_y",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_y.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_y.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_y.param_name,"%s","EVENT_PF_Y");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"pf_b",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_b.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_b.param_value,&recv_flt_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].pf_b.param_name,"%s","EVENT_PF_B");
-			}
-			
-			else if( (memcmp(g_event_param_det[idx].param_name,"kwh",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				float stor_val=recv_flt_val/(float)1000;
-				
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].kwh.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].kwh.param_value,&stor_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].kwh.param_name,"%s","EVENT_KWH");
-			}
-	
-			else if( (memcmp(g_event_param_det[idx].param_name,"event_code",strlen(g_event_param_det[idx].param_name))) == 0)
-			{
-				uint32_t stor_int_val=(uint32_t)recv_flt_val;
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].event_code.param_obis_code,gen_event_param_det.val_obis[index],6);
-				memcpy(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].event_code.param_value,&stor_int_val,4);
-				sprintf(all_events_data_value.events_type_info[e_idx].event_val_info[event_class].event_code.param_name,"%s","EVENT_CODE");
-			}
-		}
-	}
-	
-	return RET_SUCCESS;
+
 }
 
 /**************************************************************************************************
@@ -3830,7 +3281,7 @@ int32_t proc_event_val_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_event_val_obis()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -3900,7 +3351,7 @@ int32_t proc_event_scalar_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_event_scalar_obis()";
 
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -3973,7 +3424,7 @@ int32_t proc_event_scalar_val( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_event_scalar_val()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -4042,8 +3493,8 @@ int32_t proc_event_scalar_val( uint8_t* msg, uint32_t len)
 int32_t proc_event_value(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_event_value()";
-	uint32_t loc_idx=0,idx=0;
-	uint32_t index = 0;
+	uint32_t loc_idx=0;
+	uint32_t index;
 	uint8_t event_idx =0;
 
 	event_idx = g_event_type_idx;
@@ -4261,13 +3712,8 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 {
 	static char fun_name[]="get_event_class_data()";
 	
-	uint8_t idx=0;
 	uint8_t obis[6] = {0};
-	uint8_t temp_nxt_blk_flag = 0;
-	
-	/* uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format; */
+	uint8_t temp_nxt_blk_flag;
 	
 	g_event_type_idx = event_class;
 
@@ -4288,7 +3734,7 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 	if(g_max_num_event[g_event_type_idx]==0)
 	{
 		dbg_log(INFORM,"%-20s : No events available for this event type : %d\n",fun_name,event_class);
-		all_events_data_value.events_type_info[idx].num_event = 0;
+		all_events_data_value.events_type_info[g_event_type_idx].num_event = 0;
 	
 		return RET_SUCCESS;
 	}
@@ -4349,7 +3795,7 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 *Return	Value				: Success or appropriate error code.
 *Description 				: To get obis code details for event.
 ********************************************************************************************************/
-int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_det_t*recv_gen_ls_param_det)
+int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_det_t*recv_gen_event_param_det)
 {
 	static char fun_name[]="get_event_obis_code_det()";
 	uint8_t val_obis[6] = {0};
@@ -4398,6 +3844,7 @@ int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
+	memcpy(recv_gen_event_param_det,&gen_event_param_det,sizeof(gen_params_det_t));
 	return RET_SUCCESS;
 }
 
@@ -4462,6 +3909,7 @@ int8_t get_ls_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_de
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
+	memcpy(recv_gen_ls_param_det,&gen_ls_param_det,sizeof(gen_params_det_t));
 	return RET_SUCCESS;
 }
 
@@ -4477,7 +3925,7 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 	static char fun_name[]="read_ls_data()";
 	
 	uint8_t obis[6] = {0};
-	uint8_t temp_nxt_blk_flag = 0;
+	uint8_t temp_nxt_blk_flag;
 	
 	g_get_nxt_blk_val=1;
 	g_rr_frame = 0;
@@ -4530,7 +3978,6 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 				dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
 				return -1;
 			}
-			temp_nxt_blk_flag=0;
 			g_get_nxt_blk_val=g_get_nxt_blk_val+1;
 		}
 	}
@@ -4548,11 +3995,7 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 int32_t recv_ls_blk_range_data(meter_comm_params_t *meter_comm_params, date_time_t st_date_time, date_time_t end_date_time)
 {
 	static char fun_name[]="recv_ls_blk_range_data()";
-	
-	/* uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format; */
-		
+
 	memset(&g_st_date_time,0,sizeof(date_time_t));
 	memset(&g_end_date_time,0,sizeof(date_time_t));
 	
@@ -4602,11 +4045,7 @@ int32_t recv_ls_blk_range_data(meter_comm_params_t *meter_comm_params, date_time
 int32_t recv_ls_hour_range_data(meter_comm_params_t *meter_comm_params,date_time_t st_date_time, date_time_t end_date_time)
 {
 	static char fun_name[]="recv_ls_hour_range_data()";
-	
-	/* uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format; */
-		
+
 	memset(&g_st_date_time,0,sizeof(date_time_t));
 	memset(&g_end_date_time,0,sizeof(date_time_t));
 	
@@ -4658,9 +4097,6 @@ int32_t recv_ls_hour_range_data(meter_comm_params_t *meter_comm_params,date_time
 ********************************************************************************************************/
 int32_t check_ls_file_avl(char* file_name)
 {
-	static char fun_name[]="check_ls_file_avl()";
-	char 	read_line[256];
-	uint8_t	line_cnt = 0;
 	char 	time_entry[32];
 	FILE	*p_file_ptr = NULL;
 	
@@ -4675,6 +4111,7 @@ int32_t check_ls_file_avl(char* file_name)
 		sprintf(time_entry,"%02d:%02d",23,(60-g_int_period_blk));
 	}
 	
+	static char fun_name[]="check_ls_file_avl()";
 	p_file_ptr = fopen(file_name,"r");
 	if(p_file_ptr == NULL)
 	{
@@ -4683,6 +4120,8 @@ int32_t check_ls_file_avl(char* file_name)
 	}
 	else
 	{
+		uint8_t	line_cnt = 0;
+		char 	read_line[256];
 		while(fgets(read_line,256,p_file_ptr)!=NULL)
 		{
 			line_cnt++;
@@ -4730,177 +4169,6 @@ int32_t check_ls_file_avl(char* file_name)
 int32_t recv_ls_day_range_data(meter_comm_params_t *meter_comm_params,uint8_t last_num_days_read)
 {
 	static char fun_name[]="recv_ls_day_range_data()";
-	struct tm st_time,time_stamp,next_date_tm;
-	time_t time_of_day=0,next_time_day=0;
-	uint8_t idx=0;
-	
-	/* uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format; */
-	
-	#if 0
-	if(get_curr_date_time(meter_comm_params)<0)
-	{
-		dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
-		return -1;
-	}
-	
-	memset(&g_st_date_time,0,sizeof(g_st_date_time));
-	memset(&g_end_date_time,0,sizeof(g_end_date_time));
-	
-	st_time.tm_mday = meter_date_time.day;
-	st_time.tm_mon =  meter_date_time.month - 1;
-	st_time.tm_year = meter_date_time.year - 1900;
-	st_time.tm_hour = 0;
-	st_time.tm_min = 0;
-	st_time.tm_sec = 0;
-	
-	time_of_day = mktime(&st_time);
-	//time_of_day -= (last_num_days_read*60*60);
-	time_of_day -= (24*60*60);
-	localtime_r(&time_of_day,&time_stamp);
-	
-	for(idx=0; idx<last_num_days_read; idx++)
-	{
-		memset(&g_st_date_time,0,sizeof(date_time_t));
-		memset(&g_end_date_time,0,sizeof(date_time_t));
-		
-		localtime_r(&time_of_day,&time_stamp);
-			
-		next_time_day =  time_of_day + 60*60*24;
-		localtime_r(&next_time_day,&next_date_tm);
-		
-		if(g_meter_mfg_type==LNT_METER_MFG_TYPE)
-		{
-			g_st_date_time.day = time_stamp.tm_mday;
-			g_st_date_time.month = time_stamp.tm_mon+1;
-			g_st_date_time.year = time_stamp.tm_year+1900;
-			g_st_date_time.hour = 0;
-			g_st_date_time.minute = 4;
-			g_st_date_time.second = 0;
-			
-			g_end_date_time.day = next_date_tm.tm_mday;
-			g_end_date_time.month = next_date_tm.tm_mon+1;
-			g_end_date_time.year = next_date_tm.tm_year+1900;
-			g_end_date_time.hour = 0;
-			g_end_date_time.minute = 3;
-			g_end_date_time.second = 0;
-		}
-		else
-		{
-			g_st_date_time.day = time_stamp.tm_mday;
-			g_st_date_time.month = time_stamp.tm_mon+1;
-			g_st_date_time.year = time_stamp.tm_year+1900;
-			g_st_date_time.hour = 0;
-			g_st_date_time.minute = 0;
-			g_st_date_time.second = 0;
-			
-			g_end_date_time.day = time_stamp.tm_mday;
-			g_end_date_time.month = time_stamp.tm_mon+1;
-			g_end_date_time.year = time_stamp.tm_year+1900;
-			g_end_date_time.hour = 23;
-			g_end_date_time.minute = 59;
-			g_end_date_time.second = 0;
-		}
-		
-		char time_str[64];
-		memset(time_str,0,sizeof(time_str));
-		sprintf(time_str,"%s/%02d_%02d_%04d",meter_comm_params->filename,g_st_date_time.day,g_st_date_time.month,g_st_date_time.year);
-		
-		if(check_ls_file_avl(time_str)==1)
-		{
-			dbg_log(INFORM,"%-20s : Already available ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-			g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
-			g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
-			
-			/* time_of_day = time_of_day+(60*60*24); */
-			time_of_day = time_of_day-(60*60*24);
-			
-			continue;
-		}
-		
-		dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
-		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
-		
-		dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-		g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
-		g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
-		
-		if(read_ls_data(meter_comm_params)<0)
-		{
-			if(g_no_ls_data_avl_flag==1)
-			{
-				dbg_log(REPORT,"%-20s : No Load survey data available for this date: %02d_%02d_%04d",
-				fun_name,g_st_date_time.day,g_st_date_time.month,g_st_date_time.year);
-			}
-			else
-			{
-				dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-				g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
-				g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
-				
-				time_of_day = time_of_day-(60*60*24);
-				continue;
-			}
-		}
-		else
-		{
-			dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-			g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
-			g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
-			
-			dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
-			g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
-			g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
-			
-			int32_t fun_ret=0;
-			char curr_ls_file_name[64];
-			struct stat dir_st;
-			
-			memset(curr_ls_file_name,0,sizeof(curr_ls_file_name));
-			sprintf(curr_ls_file_name,"%s/%02d_%02d_%04d",meter_comm_params->filename,g_st_date_time.day,g_st_date_time.month,g_st_date_time.year);
-			
-			if (stat(curr_ls_file_name, &dir_st) == -1) 
-			{
-				;
-			}
-			else
-			{
-				fun_ret = search_time_entry(curr_ls_file_name,"24:00");
-				if(fun_ret==1)
-				{
-					dbg_log(INFORM,"%-20s : LoadSurvey data Entry 24:00 Found In file : %s\n",fun_name,curr_ls_file_name);
-					time_of_day = time_of_day-(60*60*24);
-					
-					continue;
-				}
-				
-				FILE *p_ls_file_ptr=NULL;
-				
-				p_ls_file_ptr = fopen(curr_ls_file_name,"a");
-				if(p_ls_file_ptr == NULL)
-				{
-					dbg_log(REPORT,"%-20s : File is not opened Append mode, Error : %s\n",fun_name,strerror(errno));
-					time_of_day = time_of_day-(60*60*24);
-					
-					continue;
-				}
-				
-				dbg_log(INFORM,"%-20s Adding 24:00 Entry in file : %s\n",fun_name,curr_ls_file_name);
-				
-				fprintf(p_ls_file_ptr,"%s",g_last_entry_buff);
-				
-				fflush(p_ls_file_ptr);
-				
-				fclose(p_ls_file_ptr);
-			}	
-		}
-		
-		time_of_day = time_of_day-(60*60*24);
-	}
-	
-	#endif
 	
 	g_st_date_time.day = meter_comm_params->from.day;
 	g_st_date_time.month = meter_comm_params->from.month;
@@ -4969,7 +4237,7 @@ int32_t get_int_blk_period(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="get_int_blk_period()";
 	uint8_t obis[6] = {0};
-	uint8_t temp_nxt_blk_flag = 0;
+	uint8_t temp_nxt_blk_flag;
 	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
@@ -5014,7 +4282,6 @@ int32_t get_int_blk_period(meter_comm_params_t *meter_comm_params)
 				dbg_log(REPORT,"%-20s : failed to get block interval period get next frame frame\n",fun_name);
 				return -1;
 			}
-			temp_nxt_blk_flag = 0;
 		}
 	}
 	
@@ -5032,7 +4299,7 @@ int32_t proc_ls_val_obis(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_ls_val_obis()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -5102,7 +4369,7 @@ int32_t proc_ls_val_obis(uint8_t* msg, uint32_t len)
 int32_t proc_ls_scalar_obis( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_ls_scalar_obis()";
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -5176,7 +4443,7 @@ int32_t proc_ls_scalar_val( uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_ls_scalar_val()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -5248,8 +4515,8 @@ int32_t proc_ls_scalar_val( uint8_t* msg, uint32_t len)
 int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_ls_value()";
-	uint32_t loc_idx=0,idx=0;
-	uint32_t index =0;
+	uint32_t loc_idx=0,idx;
+	uint32_t index;
 	uint8_t ls_index =0, data_type = 0;
 		
 	if((msg[12+OFFSET]==0X01) && (msg[13+OFFSET]==0X81) && (msg[14+OFFSET]==0X01))
@@ -5672,9 +4939,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 ********************************************************************************************************/
 int32_t search_time_entry( char* filepath, char* time_entry)
 {
-	char *p_file_read = NULL;
 	struct stat st;
-	int32_t		file_fd=0;
 	
 	if(stat(filepath,&st)==-1)
 	{
@@ -5682,6 +4947,7 @@ int32_t search_time_entry( char* filepath, char* time_entry)
 	}
 	else
 	{
+		int32_t		file_fd=0;
 		file_fd = open(filepath, O_RDONLY);
 		if (file_fd == -1) 
 		{
@@ -5689,7 +4955,9 @@ int32_t search_time_entry( char* filepath, char* time_entry)
 			return -1;
 		}
 
+		char *p_file_read = NULL;
 		p_file_read = (char*)malloc(st.st_size+1);
+		memset(p_file_read,0,st.st_size+1);
 		if (st.st_size!=read(file_fd, p_file_read, st.st_size)) 
 		{
 			printf("can't read file - %s", filepath);
@@ -5708,9 +4976,9 @@ int32_t search_time_entry( char* filepath, char* time_entry)
 			free(p_file_read);
 			return 1;
 		}
+		
+		free(p_file_read);
 	}
-	
-	free(p_file_read);
 	
 	return RET_SUCCESS;
 }
@@ -5855,7 +5123,6 @@ int32_t save_ls_data_file(void)
 ********************************************************************************************************/
 int32_t store_ls_val( uint8_t ls_idx, uint8_t index, float recv_flt_val)
 {
-	uint8_t idx=0;
 
 	memcpy(&g_all_ls_param_obis_val.param_obis_val_info[index].obis_code,gen_ls_param_det.val_obis[index],6);
 	memcpy(&g_all_ls_param_obis_val.param_obis_val_info[index].data_type,&gen_data_val_info[index].data_type,1);
@@ -5863,6 +5130,7 @@ int32_t store_ls_val( uint8_t ls_idx, uint8_t index, float recv_flt_val)
 	
 	return RET_SUCCESS;
 		
+	uint8_t idx;
 	for(idx=0;idx<MAX_NUM_LS_PARAMS;idx++)
 	{
 		if( (memcmp(gen_ls_param_det.val_obis[index],g_ls_param_det[idx].obis_code,6)) == 0)
@@ -6040,7 +5308,7 @@ int32_t proc_inst_val_obis(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_inst_val_obis()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -6111,7 +5379,7 @@ int32_t proc_inst_scalar_obis(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_inst_scalar_obis()";
 
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -6184,7 +5452,7 @@ int32_t proc_inst_scalar_val(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_inst_scalar_val()";
 	
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -6255,7 +5523,7 @@ int32_t proc_inst_scalar_val(uint8_t* msg, uint32_t len)
 int32_t proc_inst_value(uint8_t* msg, uint32_t len)
 {
 	static char fun_name[]="proc_inst_value()";
-	uint32_t loc_idx=0,idx=0;
+	uint32_t loc_idx=0,idx;
 	
 	if(g_first_time_resp == 1)
 	{
@@ -6343,7 +5611,7 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 	static char fun_name[]="get_inst_val()";
 	
 	uint8_t obis[6] = {0};
-	uint8_t temp_nxt_blk_flag = 0;
+	uint8_t temp_nxt_blk_flag;
 	
 	memset(gen_data_val_info,0,sizeof(gen_data_val_info));
 	memset(&g_all_inst_param_obis_val,0,sizeof(g_all_inst_param_obis_val));
@@ -6416,7 +5684,7 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 ********************************************************************************************************/
 int32_t store_inst_val(uint8_t index, float recv_flt_val)
 {
-	uint8_t idx=0;
+	uint8_t idx;
 	static char fun_name[] = "store_inst_val()";
 	
 	dbg_log(INFORM,"%-20s : Index : %d, RecvFltVal : %0.5f\n",fun_name,index,recv_flt_val);
@@ -6843,6 +6111,7 @@ int32_t get_inst_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
+	memcpy(recv_gen_inst_param_det,&gen_inst_param_det,sizeof(gen_params_det_t));
 	return RET_SUCCESS;
 }
 
@@ -7039,9 +6308,7 @@ int32_t get_curr_date_time(meter_comm_params_t *meter_comm_params)
 int32_t get_event_entry_order(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="get_event_entry_order()";
-	
-	uint8_t idx=0;
-	uint8_t temp_nxt_blk_flag = 0;
+	uint8_t temp_nxt_blk_flag;
 	uint8_t obis[6] = {0};
 	
 	g_rr_frame = 0;
@@ -7930,7 +7197,7 @@ int32_t send_msg_meter(meter_comm_params_t *meter_comm_params, uint8_t* msg, int
 {
 	static char fun_name[]="send_msg_meter()";
 	uint8_t retry=0;
-	int32_t ser_read_ret=-1;
+	int32_t ser_read_ret;
 	int8_t fun_ret = -1;
 	
 	//printf("---->>>>Sending Meter Addr : %d, AddrSize : %d\n",g_dlms_met_addr,g_met_addr_size);
@@ -7957,7 +7224,6 @@ int32_t send_msg_meter(meter_comm_params_t *meter_comm_params, uint8_t* msg, int
 				print_data(msg, len);
 				
 				memset(g_recv_buff,0,sizeof(g_recv_buff));
-				ser_read_ret = -1;
 
 				fun_ret = ser_read_ret = read_ser_port(meter_comm_params->fd, g_recv_buff, 2);
 				if(ser_read_ret<0)
@@ -8101,7 +7367,6 @@ int32_t get_meter_date_time(uint8_t* msg, int32_t len)
 ********************************************************************************************************/
 int32_t get_name_plate_det(uint8_t np_idx)
 {
-	static char fun_name[]="get_name_plate_det()";
 	uint8_t num_bytes = 0;
 	uint8_t* p_loc_prt = NULL;
 
@@ -8112,18 +7377,10 @@ int32_t get_name_plate_det(uint8_t np_idx)
 			num_bytes = g_recv_buff[16+OFFSET];
 			memcpy(g_name_plate_info.meter_ser_num,(char*)&g_recv_buff[17+OFFSET],num_bytes);
 			
-			printf("111 np_idx : %d\n",np_idx);
-			
 			memcpy(g_obis_name_plate_info.meter_ser_num.param_obis_code,name_plate_obis[np_idx],6);
 			memcpy(g_obis_name_plate_info.meter_ser_num.param_value,&g_name_plate_info.meter_ser_num,num_bytes);
 			sprintf(g_obis_name_plate_info.meter_ser_num.param_name,"%s","Meter Serial No");
 			
-			
-			/* memcpy((char*)&g_np_params_obis_val_info[np_idx].param_value,&g_name_plate_info.meter_ser_num,num_bytes);
-			printf(">>np_idx : %d\n",np_idx);
-			sprintf(g_np_params_obis_val_info[np_idx].param_name,"%s","Meter Serial No");
-			printf("np_idx : %d\n",np_idx); */
-
 		break;
 		
 		case 1:
@@ -8135,9 +7392,7 @@ int32_t get_name_plate_det(uint8_t np_idx)
 			memcpy(g_obis_name_plate_info.manf_name.param_value,&g_name_plate_info.manf_name,num_bytes);
 			sprintf(g_obis_name_plate_info.manf_name.param_name,"%s","Meter MFG Name");
 			
-			/* memcpy((char*)&g_np_params_obis_val_info[np_idx].param_value,&g_name_plate_info.manf_name,num_bytes);
-			sprintf(g_np_params_obis_val_info[np_idx].param_name,"%s","Meter MFG Name"); */
-			
+
 			if(strstr(g_name_plate_info.manf_name,"LARSEN AND TOUBRO LIMITED")!=NULL)
 			{
 				g_meter_mfg_type = LNT_METER_MFG_TYPE;
@@ -8160,16 +7415,14 @@ int32_t get_name_plate_det(uint8_t np_idx)
 			memcpy(g_obis_name_plate_info.fw_vwesion.param_obis_code,name_plate_obis[np_idx],6);
 			memcpy(g_obis_name_plate_info.fw_vwesion.param_value,&g_name_plate_info.fw_vwesion,num_bytes);
 			sprintf(g_obis_name_plate_info.fw_vwesion.param_name,"%s","Meter FW Ver");
-			
-			
-			/* memcpy((char*)&g_np_params_obis_val_info[np_idx].param_value,&g_name_plate_info.fw_vwesion,num_bytes);
-			sprintf(g_np_params_obis_val_info[np_idx].param_name,"%s","Meter FW Ver"); */
+
 		break;
 		
 		case 3:
 		case 4:
 		case 5:
 		{
+			static char fun_name[]="get_name_plate_det()";
 			uint8_t data_type = g_recv_buff[15+OFFSET];
 			switch(data_type)
 			{
@@ -8658,14 +7911,14 @@ int32_t validate_met_resp(uint8_t* msg, int32_t len )
 ********************************************************************************************************/
 void print_data(uint8_t* msg, int32_t len)
 {
-	uint32_t idx=0, frame_cnt=1;
 	uint8_t frame_len=16;
-	char loc_buff[128],temp_buff[16];
+	char loc_buff[128];
 
 	memset(loc_buff,0,sizeof(loc_buff));
-	
 	if(len>=1)
 	{
+		uint32_t idx=0, frame_cnt=1;
+		char temp_buff[16];
 		for(idx=0; idx<len; idx++)
 		{
 			memset(temp_buff,0,sizeof(temp_buff));

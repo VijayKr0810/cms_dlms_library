@@ -258,10 +258,11 @@ int32_t send_pmon_diag_msg_to_redis(void)
 	time_t 		update_time=0;
 	struct tm	*p_curr_time_tm;
 	char		time_str[SIZE_64];
-	FILE 		*p_flt_ptr=0;
-	char 		buff[32];
 	
-/* 	memset(iot_dev_diag_msg.model_num,0,32);
+/*
+	char 		buff[32];
+	FILE 		*p_flt_ptr=0;
+ 	memset(iot_dev_diag_msg.model_num,0,32);
 	memset(iot_dev_diag_msg.fw_ver,0,32);
 	memset(iot_dev_diag_msg.serial_num,0,32);
 	
@@ -760,7 +761,6 @@ int32_t write_rbt_msg_into_redis(int proc_id, uint8_t port_id)
 	struct tm	*p_curr_time_tm;
 	char		time_str[SIZE_64];
 	char		reason_msg[SIZE_64];
-	static char fun_name[]="write_rbt_msg_into_redis";
 	
 	curr_time_sec = time(NULL);
 	
@@ -780,6 +780,7 @@ int32_t write_rbt_msg_into_redis(int proc_id, uint8_t port_id)
 			
 			freeReplyObject(p_redis_reply);
 			
+			static char fun_name[]="write_rbt_msg_into_redis";
 			dbg_log(INFORM,"%-20s : %s process is hanged long time so unit reboot is initiated \n",fun_name,CMS_DLMS_MET_POLL_PROC);
 		}
 		
@@ -895,8 +896,7 @@ int32_t read_cfg_from_redis(void)
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_GEN_INFO DcuDevId NumEthPort MeterType DataFormatType DataTrfType MasterProtoType DbgLogEnable DcuDevLoc DcuGpsLoc DbgLogIp");
 	
-	printf("1\n");
-	printf("total num read element : %d\n",p_redis_reply->elements);
+	//printf("total num read element : %d\n",p_redis_reply->elements);
 	
 	if(p_redis_reply!=NULL)
 	{
@@ -998,11 +998,7 @@ int32_t read_cfg_from_redis(void)
 int main(int argc, char **argv)
 {
 	static char fun_name[]="main()";
-	int32_t fun_ret=-1,idx=0,proc_idx=0;
-	uint8_t midx=0;
-	char time_buff[32];
-	time_t rawtime,current_time;
-	struct tm *ptm;
+	uint8_t idx,proc_idx;
 	
 	memset(debug_file_name,0,sizeof(debug_file_name));
 	sprintf(debug_file_name,"%s/%s",LOG_DIR,CMS_MON_PROC_LOG_FILE_NAME);
@@ -1054,7 +1050,6 @@ int main(int argc, char **argv)
 	
 	g_last_diag_time = time(NULL);
 	g_last_hc_send_time=time(NULL);
-	proc_idx = 0;
 
 	dbg_log(INFORM,"%-20s : After Invoke, filling current time for all procs\n",fun_name);
 	for (idx=0; idx<g_num_procs; idx++)
@@ -1082,7 +1077,7 @@ int main(int argc, char **argv)
 		
 		check_proc_timeout();		
 		
-		current_time=time(NULL);
+		time_t current_time=time(NULL);
 		
 		if ((current_time - g_last_diag_time ) > SEND_DIAG_MSG_TIME)
 			send_pmon_diag_msg_to_redis();

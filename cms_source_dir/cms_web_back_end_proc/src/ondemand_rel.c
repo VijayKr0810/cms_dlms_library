@@ -44,10 +44,7 @@ int16_t get_port_met_det(const char *dir_name)
 int16_t find_ser_num(const char *met_ser_num)
 {
 	static char fun_name[]="find_ser_num()";
-	char file_name[32];
-	int mer_ser_file_ret = 0;
-	uint8_t pidx = 0, midx = 0;
-	FILE *met_ser_fp=NULL;
+	uint8_t pidx,midx;
 	
 	for(pidx=0; pidx<MAX_NO_OF_SERIAL_PORT; pidx++)
 	{
@@ -97,8 +94,8 @@ int16_t find_ser_num(const char *met_ser_num)
 
 int32_t send_od_det(uint32_t seq_num, const char *met_ser_num, char *user_file_json, char *root_param_name, char *data_file_name, char *type, char *data_type)
 {
-	uint8_t g_obis_idx,g_tot_obis_det;
-	uint32_t g_tot_file_line_cnt;
+	uint8_t g_obis_idx=0,g_tot_obis_det;
+	int32_t g_tot_file_line_cnt;
 	char cmd_status[32];
 	static char fun_name[]="send_od_det()";
 	int16_t 	pidx_midx = 0;
@@ -400,9 +397,9 @@ int32_t send_od_det(uint32_t seq_num, const char *met_ser_num, char *user_file_j
 			{
 				if(loc_idx==pos_info_buff[jdx])
 				{
-					char loc_token[32];
 					if(strstr(token,"\n"))
 					{
+						char loc_token[32];
 						memset(loc_token,0,sizeof(loc_token));
 						strncpy(loc_token,token,strlen(token)-1);
 						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],loc_token);
@@ -438,7 +435,7 @@ int32_t send_od_det(uint32_t seq_num, const char *met_ser_num, char *user_file_j
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -549,9 +546,9 @@ int32_t send_od_det(uint32_t seq_num, const char *met_ser_num, char *user_file_j
 int32_t send_od_billing_det(uint32_t seq_num, const char *met_ser_num)
 {
 	char 		file_name[64];
-	static char fun_name[]="send_od_midnight_det()";
+	static char fun_name[]="send_od_billing_det()";
 	int16_t 	pidx_midx = 0;
-	uint8_t 	pidx=0,midx=0,file_num_param=0,idx=0,jdx=0,pos_idx=0;
+	uint8_t 	pidx=0,midx=0;
 	
 	pidx_midx = find_ser_num(met_ser_num);
 	pidx = (pidx_midx>>8)&0XFF;
@@ -570,7 +567,7 @@ int32_t send_od_midnight_det(uint32_t seq_num, const char *met_ser_num, uint8_t 
 	char 		file_name[64];
 	static char fun_name[]="send_od_midnight_det()";
 	int16_t 	pidx_midx = 0;
-	uint8_t 	pidx=0,midx=0,file_num_param=0,idx=0,jdx=0,pos_idx=0;
+	uint8_t 	pidx=0,midx=0;
 	
 	pidx_midx = find_ser_num(met_ser_num);
 	pidx = (pidx_midx>>8)&0XFF;
@@ -589,7 +586,7 @@ int32_t send_od_event_det(uint32_t seq_num, const char *met_ser_num, uint8_t eve
 	char file_name[64];
 	static char fun_name[]="send_od_event_det()";
 	int16_t 	pidx_midx = 0;
-	uint8_t 	pidx=0,midx=0,file_num_param=0,idx=0,jdx=0,pos_idx=0;
+	uint8_t 	pidx=0,midx=0;
 	
 	pidx_midx = find_ser_num(met_ser_num);
 	pidx = (pidx_midx>>8)&0XFF;
@@ -601,760 +598,6 @@ int32_t send_od_event_det(uint32_t seq_num, const char *met_ser_num, uint8_t eve
 	send_od_det(seq_num,met_ser_num,EVENT_OBIS_PARAMS_JSON,"EventParams",file_name,"OD_EVENT","EVENT_DATA");
 	
 	return RET_SUCCESS;
-}
-
-int32_t send_od_event_det11(uint32_t seq_num, const char *met_ser_num, uint8_t event_type)
-{
-	uint8_t g_obis_idx,g_tot_obis_det;
-	uint32_t g_tot_file_line_cnt;
-
-	static char fun_name[]="send_od_event_det()";
-	int16_t 	pidx_midx = 0;
-	uint8_t 	pidx=0,midx=0,file_num_param=0,idx=0,jdx=0,pos_idx=0;
-	
-	printf("Recv od event command for ser_num : %s, event_type : %d\n",met_ser_num,event_type);
-	pidx_midx = find_ser_num(met_ser_num);
-	pidx = (pidx_midx>>8)&0XFF;
-	midx = pidx_midx&0XFF;
-	
-	char 	*p_loc_data=NULL;
-	char 	*p_loc_data1=NULL;
-	char 	*p_loc_data2=NULL;
-	int32_t file_fd=0;
-	struct 	stat obis_st;
-	
-	if(stat(EVENT_OBIS_PARAMS_JSON,&obis_st)==-1)
-	{
-		printf("can't Find original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-	}
-	
-	printf(">>File Size : %ld\n",obis_st.st_size);
-	
-	p_loc_data=malloc(obis_st.st_size+1);
-	p_loc_data1=malloc(obis_st.st_size+4);
-	p_loc_data2=malloc(obis_st.st_size+5);
-	
-	memset(p_loc_data,0,(obis_st.st_size+1));
-	memset(p_loc_data1,0,(obis_st.st_size+4));
-	memset(p_loc_data2,0,(obis_st.st_size+5));
-	
-	file_fd=open(EVENT_OBIS_PARAMS_JSON, O_RDONLY);
-	if (file_fd == -1) 
-	{
-		printf("can't open to read original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-	}
-	
-	if (obis_st.st_size != read(file_fd, p_loc_data, obis_st.st_size)) 
-	{
-		printf("can't read original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-		close(file_fd);
-	}
-	else
-	{
-		printf("tot bytes read from user json file : %ld\n",obis_st.st_size);
-	}
-	
-	printf("Strlen : %d\n",strlen(p_loc_data));
-	
-	//printf("\n%s\n",p_loc_data);
-	
-	sprintf(p_loc_data1,"%s",p_loc_data);
-	
-	close(file_fd);
-	
-	//printf("\n%s\n",p_loc_data1);
-	
-	const   nx_json *p_root_value = NULL;
-	const   nx_json *p_gen_trav = NULL;
-	const   nx_json *p_item_trav = NULL;
-	const char *p_gen_ptr=NULL;
-	
-	strcpy(p_loc_data2, p_loc_data1);
-	
-	//printf("\n%s\n",p_loc_data2);
-	
-	p_root_value = nx_json_parse(p_loc_data1,0);
-
-	if (p_root_value != NULL) 
-	{
-		p_gen_trav = nx_json_get(p_root_value,"EventParams");
-		if(p_gen_trav != NULL)
-		{
-			p_gen_ptr = nx_json_get(p_gen_trav,"NumParams")->text_value;
-			printf("p_gen_ptr : %s\n",p_gen_ptr);
-			if(p_gen_ptr!=NULL)
-			{
-				file_num_param = atoi(p_gen_ptr);
-			}
-			else
-			{
-				printf("EventParams(): failed to get NumParams\n");
-			}
-		}
-		else
-		{
-			printf("failed to get EventParams\n");
-		}
-	}
-	
-	nx_json_free(p_root_value);
-	
-	printf("total NUM_PARAM from User json File : %d\n",file_num_param);
-	
-	obis_param_val_info_t org_obis_det[file_num_param];
-	
-	obis_param_val_info_t user_obis_param_val[file_num_param];
-	
-	p_root_value = nx_json_parse(p_loc_data2,0);
-
-	if (p_root_value != NULL) 
-	{
-		p_gen_trav = nx_json_get(p_root_value,"EventParams");
-		if(p_gen_trav != NULL)
-		{
-			const nx_json *obis_list_trav=NULL;
-			
-			obis_list_trav = nx_json_get(p_gen_trav,"ObisCodeList");
-			if(obis_list_trav != NULL)
-			{
-				for(idx=0; idx<file_num_param; idx++)
-				{
-					p_item_trav = nx_json_item(obis_list_trav, idx);
-					if(p_item_trav!=NULL)
-					{
-						p_gen_ptr = nx_json_get(p_item_trav,"obis")->text_value;
-						if(p_gen_ptr!=NULL)
-						{
-							strcpy(org_obis_det[idx].obis_code,p_gen_ptr);
-						}
-						else
-						{
-							printf("ObisCodeList(): failed to get Item obis for idx : %d\n",idx);
-						}
-						
-						p_gen_ptr = nx_json_get(p_item_trav,"assign")->text_value;
-						//printf("p_gen_ptr : %s\n",p_gen_ptr);
-						if(p_gen_ptr!=NULL)
-						{
-							strcpy(org_obis_det[idx].param_name,p_gen_ptr);
-						}
-						else
-						{
-							printf("ObisCodeList(): failed to get Item assign for idx : %d\n",idx);
-						}
-					}
-					else
-					{
-						printf("ObisCodeList(): failed to get Item for idx : %d\n",idx);
-					}
-				}
-			}
-			else
-			{
-				printf("failed to get ObisCodeList\n");
-			}
-		}
-		else
-		{
-			printf("failed to get EventParams\n");
-		}
-	}
-	else
-	{
-		printf("Improper Json format\n");
-	}
-
-	free(p_loc_data);
-	free(p_loc_data1);
-	free(p_loc_data2);
-	nx_json_free(p_root_value);
-	
-	char file_name[64], *token=NULL;
-	FILE *p_file_ptr=NULL;
-	
-	memset(file_name,0,sizeof(file_name));
-	sprintf(file_name,"%s/meter_id_%d/event_%d",ROOT_DATA_DIR,(pidx*MAX_NO_OF_METER_PER_PORT+midx),event_type);
-	
-	p_file_ptr = fopen(file_name,"r");
-	if(p_file_ptr==NULL)
-		return 0;
-	
-	memset(g_line,0,sizeof(g_line));
-	memset(g_line_bkp,0,sizeof(g_line_bkp));
-	
-	fgets(g_line,sizeof(g_line),p_file_ptr);
-	strcpy(g_line_bkp,g_line);
-	
-	token = strtok(g_line_bkp,"\t");
-	while(token!=NULL)
-	{
-		g_obis_idx++;
-		token = strtok(NULL,"\t");
-	}
-	
-	char 	g_obis_det[g_obis_idx][32];
-
-	fclose(p_file_ptr);
-	
-	g_obis_idx=0;
-	
-	token = strtok(g_line,"\t");
-	while(token!=NULL)
-	{
-		strcpy(g_obis_det[g_obis_idx++],token);
-		token = strtok(NULL,"\t");
-	}
-	
-	printf("total avl obis is in org file : %d\n",g_obis_idx);
-	g_tot_obis_det=g_obis_idx;
-	
-	/* for(g_obis_idx=g_obis_idx;g_obis_idx;g_obis_idx--)
-		printf("%s\n",g_obis_det[g_obis_idx]); */
-	
-	uint8_t pos_info_buff[g_tot_obis_det];
-	
-	for(idx=0; idx<g_tot_obis_det; idx++)
-	{
-		for(jdx=0; jdx<file_num_param; jdx++)
-		{
-			//if(strstr(org_obis_det[jdx].obis_code,g_obis_det[idx])!=NULL)
-			if(strcmp(org_obis_det[jdx].obis_code,g_obis_det[idx])==0)
-			{
-				printf("Idx : %d, Obis found in org obis list at pos : %d\n",idx,jdx);
-				printf("%s\t%s\t%s\n",g_obis_det[idx],org_obis_det[jdx].obis_code,org_obis_det[jdx].param_name);
-				pos_info_buff[pos_idx++] = idx;
-				break;
-			}
-		}
-	}
-	
-	printf("total number of  obis match from org file : %d\n",pos_idx);
-	for(idx=0; idx<pos_idx; idx++)
-		printf("%d\t",pos_info_buff[idx]);
-	printf("\n");
-	
-	
-	p_file_ptr = fopen(file_name,"r");
-	if(p_file_ptr==NULL)
-		return 0;
-	
-	g_tot_file_line_cnt=0;
-	while(fgets(g_line,sizeof(g_line),p_file_ptr)!=NULL)
-	{
-		g_tot_file_line_cnt++;
-	}
-	
-	//printf("%s\n",g_line);
-	
-	fclose(p_file_ptr);
-	
-	printf("total number of  obis line in  org event file : %d\n",g_tot_file_line_cnt);
-	
-	p_file_ptr = fopen(file_name,"r");
-	if(p_file_ptr==NULL)
-		return 0;
-	
-	typedef struct
-	{
-		uint32_t 		tot_num_obis;
-		char 			obis_val[pos_idx][32];
-	}obis_val_det_t;
-	
-	typedef struct
-	{
-		uint32_t 		tot_num_line_obis;
-		obis_val_det_t 	obis_val_det[g_tot_file_line_cnt];
-		
-	}all_obis_val_info_t;
-	
-	all_obis_val_info_t all_obis_val_info;
-
-	all_obis_val_info.tot_num_line_obis=g_tot_file_line_cnt;
-	uint32_t loc_idx=0;
-	
-	for(loc_idx=0;loc_idx<g_tot_file_line_cnt;loc_idx++)
-	{
-		all_obis_val_info.obis_val_det[loc_idx].tot_num_obis=pos_idx;
-	}
-	
-	loc_idx=0,jdx=0,idx=0;
-	int32_t line_cnt=0;
-	
-	printf("Getting line by line details from file\n");
-	
-	fgets(g_line,sizeof(g_line),p_file_ptr);
-	
-	while(fgets(g_line,sizeof(g_line),p_file_ptr)!=NULL)
-	{
-		//printf("%s\n",g_line);
-		loc_idx=0;
-		line_cnt++;
-		token = strtok(g_line,"\t");
-		idx=0;
-		while(token!=NULL)
-		{
-			for(jdx=0; jdx<pos_idx;jdx++)
-			{
-				if(loc_idx==pos_info_buff[jdx])
-				{
-					char loc_token[32];
-					if(strstr(token,"\n"))
-					{
-						memset(loc_token,0,sizeof(loc_token));
-						strncpy(loc_token,token,strlen(token)-1);
-						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],loc_token);
-					}
-					else
-					{
-						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],token);
-					}
-					
-					//printf("Got Need info in list, LinCnt : %d, loc_idx : %d, Idx : %d token : %s\n",
-					//line_cnt,loc_idx,idx,all_obis_val_info.obis_val_det[line_cnt].obis_val[idx]);
-					idx++;
-					break;
-				}
-			}
-			loc_idx++;
-			
-			token = strtok(NULL,"\t");
-		}
-	}
-	
-	fclose(p_file_ptr);
-	
-	loc_idx=0;
-	
-	memset(json_text,0,sizeof(json_text));
-	memset(g_temp_str,0,sizeof(g_temp_str));
-		
-	sprintf(json_text,"{\n");
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cTYPE%c:%cOD_EVENT%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cCMD_TYPE%c:%cOD_MESSAGE%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cCMD_STATUS%c:%cSUCCESS%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cDATA%c:\n",DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	strcat(json_text,"{\n"); 
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cMET_SERNUM%c:%c%s%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,met_ser_num,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cNUM_PARAM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,pos_idx,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cNUM_ENTRIES%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,g_tot_file_line_cnt-1,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-		
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cPARAM_LIST%c:\n",DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	strcat(json_text,"[\n");
-	
-	for(idx=0; idx<g_tot_obis_det; idx++)
-	{
-		for(jdx=0; jdx<file_num_param; jdx++)
-		{
-			if(strcmp(org_obis_det[jdx].obis_code, g_obis_det[idx])==0)
-			{
-				memset(g_temp_str,0,sizeof(g_temp_str));
-				if(loc_idx==(pos_idx-1))
-				{
-					//printf("%s\n",org_obis_det[jdx].param_name);
-					sprintf(g_temp_str,"%c%s%c\n",DBL_QUOTES,org_obis_det[jdx].param_name,DBL_QUOTES);
-				}
-				else
-				{
-					printf("%s,",org_obis_det[jdx].param_name);
-					sprintf(g_temp_str,"%c%s%c,",DBL_QUOTES,org_obis_det[jdx].param_name,DBL_QUOTES);
-				}
-				strcat(json_text,g_temp_str);
-				loc_idx++;
-				break;
-			}
-		}
-	} 
-	
-	strcat(json_text,"],\n"); // End of PARAM_LIST
-	
-	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cEVENT_DATA%c:\n",DBL_QUOTES,DBL_QUOTES);
-	strcat(json_text,g_temp_str);
-	
-	strcat(json_text,"[\n");
-	for(line_cnt=0; line_cnt<g_tot_file_line_cnt; line_cnt++)
-	{
-		if(!line_cnt)
-			continue;
-		
-		strcat(json_text,"{");
-		//printf("Total actual obis per line : %d For line : %d\n",all_obis_val_info.obis_val_det[line_cnt].tot_num_obis,line_cnt);
-		for(idx=0; idx<all_obis_val_info.obis_val_det[line_cnt].tot_num_obis;idx++)
-		{
-			memset(g_temp_str,0,sizeof(g_temp_str));
-			if(idx==all_obis_val_info.obis_val_det[line_cnt].tot_num_obis-1)
-			{
-				//printf("%s\n",all_obis_val_info.obis_val_det[line_cnt].obis_val[idx]);
-				sprintf(g_temp_str,"%cV%d%c:%c%s%c",DBL_QUOTES,idx,DBL_QUOTES,DBL_QUOTES,all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],DBL_QUOTES);
-			}
-			else
-			{
-				//printf("%s,",all_obis_val_info.obis_val_det[line_cnt].obis_val[idx]);
-				sprintf(g_temp_str,"%cV%d%c:%c%s%c,",DBL_QUOTES,idx,DBL_QUOTES,DBL_QUOTES,all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],DBL_QUOTES);
-			}
-			strcat(json_text,g_temp_str);
-		}
-		
-		if(line_cnt==g_tot_file_line_cnt-1)
-			strcat(json_text,"}\n");
-		else
-			strcat(json_text,"},\n");
-	}
-	
-	strcat(json_text,"]\n"); // end of EVENT_DATA
-	
-	strcat(json_text,"}\n"); // DATA
-	
-	strcat(json_text,"}\n"); // End of Json
-	
-	printf("Sending Json text Len : %d\n",strlen(json_text));
-	
-	send_msg(json_text);
-	
-	return RET_SUCCESS;
-}
-
-void send_od_event_det1(uint32_t seq_num, const char *met_ser_num, uint8_t event_type)
-{
-	static char fun_name[]="send_od_event_det()";
-	int16_t 	pidx_midx = 0;
-	uint8_t 	pidx=0,midx=0,file_num_param=0,idx=0,jdx=0,pos_idx=0;
-	
-	printf("Recv od event command for ser_num : %s, event_type : %d\n",met_ser_num,event_type);
-	pidx_midx = find_ser_num(met_ser_num);
-	pidx = (pidx_midx>>8)&0XFF;
-	midx = pidx_midx&0XFF;
-	
-	char 	*p_loc_data=NULL;
-	char 	*p_loc_data1=NULL;
-	char 	*p_loc_data2=NULL;
-	int32_t file_fd=0;
-	struct 	stat obis_st;
-	
-	if(stat(EVENT_OBIS_PARAMS_JSON,&obis_st)==-1)
-	{
-		printf("can't Find original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-	}
-	
-	printf(">>File Size : %ld\n",obis_st.st_size);
-	
-	p_loc_data=malloc(obis_st.st_size+1);
-	p_loc_data1=malloc(obis_st.st_size+4);
-	p_loc_data2=malloc(obis_st.st_size+5);
-	
-	memset(p_loc_data,0,(obis_st.st_size+1));
-	memset(p_loc_data1,0,(obis_st.st_size+4));
-	memset(p_loc_data2,0,(obis_st.st_size+5));
-	
-	file_fd=open(EVENT_OBIS_PARAMS_JSON, O_RDONLY);
-	if (file_fd == -1) 
-	{
-		printf("can't open to read original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-	}
-	
-	if (obis_st.st_size != read(file_fd, p_loc_data, obis_st.st_size)) 
-	{
-		printf("can't read original file - %s\n", EVENT_OBIS_PARAMS_JSON);
-		close(file_fd);
-	}
-	else
-	{
-		printf("tot bytes read from user json file : %ld\n",obis_st.st_size);
-	}
-	
-	printf("Strlen : %d\n",strlen(p_loc_data));
-	
-	//printf("\n%s\n",p_loc_data);
-	
-	sprintf(p_loc_data1,"%s",p_loc_data);
-	
-	close(file_fd);
-	
-	//printf("\n%s\n",p_loc_data1);
-	
-	const   nx_json *p_root_value = NULL;
-	const   nx_json *p_gen_trav = NULL;
-	const   nx_json *p_item_trav = NULL;
-	const char *p_gen_ptr=NULL;
-	
-	strcpy(p_loc_data2, p_loc_data1);
-	
-	//printf("\n%s\n",p_loc_data2);
-	
-	p_root_value = nx_json_parse(p_loc_data1,0);
-
-	if (p_root_value != NULL) 
-	{
-		p_gen_trav = nx_json_get(p_root_value,"EventParams");
-		if(p_gen_trav != NULL)
-		{
-			p_gen_ptr = nx_json_get(p_gen_trav,"NumParams")->text_value;
-			printf("p_gen_ptr : %s\n",p_gen_ptr);
-			if(p_gen_ptr!=NULL)
-			{
-				file_num_param = atoi(p_gen_ptr);
-			}
-			else
-			{
-				printf("EventParams(): failed to get NumParams\n");
-			}
-		}
-		else
-		{
-			printf("failed to get EventParams\n");
-		}
-	}
-	
-	nx_json_free(p_root_value);
-	
-	printf("total NUM_PARAM from User json File : %d\n",file_num_param);
-	
-	obis_param_val_info_t user_obis_param_val[file_num_param];
-	
-	p_root_value = nx_json_parse(p_loc_data2,0);
-
-	if (p_root_value != NULL) 
-	{
-		p_gen_trav = nx_json_get(p_root_value,"EventParams");
-		if(p_gen_trav != NULL)
-		{
-			const nx_json *obis_list_trav=NULL;
-			
-			obis_list_trav = nx_json_get(p_gen_trav,"ObisCodeList");
-			if(obis_list_trav != NULL)
-			{
-				for(idx=0; idx<file_num_param; idx++)
-				{
-					p_item_trav = nx_json_item(obis_list_trav, idx);
-					if(p_item_trav!=NULL)
-					{
-						p_gen_ptr = nx_json_get(p_item_trav,"obis")->text_value;
-						if(p_gen_ptr!=NULL)
-						{
-							strcpy(user_obis_param_val[idx].obis_code,p_gen_ptr);
-						}
-						else
-						{
-							printf("ObisCodeList(): failed to get Item obis for idx : %d\n",idx);
-						}
-						
-						p_gen_ptr = nx_json_get(p_item_trav,"assign")->text_value;
-						if(p_gen_ptr!=NULL)
-						{
-							strcpy(user_obis_param_val[idx].param_name,p_gen_ptr);
-						}
-						else
-						{
-							printf("ObisCodeList(): failed to get Item assign for idx : %d\n",idx);
-						}
-					}
-					else
-					{
-						printf("ObisCodeList(): failed to get Item for idx : %d\n",idx);
-					}
-				}
-			}
-			else
-			{
-				printf("failed to get ObisCodeList\n");
-			}
-		}
-		else
-		{
-			printf("failed to get EventParams\n");
-		}
-	}
-	else
-	{
-		printf("Improper Json format\n");
-	}
-
-	free(p_loc_data);
-	free(p_loc_data1);
-	free(p_loc_data2);
-	nx_json_free(p_root_value);
-
-	uint8_t status = 1;
-	
-	FILE *p_file_ptr = NULL;
-	char 	data_file_name[64];
-	uint32_t tot_line_cnt=0;
-	
-	memset(data_file_name,0,sizeof(data_file_name));
-	
-	sprintf(data_file_name,"%s/meter_id_%d/event_%d",ROOT_DATA_DIR,(pidx*MAX_NO_OF_METER_PER_PORT+midx),event_type);
-	
-	p_file_ptr = fopen(data_file_name,"r");
-	if(p_file_ptr==NULL)
-	{
-		printf("Can't open event data file : %s, error : %s\n",data_file_name,strerror(errno));
-	}
-	else
-	{
-		memset(g_line,0,sizeof(g_line));
-		fgets(g_line,sizeof(g_line),p_file_ptr);
-		
-	}
-	
-	uint8_t g_obis_idx=0;
-	
-	char *token=NULL;
-	
-	memset(g_line_bkp,0,sizeof(g_line_bkp));
-	strcpy(g_line_bkp,g_line);
-	
-	token = strtok(g_line,"\t");
-	while(token!=NULL)
-	{
-		g_obis_idx++;
-		token = strtok(NULL,"\t");
-	}
-	
-	printf("Total params avaible : %d, in event type %d file\n",g_obis_idx,event_type);
-	
-	obis_param_val_info_t event_obis_param_val[g_obis_idx];
-	
-	fseek(p_file_ptr,0,SEEK_SET);
-	
-	while(fgets(g_line,sizeof(g_line),p_file_ptr)!=NULL)
-	{
-		tot_line_cnt++;
-	}
-	
-	fclose(p_file_ptr);
-	
-	printf("Total Line avaible : %d, in event type %d file\n",tot_line_cnt,event_type);
-	
-	g_obis_idx=0;
-	token = strtok(g_line,"\t");
-	while(token!=NULL)
-	{
-		strcpy(event_obis_param_val[g_obis_idx++].obis_code,token);
-		token = strtok(NULL,"\t");
-	}
-	
-	uint8_t max_obis_num=0;
-	
-	if(file_num_param>g_obis_idx)
-		max_obis_num = file_num_param;
-	else
-		max_obis_num = g_obis_idx;
-	
-	uint8_t pos_info_buff[max_obis_num];
-	
-	for(idx=0; idx<file_num_param; idx++)
-	{
-		//printf("%s\t%s\n",user_obis_param_val[idx].obis_code, event_obis_param_val[0].obis_code);
-		
-		for(jdx=0; jdx<g_obis_idx; jdx++)
-		{
-			if(strcmp(user_obis_param_val[idx].obis_code, event_obis_param_val[jdx].obis_code)==0)
-			{
-				printf("%s\t%s\n",user_obis_param_val[idx].obis_code, event_obis_param_val[jdx].obis_code);
-				pos_info_buff[pos_idx++] = idx;
-				break;
-			}
-		}
-	}
-	
-	uint32_t loc_idx=0;
-	
-	loc_idx=0,jdx=0,idx=0;
-	int32_t line_cnt=0;
-	
-	p_file_ptr = fopen(data_file_name,"r");
-	if(p_file_ptr==NULL)
-	{
-		printf("Can't open event data file : %s, error : %s\n",data_file_name,strerror(errno));
-	}
-	
-	while(fgets(g_line,sizeof(g_line),p_file_ptr)!=NULL)
-	{
-		//printf("%s\n",g_line);
-		loc_idx=0;
-		line_cnt++;
-		
-		token = strtok(g_line,"\t");
-		idx=0;
-		while(token!=NULL)
-		{
-			for(jdx=0; jdx<pos_idx;jdx++)
-			{
-				if(loc_idx==pos_info_buff[jdx])
-				{
-					if(line_cnt==1)
-					{
-						if(jdx==pos_idx-1)
-							printf("%s",user_obis_param_val[jdx].param_name);
-						else
-							printf("%s,",user_obis_param_val[jdx].param_name);
-					}
-					else
-					{
-						char loc_token[32];
-						if(strstr(token,"\n"))
-						{
-							memset(loc_token,0,sizeof(loc_token));
-							strncpy(loc_token,token,strlen(token)-1);
-							
-							if(jdx==pos_idx-1)
-								printf("%s",loc_token);
-							else
-								printf("%s,",loc_token);
-						}
-						else
-						{
-							if(jdx==pos_idx-1)
-								printf("%s",token);
-							else
-								printf("%s,",token);
-						}
-						
-					}
-					//printf("Got Need info in list, LinCnt : %d, loc_idx : %d, Idx : %d token : %s\n",line_cnt,loc_idx,idx,token);
-					idx++;
-					
-					break;
-				}
-			}
-			loc_idx++;
-			
-			token = strtok(NULL,"\t");
-		}
-	}
-	
-	fclose(p_file_ptr);
-
-	return ;
 }
 
 void send_od_ls_range_det(uint32_t seq_num, const char *met_ser_num, date_time_t st_date_time, date_time_t end_date_time)
@@ -1381,8 +624,8 @@ void send_od_ls_range_det(uint32_t seq_num, const char *met_ser_num, date_time_t
 
 void send_od_inst_det(uint32_t seq_num, const char *met_ser_num)
 {
-	uint8_t num_params=0,file_num_param=0,num_param;
-	uint8_t idx=0,jdx=0;
+	uint8_t num_params=0,file_num_param=0;
+	uint8_t idx,jdx;
 	char 	*gen_ptr=NULL;
 	char 	key_name[32];
 	
@@ -1403,7 +646,7 @@ void send_od_inst_det(uint32_t seq_num, const char *met_ser_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -1704,7 +947,6 @@ void fill_user_obis_det(char *file_name, char *param_type)
 {
 	char *p_loc_data=NULL;
 	struct stat obis_st;
-	int32_t file_fd=0;
 	
 	if(stat(file_name,&obis_st)==-1)
 	{
@@ -1728,6 +970,7 @@ void fill_user_obis_det(char *file_name, char *param_type)
 	}
 	else
 	{
+		int32_t file_fd;
 		p_loc_data=malloc(obis_st.st_size+1);
 		memset(p_loc_data,0,obis_st.st_size+1);
 		file_fd=open(file_name,O_RDONLY);
@@ -1749,12 +992,10 @@ void fill_user_obis_det(char *file_name, char *param_type)
 	}
 }
 
-int32_t send_met_ser_num_det(int32_t seq_num)
+int32_t send_met_ser_num_det(uint32_t seq_num)
 {
 	static char fun_name[]="find_ser_num()";
-	char file_name[32];
-	int mer_ser_file_ret = 0;
-	uint8_t pidx = 0, midx = 0;
+	uint8_t pidx, midx;
 	uint8_t tot_num_ser_num = 0, idx=0;
 	
 	memset(json_text,0,sizeof(json_text));
@@ -1767,7 +1008,7 @@ int32_t send_met_ser_num_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -1857,8 +1098,8 @@ int32_t send_met_ser_num_det(int32_t seq_num)
 int32_t send_file_content_det(uint32_t seq_num, const char *met_ser_num, char *user_file_json, char *root_param_name, char *data_file_name,const char *dir_name, const char *file_name, const char *view_type, char *type)
 {
 	static char fun_name[]="send_file_content_det()";
-	uint8_t 	g_obis_idx,g_tot_obis_det;
-	uint32_t 	g_tot_file_line_cnt;
+	uint8_t 	g_obis_idx=0,g_tot_obis_det;
+	int32_t 	g_tot_file_line_cnt;
 	char 		cmd_status[32];
 	int16_t 	pidx_midx = 0;
 	uint8_t 	file_num_param=0,idx=0,jdx=0,pos_idx=0;
@@ -2154,9 +1395,9 @@ int32_t send_file_content_det(uint32_t seq_num, const char *met_ser_num, char *u
 			{
 				if(loc_idx==pos_info_buff[jdx])
 				{
-					char loc_token[32];
 					if(strstr(token,"\n"))
 					{
+						char loc_token[32];
 						memset(loc_token,0,sizeof(loc_token));
 						strncpy(loc_token,token,strlen(token)-1);
 						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],loc_token);
@@ -2193,7 +1434,7 @@ int32_t send_file_content_det(uint32_t seq_num, const char *met_ser_num, char *u
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2365,7 +1606,7 @@ int32_t send_ls_file_content(uint32_t seq_num, const char *met_ser_num,const cha
 	return RET_SUCCESS;
 }
 
-int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type, char *dir_path, char *key_word, uint8_t read_ls, char* dir_name)
+int32_t send_file_list_det(uint32_t seq_num, const char *met_ser_num, char *type, char *dir_path, char *key_word, uint8_t read_ls, char* dir_name)
 {
 	if(read_ls==1)
 	{
@@ -2382,7 +1623,7 @@ int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type,
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2413,7 +1654,7 @@ int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type,
 	
 	while((dir_str=readdir(dir_det)) != NULL )
 	{
-		if (( strcmp(dir_str->d_name,".") == 0 ) || ( strcmp(dir_str->d_name,"..") == 0 ) || !strstr(dir_str->d_name,key_word))
+		if (( strcmp(dir_str->d_name,".") == 0 ) || ( strcmp(dir_str->d_name,"..") == 0 ) || (strstr(dir_str->d_name,key_word))!=NULL)
 		{
 			continue;
 		}
@@ -2459,7 +1700,8 @@ int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type,
 	
 	while((dir_str=readdir(dir_det)) != NULL )
 	{
-		if (( strcmp(dir_str->d_name,".") == 0 ) || ( strcmp(dir_str->d_name,"..") == 0 ) || !strstr(dir_str->d_name,key_word))
+		//if (( strcmp(dir_str->d_name,".") == 0 ) || ( strcmp(dir_str->d_name,"..") == 0 ) || (strstr(dir_str->d_name,key_word))!=NULL)
+		if (( strcmp(dir_str->d_name,".") == 0 ) || ( strcmp(dir_str->d_name,"..") == 0 ))
 		{
 			continue;
 		}
@@ -2517,7 +1759,7 @@ int32_t send_file_list_det(int32_t seq_num, const char *met_ser_num, char *type,
 	return RET_SUCCESS;
 }
 
-int32_t send_od_ls_file_list_det(int32_t seq_num, const char *met_ser_num)
+int32_t send_od_ls_file_list_det(uint32_t seq_num, const char *met_ser_num)
 {
 	int16_t 	pidx_midx = 0;
 	uint8_t 	pidx=0,midx=0, idx=0;
@@ -2555,7 +1797,7 @@ int32_t send_od_ls_file_list_det(int32_t seq_num, const char *met_ser_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2610,7 +1852,7 @@ int32_t send_od_ls_file_list_det(int32_t seq_num, const char *met_ser_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_ls_file_list_det(int32_t seq_num, const char *met_ser_num)
+int32_t send_ls_file_list_det(uint32_t seq_num, const char *met_ser_num)
 {
 	int16_t 	pidx_midx = 0;
 	uint8_t 	pidx=0,midx=0;
@@ -2631,7 +1873,7 @@ int32_t send_ls_file_list_det(int32_t seq_num, const char *met_ser_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_event_file_list_det(int32_t seq_num, const char *met_ser_num)
+int32_t send_event_file_list_det(uint32_t seq_num, const char *met_ser_num)
 {
 	int16_t 	pidx_midx = 0;
 	uint8_t 	pidx=0,midx=0;
@@ -2652,7 +1894,7 @@ int32_t send_event_file_list_det(int32_t seq_num, const char *met_ser_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dp_file_list_det(int32_t seq_num, const char *met_ser_num)
+int32_t send_dp_file_list_det(uint32_t seq_num, const char *met_ser_num)
 {
 	int16_t 	pidx_midx = 0;
 	uint8_t 	pidx=0,midx=0;
@@ -2673,7 +1915,7 @@ int32_t send_dp_file_list_det(int32_t seq_num, const char *met_ser_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_bill_file_list_det(int32_t seq_num, const char *met_ser_num)
+int32_t send_bill_file_list_det(uint32_t seq_num, const char *met_ser_num)
 {
 	int16_t 	pidx_midx = 0;
 	uint8_t 	pidx=0,midx=0;
@@ -2694,7 +1936,7 @@ int32_t send_bill_file_list_det(int32_t seq_num, const char *met_ser_num)
 	return RET_SUCCESS;
 }
 
-int32_t send_dir_list_det(int32_t seq_num)
+int32_t send_dir_list_det(uint32_t seq_num)
 {
 	memset(json_text,0,sizeof(json_text));
 	memset(g_temp_str,0,sizeof(g_temp_str));
@@ -2706,7 +1948,7 @@ int32_t send_dir_list_det(int32_t seq_num)
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));
-	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%d%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
+	sprintf(g_temp_str,"%cSEQ_NUM%c:%c%u%c,\n",DBL_QUOTES,DBL_QUOTES,DBL_QUOTES,seq_num,DBL_QUOTES);
 	strcat(json_text,g_temp_str);
 	
 	memset(g_temp_str,0,sizeof(g_temp_str));

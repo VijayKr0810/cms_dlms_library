@@ -238,7 +238,6 @@ int32_t dbg_log(uint8_t mode, const char *p_format, ...)
 	time_t		curr_time_sec=0;
 	struct tm	*p_curr_time_tm;
 	char		time_str[64];
-	char		temp_str[8];
 	char		file_name[64];
 
 	curr_time_sec = time(NULL);
@@ -305,11 +304,13 @@ int32_t dbg_log(uint8_t mode, const char *p_format, ...)
 *Description 				: write debug message in file.
 ********************************************************************************************************/
 
-FILE* write_dbglog(FILE*p_dbg_fptr_arr, char*log_file_path, char *p_data)
+FILE* write_dbglog(FILE*dbg_fptr_arr, char*log_file_path, char *p_data)
 {
-	uint64_t			position;
+	FILE				*p_dbg_fptr_arr=NULL;
+	long int			position=0;
+	struct stat 		st_log;
 	
-	if(p_dbg_fptr_arr==NULL)
+	if(stat(log_file_path,&st_log)==-1)
 	{
 		p_dbg_fptr_arr = fopen(log_file_path, "w");
 		if(p_dbg_fptr_arr == NULL)
@@ -332,8 +333,8 @@ FILE* write_dbglog(FILE*p_dbg_fptr_arr, char*log_file_path, char *p_data)
 	fprintf(p_dbg_fptr_arr,"%s",p_data);
 	fflush(p_dbg_fptr_arr);
 
-	position = ftell(p_dbg_fptr_arr);
-	g_position = position;
+	if(p_dbg_fptr_arr!=NULL)
+		position = ftell(p_dbg_fptr_arr);
 	
 	if(position>=FILE_SIZE_EXCEED)
 	{
@@ -353,7 +354,6 @@ FILE* write_dbglog(FILE*p_dbg_fptr_arr, char*log_file_path, char *p_data)
 		rename(log_file_path,bkp_log_file);
 		
 		//sprintf(cmd_str,"cp %s %s",log_file_path,bkp_log_file);
-		
 		//system(cmd_str);
 		
 		p_dbg_fptr_arr = fopen(log_file_path, "w");
@@ -367,7 +367,7 @@ FILE* write_dbglog(FILE*p_dbg_fptr_arr, char*log_file_path, char *p_data)
 	
 	fclose(p_dbg_fptr_arr);
 	//printf("dbgmsg written in path : %s\n",log_file_path);
-	return p_dbg_fptr_arr;
+	return dbg_fptr_arr;
 }
 
 

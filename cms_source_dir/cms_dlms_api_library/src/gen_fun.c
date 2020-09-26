@@ -76,8 +76,8 @@ int8_t init_serial(meter_comm_params_t *meter_comm_params)
 	
 	memcpy(&serport_params,meter_comm_params->interface_params,sizeof(serport_params));
 	
-	printf("meter_comm_params Library side size : %d\n",sizeof(meter_comm_params));
-	printf("Library side size : %d\n",sizeof(serport_params));
+	//printf("meter_comm_params Library side size : %d\n",sizeof(meter_comm_params));
+	//printf("Library side size : %d\n",sizeof(serport_params));
 	
 	switch (serport_params.handshake)
 	{
@@ -215,9 +215,9 @@ int8_t init_serial(meter_comm_params_t *meter_comm_params)
 ********************************************************************************************************/
 int32_t write_ser_port(int32_t serial_fd, uint8_t *msg, int32_t len)
 {
-	static char fun_name[]="write_ser_port()";
 	if(write(serial_fd, msg, len)<0)
 	{
+		static char fun_name[]="write_ser_port()";
 		dbg_log(FATAL,"%-25s : FD : %d, Serial write failed, Error : %s\n",fun_name,serial_fd,strerror(errno)); 
 		return RET_SER_PORT_WRITE_FAIL;
 	}
@@ -235,7 +235,7 @@ int32_t write_ser_port(int32_t serial_fd, uint8_t *msg, int32_t len)
 int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 {
 	static char fun_name[]="read_ser_port()";
-	int32_t tot_byte_read=0, byte_present=0, loc_byte_read=0;
+	int32_t tot_byte_read=0, byte_present=0;
 	int32_t wait_cnt=0,max_wait_cnt=0,break_cnt = 0;
 
 	max_wait_cnt = (time_out*1000)/50;
@@ -270,6 +270,7 @@ int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 	while(1)
 	{
 		memset(loc_buff, 0, sizeof(loc_buff));
+		int32_t loc_byte_read=0;
 		if((loc_byte_read = read(serial_fd, loc_buff, byte_present)) == -1)
 		{
 			dbg_log(FATAL,"%-25s : Serial read failed : Error : %s\n",fun_name,strerror(errno));

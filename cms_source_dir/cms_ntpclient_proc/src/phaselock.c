@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 
+#if 0
 #define ENABLE_DEBUG
 
 #define RING_SIZE 16
@@ -324,3 +325,7 @@ int contemplate_data(unsigned int absolute, double skew, double errorbar, int fr
 	rp = (rp+1)%RING_SIZE;
 	return computed_freq;
 }
+
+#endif
+
+/* End Of File */

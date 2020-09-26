@@ -70,15 +70,12 @@ int main( int argc, char *argv[] )
 int32_t gen_signature(int32_t type)
 {
 	static char fun_name[]="gen_signature()";
+	char			file_check_sum[64];
 	char 			temp_str[256];
 	char 			line[128];
 	char 			*p_file_cs_ptr = NULL;
-	char			file_check_sum[64];
-
 	FILE 			*p_file_ptr,*p_file_ptr2;
-	int32_t 		ret;
-	
-	
+
 	printf("%-25s : sign_cnt : %d\n",fun_name,g_sign_cnt);
 
 	memset(temp_str,0,256);

@@ -25,7 +25,7 @@ int32_t read_cfg_from_redis(void)
 {
 	FILE *p_file_ptr=NULL;
 	
-	printf("Sizeof cfg str : %d\n",sizeof(dlms_dcu_config_t));
+	//printf("Sizeof cfg str : %d\n",sizeof(dlms_dcu_config_t));
 	p_file_ptr=fopen("/usr/cms/config/dlms_api_config.cfg","r");
 	
 	if(p_file_ptr==NULL)

@@ -12,6 +12,7 @@
 #define		FATAL				3
 #define		REPORT				4
 
+int32_t lib_dbg_log(uint8_t mode, const char *p_format, ...);
 int32_t dbg_log(uint8_t mode, const char *p_format, ...);
 FILE* write_dbglog(FILE*p_dbg_fptr_arr, char*g_file_path, char *p_data);
 

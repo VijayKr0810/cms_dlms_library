@@ -15,6 +15,8 @@
 #include "dlms_fun.h"
 #include "dlms_api.h"
 
+int8_t get_inst_values(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info);
+
 /* Extern */
 extern date_time_t 				meter_date_time;
 extern uint32_t 				g_int_period_blk;
@@ -47,9 +49,9 @@ int8_t init_comm(meter_comm_params_t *meter_comm_params)
 	
 	//printf("meter_comm_params Library side size : %d\n",sizeof(meter_comm_params_t));
 	
-	/* dbg_log(INFORM,"%-20s : Created Root ls data dir : %s\n",fun_name,g_ls_data_dir_path);
-	dbg_log(INFORM,"%-20s : CMS DLMS API Version :: %s\n",fun_name,DLMS_API_VERSION);
-	dbg_log(INFORM,"%-20s : Communicatin started for DLMS API.\n",fun_name); */
+	/* lib_dbg_log(INFORM,"%-20s : Created Root ls data dir : %s\n",fun_name,g_ls_data_dir_path);
+	lib_dbg_log(INFORM,"%-20s : CMS DLMS API Version :: %s\n",fun_name,DLMS_API_VERSION);
+	lib_dbg_log(INFORM,"%-20s : Communicatin started for DLMS API.\n",fun_name); */
 	
 	if(meter_comm_params->inf_type==INF_SERIAL)
 	{
@@ -83,7 +85,7 @@ int8_t connect_to_meter(meter_comm_params_t *meter_comm_params)
 	ret_val = send_disc(meter_comm_params);
 	if(ret_val<0)
 	{
-		dbg_log(REPORT,"%-20s : DISC Frame Qry  failed\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : DISC Frame Qry  failed\n",fun_name);
 		return ret_val;
 	}
 	
@@ -91,7 +93,7 @@ int8_t connect_to_meter(meter_comm_params_t *meter_comm_params)
 	ret_val = send_snrm(meter_comm_params);
 	if(ret_val<0)
 	{
-		dbg_log(REPORT,"%-20s : SNRM Qry  failed\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : SNRM Qry  failed\n",fun_name);
 		return ret_val;
 	}
 	
@@ -99,11 +101,11 @@ int8_t connect_to_meter(meter_comm_params_t *meter_comm_params)
 	ret_val = send_aarq(meter_comm_params);
 	if(ret_val<0)
 	{
-		dbg_log(REPORT,"%-20s : AARQ Qry  failed\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : AARQ Qry  failed\n",fun_name);
 		return ret_val;
 	}
 	
-	dbg_log(REPORT,"%-20s : Meter connected succfully\n",fun_name);
+	lib_dbg_log(REPORT,"%-20s : Meter connected succfully\n",fun_name);
 	
 	return RET_SUCCESS;
 }
@@ -207,9 +209,9 @@ int8_t get_obis_codes( meter_comm_params_t *meter_comm_params,
 *Return	Value				: Success or appropriate error code.
 *Description 				: Get the instantaneous data  of the meter and return the decoded values of instantaneous data in appropriate structure
 ********************************************************************************************************/
-int8_t get_inst_values(meter_comm_params_t *meter_comm_params, inst_val_info_t *recv_inst_data_val)
+int8_t get_inst_values(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info)
 {
-	if(get_inst_val(meter_comm_params,recv_inst_data_val)<0)
+	if(get_inst_val(meter_comm_params,p_gen_data_val_info)<0)
 	{
 		return RET_INST_VAL_FAILED_TYPE;
 	}
@@ -250,7 +252,7 @@ int8_t get_ls_values_block_range(meter_comm_params_t *meter_comm_params, uint8_t
 		
 		if(get_curr_date_time(comm_fd, dlms_met_addr, met_addr_size)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
+			lib_dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
 			return -1;
 		} */
 		
@@ -346,7 +348,7 @@ int8_t get_ls_values_hour_range(meter_comm_params_t *meter_comm_params,uint8_t l
 		
 		if(get_curr_date_time(comm_fd, dlms_met_addr, met_addr_size)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
+			lib_dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
 			return -1;
 		}
 		
@@ -508,7 +510,7 @@ int8_t disconnect_meter(meter_comm_params_t *meter_comm_params)
 	if(ret_val<0)
 	{
 		static char fun_name[]="disconnect_meter()";
-		dbg_log(REPORT,"%-20s : DISC Frame Qry  failed\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : DISC Frame Qry  failed\n",fun_name);
 		return ret_val;
 	}
 	

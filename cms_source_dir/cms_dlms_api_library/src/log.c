@@ -21,13 +21,13 @@ extern char 					lib_dbg_file_name[];
 
 /* -------------------------------------------------------------------------- */
 /**************************************************************************************************
-*Function 					: dbg_log()
+*Function 					: lib_dbg_log()
 *Input Parameters 			: mode, debug message
 *Output Parameters 			: None
 *Return	Value				: Total num bytes of debug message.
 *Description 				: mentain debug information.
 ********************************************************************************************************/
-int32_t dbg_log(uint8_t mode, const char *p_format, ...)
+int32_t lib_dbg_log(uint8_t mode, const char *p_format, ...)
 {
 	uint32_t done = 0;
 	va_list arg;

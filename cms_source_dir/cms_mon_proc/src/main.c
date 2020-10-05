@@ -503,8 +503,8 @@ void exec_procs(int32_t idx)
 	dbg_log(INFORM,"%-20s : Starting child  %d proc : %s %s %s\n",
 	fun_name,idx,proc_info[idx].proc_name,proc_info[idx].cmd_line_arg1,proc_info[idx].cmd_line_arg2);
 	
-	sprintf(msg_data,"starting child  %d proc %s",idx,proc_info[idx].proc_name);
-	write_reboot_info(PROC_UP,msg_data);
+	/* sprintf(msg_data,"starting child  %d proc %s",idx,proc_info[idx].proc_name);
+	write_reboot_info(PROC_UP,msg_data); */
 	
 	ret = start_child(proc_info[idx].proc_name,proc_info[idx].cmd_line_arg1,proc_info[idx].cmd_line_arg2);
 	if ( ret <= 0 )

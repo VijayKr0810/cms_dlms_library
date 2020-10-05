@@ -2,6 +2,5 @@
 <project version="1">
     <builddir>iot_gateway-cppcheck-build-dir</builddir>
     <platform>Unspecified</platform>
-    <importproject>../cms_source_dir/cms_bin_to_redis_proc/src/main.c</importproject>
     <analyze-all-vs-configs>true</analyze-all-vs-configs>
 </project>

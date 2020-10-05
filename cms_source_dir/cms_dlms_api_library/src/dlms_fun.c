@@ -15,6 +15,7 @@
 #include "dlms_fun.h"
 #include "dlms_api.h"
 
+int8_t find_value_det(char *event_file_path, char *value_buff);
 /* Externs */
 extern char 				g_ls_data_dir_path[];
 extern uint8_t 				g_append_event_file_flag;
@@ -233,7 +234,7 @@ void print_val_scal_obis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_
 	
 	static char fun_name[]="print_val_scal_obis_val_info()";
 	
-	dbg_log(INFORM,"%-20s : ValObis : %d.%d.%d.%d.%d.%d, ScalObis : %d.%d.%d.%d.%d.%d, ScalVal : %d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : ValObis : %d.%d.%d.%d.%d.%d, ScalObis : %d.%d.%d.%d.%d.%d, ScalVal : %d\n",fun_name,
 	val_obis[0],val_obis[1],val_obis[2],val_obis[3],val_obis[4],val_obis[5],
 	scalar_obis[0],scalar_obis[1],scalar_obis[2],scalar_obis[3],scalar_obis[4],scalar_obis[5],scalar_val);
 }
@@ -255,7 +256,7 @@ int32_t fill_val_obis_det(uint8_t type)
 		case INST_VAL_OBIS_TYPE:
 		{
 			idx = 0;
-			dbg_log(REPORT,"%-20s : Total NumOf Inst Val Obis : %d\n",fun_name,gen_inst_param_det.tot_num_val_obis);
+			lib_dbg_log(REPORT,"%-20s : Total NumOf Inst Val Obis : %d\n",fun_name,gen_inst_param_det.tot_num_val_obis);
 			
 			for(idx=0;idx<gen_inst_param_det.tot_num_val_obis;idx++)
 			{
@@ -267,7 +268,7 @@ int32_t fill_val_obis_det(uint8_t type)
 		case INST_SCALE_OBIS_TYPE:
 		{
 			idx = 0;
-			dbg_log(REPORT,"%-20s : Total NumOf Inst Scalar Obis : %d\n",fun_name,gen_inst_param_det.tot_num_scalar);
+			lib_dbg_log(REPORT,"%-20s : Total NumOf Inst Scalar Obis : %d\n",fun_name,gen_inst_param_det.tot_num_scalar);
 			
 			for(idx=0;idx<gen_inst_param_det.tot_num_scalar;idx++)
 			{
@@ -302,7 +303,7 @@ int32_t fill_val_obis_det(uint8_t type)
 			index = index+2;
 			
 			idx = 0;
-			dbg_log(INFORM,"%-20s : Tot_num of Inst value : %d\n",fun_name,gen_inst_param_det.tot_num_value);
+			lib_dbg_log(INFORM,"%-20s : Tot_num of Inst value : %d\n",fun_name,gen_inst_param_det.tot_num_value);
 			
 			for(idx=0; idx<gen_inst_param_det.tot_num_value; idx++)
 			{
@@ -481,7 +482,7 @@ int32_t fill_val_obis_det(uint8_t type)
 				
 				if(fill_event_val(event_idx)<0)
 				{
-					dbg_log(REPORT,"%-20s : Failed to filled for event index : %d\n",fun_name,event_idx);
+					lib_dbg_log(REPORT,"%-20s : Failed to filled for event index : %d\n",fun_name,event_idx);
 						continue;
 				}
 				
@@ -532,7 +533,7 @@ int32_t fill_val_obis_det(uint8_t type)
 			uint8_t dp_index=0;
 			uint32_t index = 0;
 			
-			dbg_log(INFORM,"%-20s : total num of dp entry : %d\n",fun_name,gen_dp_param_det.tot_num_value);
+			lib_dbg_log(INFORM,"%-20s : total num of dp entry : %d\n",fun_name,gen_dp_param_det.tot_num_value);
 			
 			for(dp_index=0; dp_index<gen_dp_param_det.tot_num_value; dp_index++)
 			{
@@ -585,7 +586,7 @@ int32_t fill_val_obis_det(uint8_t type)
 				
 				if(fill_daily_profile_val(dp_index)<0)
 				{
-					dbg_log(REPORT,"%-20s : Failed to filled for Dp index : %d\n",fun_name,dp_index);
+					lib_dbg_log(REPORT,"%-20s : Failed to filled for Dp index : %d\n",fun_name,dp_index);
 						continue;
 				}
 				
@@ -596,7 +597,7 @@ int32_t fill_val_obis_det(uint8_t type)
 		
 		case BILL_VAL_OBIS_TYPE:
 		{
-			dbg_log(REPORT,"%-20s : Total NumOf Billing Val Obis : %d\n",fun_name,gen_bill_param_det.tot_num_val_obis);
+			lib_dbg_log(REPORT,"%-20s : Total NumOf Billing Val Obis : %d\n",fun_name,gen_bill_param_det.tot_num_val_obis);
 			for(idx=0;idx<gen_bill_param_det.tot_num_val_obis;idx++)
 			{
 				memcpy(gen_bill_param_det.val_obis[idx], &g_raw_data_buff[(18*idx)+7], 6);
@@ -606,7 +607,7 @@ int32_t fill_val_obis_det(uint8_t type)
 		
 		case BILL_SCALER_OBIS_TYPE:
 		{
-			dbg_log(REPORT,"%-20s : Total NumOf Billing Scalar Obis : %d\n",fun_name,gen_bill_param_det.tot_num_scalar);
+			lib_dbg_log(REPORT,"%-20s : Total NumOf Billing Scalar Obis : %d\n",fun_name,gen_bill_param_det.tot_num_scalar);
 			for(idx=0;idx<gen_bill_param_det.tot_num_scalar;idx++)
 			{
 				memcpy(gen_bill_param_det.scalar_val[idx].obis_code,&g_raw_data_buff[(18*idx)+7],6);
@@ -639,7 +640,7 @@ int32_t fill_val_obis_det(uint8_t type)
 			uint8_t bill_index=0;
 			uint32_t index = 0;
 			
-			dbg_log(INFORM,"%-20s : total num of bill entry : %d Tot num of bill params : %d\n",
+			lib_dbg_log(INFORM,"%-20s : total num of bill entry : %d Tot num of bill params : %d\n",
 			fun_name,gen_bill_param_det.tot_num_value,g_num_ls_param);
 			
 			for(bill_index=0; bill_index<gen_bill_param_det.tot_num_value; bill_index++)
@@ -649,6 +650,7 @@ int32_t fill_val_obis_det(uint8_t type)
 					printf(">>>>Reached MAX decode index from raw data\n");
 					break;
 				}
+				
 				index = index+2;
 				for(idx=0; idx<g_num_ls_param; idx++)
 				{
@@ -691,7 +693,7 @@ int32_t fill_val_obis_det(uint8_t type)
 				
 				if(fill_billing_val(bill_index)<0)
 				{
-					dbg_log(REPORT,"%-20s : Failed to filled for Bill index : %d\n",fun_name,bill_index);
+					lib_dbg_log(REPORT,"%-20s : Failed to filled for Bill index : %d\n",fun_name,bill_index);
 						continue;
 				}
 				
@@ -717,7 +719,6 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 {
 	static char fun_name[]="get_gen_scalar_val()";
 
-	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
 	g_get_nxt_blk_val=1;
@@ -729,7 +730,7 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 
 	if(send_get_request(meter_comm_params, int_class, obis_code, obis_len, attr_no)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
 		return -1;
 	}
 	
@@ -745,7 +746,7 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -755,7 +756,7 @@ int32_t get_gen_scalar_val(meter_comm_params_t *meter_comm_params, uint8_t recv_
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -790,7 +791,7 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 	
 	if(send_get_request(meter_comm_params, int_class, obis_code, obis_len, attr_no)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
 		return -1;
 	}
 	
@@ -807,7 +808,7 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler obis rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler obis rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -817,7 +818,7 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler obis next block frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler obis next block frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -838,7 +839,7 @@ int32_t get_gen_scalar_obis(meter_comm_params_t *meter_comm_params,uint8_t recv_
 ********************************************************************************************************/
 int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qry_type, uint16_t int_class, uint8_t*obis_code, uint8_t obis_len, uint16_t attr_no)
 {
-	static char fun_name[]="get_inst_val_obis()";
+	static char fun_name[]="get_gen_val_obis()";
 	
 	g_get_nxt_blk_val=1;
 	g_rr_frame = 0;
@@ -852,7 +853,7 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 	
 	if(send_get_request(meter_comm_params, int_class, obis_code, obis_len, attr_no)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get val obis info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get val obis info\n",fun_name);
 		return -1;
 	}
 	
@@ -868,7 +869,7 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst val obis rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst val obis rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -878,7 +879,7 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst val obis get next blk frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst val obis get next blk frame\n",fun_name);
 				return -1;
 			}
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
@@ -913,11 +914,11 @@ int32_t get_num_bill_entries(meter_comm_params_t *meter_comm_params)
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_raw_data_idx = 0;
 	g_query_type = BILL_ENTRIES_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : BILL_ENTRIES_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BILL_ENTRIES_TYPE\n",fun_name);
 
 	if(send_get_request(meter_comm_params, BILL_ENTRY_INT_CLASS, obis, 6, BILL_ENTRY_ARR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
 		return -1;
 	}
 	
@@ -933,7 +934,7 @@ int32_t get_num_bill_entries(meter_comm_params_t *meter_comm_params)
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get bill entry rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get bill entry rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -943,7 +944,7 @@ int32_t get_num_bill_entries(meter_comm_params_t *meter_comm_params)
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get bill entry get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get bill entry get next frame frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -984,16 +985,16 @@ void print_bill_data_info(void)
 	date_time_t date_time;
 	
 	memset(curr_ls_file_path,0,sizeof(curr_ls_file_path));
-	sprintf(curr_ls_file_path,"%s/billing",g_ls_data_dir_path);
+	sprintf(curr_ls_file_path,"%s/cms_lib_data",g_ls_data_dir_path);
 	
 	p_file_ptr = fopen(curr_ls_file_path,"w");
 	if(p_file_ptr == NULL)
 	{
-		dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+		lib_dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
 		return ;
 	}
 
-	dbg_log(INFORM,"%-20s : Adding OBIS Header for Billing file : %s\n",fun_name,curr_ls_file_path);
+	lib_dbg_log(INFORM,"%-20s : Adding OBIS Header for Billing file : %s\n",fun_name,curr_ls_file_path);
 	for(idx=0; idx<g_all_bill_param_obis_val.tot_num_params; idx++)
 	{
 		memset(obis_buff,0,sizeof(obis_buff));
@@ -1041,95 +1042,6 @@ void print_bill_data_info(void)
 	return;
 }
 
-void print_bill_data_info1(void)
-{
-	float float_val=0.0;
-	
-	print_date_info(g_bill_val_info.date_time);
-	memcpy(&float_val,&g_bill_val_info.sys_pf.param_value,4);
-	printf("SYS_PF : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh.param_value,4);
-	printf("KWH : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz1.param_value,4);
-	printf("KWH_TZ1 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz2.param_value,4);
-	printf("KWH_TZ2 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz3.param_value,4);
-	printf("KWH_TZ3 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz4.param_value,4);
-	printf("KWH_TZ4 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz5.param_value,4);
-	printf("KWH_TZ5 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz6.param_value,4);
-	printf("KWH_TZ6 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz7.param_value,4);
-	printf("KWH_TZ7 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kwh_tz8.param_value,4);
-	printf("KWH_TZ8 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvarh_lag.param_value,4);
-	printf("KVARH_LAG : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvarh_lead.param_value,4);
-	printf("KVARH_LEAD : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah.param_value,4);
-	printf("KVAH : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz1.param_value,4);
-	printf("KVAH_TZ1 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz2.param_value,4);
-	printf("KVAH_TZ2 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz3.param_value,4);
-	printf("KVAH_TZ3 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz4.param_value,4);
-	printf("KVAH_TZ4 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz5.param_value,4);
-	printf("KVAH_TZ5 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz6.param_value,4);
-	printf("KVAH_TZ6 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz7.param_value,4);
-	printf("KVAH_TZ7 : %0.5f\n",float_val);
-	
-	float_val=0.0;
-	memcpy(&float_val,&g_bill_val_info.kvah_tz8.param_value,4);
-	printf("KVAH_TZ8 : %0.5f\n",float_val);
-}
-
 /**************************************************************************************************
 *Function 					: get_bill_data_info()
 *Input Parameters 			: structure containing meter id, meter address etc.
@@ -1142,15 +1054,11 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 	static char fun_name[]="get_bill_data_info()";
 	uint8_t obis[6] = {0};
 	
-	/* uint8_t comm_fd = meter_comm_params->fd;
-	uint32_t dlms_met_addr = meter_comm_params->meter_id;
-	uint8_t met_addr_size = meter_comm_params->meter_addr_format; */
-	
 	GET_OBIS_OCTETS(BILL_DATA_VAL_OBIS_STR,obis);
 	
 	if(get_num_bill_entries(meter_comm_params)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get number of billing info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get number of billing info\n",fun_name);
 		return -1;
 	}
 	
@@ -1163,11 +1071,11 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_raw_data_idx = 0;
 	g_query_type = BILL_VALUE_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : BILL_VALUE_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BILL_VALUE_TYPE\n",fun_name);
 	
 	if(send_get_bill_request(meter_comm_params,BILL_DATA_INT_CLASS, obis, 6, BILL_DATA_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get daily profile  value info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value info\n",fun_name);
 		return -1;
 	}
 	
@@ -1183,7 +1091,7 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get daily profile  value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -1194,7 +1102,7 @@ int32_t get_bill_data_info(meter_comm_params_t *meter_comm_params)
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
 				return -1;
 			}
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
@@ -1387,10 +1295,10 @@ int32_t get_billing_obis_code_det(meter_comm_params_t *meter_comm_params,gen_par
 	
 	GET_OBIS_OCTETS(BILL_VAL_OBIS_STR,obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : BILL_VAL_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BILL_VAL_OBIS_TYPE\n",fun_name);
 	if(get_gen_val_obis(meter_comm_params, BILL_VAL_OBIS_TYPE,BILL_VAL_INT_CLASS,obis,6,BILL_VAL_ARR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get daily profile val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get daily profile val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1406,10 +1314,10 @@ int32_t get_billing_obis_code_det(meter_comm_params_t *meter_comm_params,gen_par
 	 
 	 int_class=0x0007, attr_no=0x0003; */
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : BILL_SCALER_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BILL_SCALER_OBIS_TYPE\n",fun_name);
 	if(get_gen_scalar_obis(meter_comm_params, BILL_SCALER_OBIS_TYPE,BILL_SCALAR_INT_CLASS,obis,6,BILL_SCARAR_ARR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1423,10 +1331,10 @@ int32_t get_billing_obis_code_det(meter_comm_params_t *meter_comm_params,gen_par
 	int_class=0x0007, attr_no=0x0002; */
 	
 	GET_OBIS_OCTETS(BILL_SCALAR_VAL_STR,obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : BILL_SCALER_VALUE_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BILL_SCALER_VALUE_TYPE\n",fun_name);
 	if(get_gen_scalar_val(meter_comm_params, BILL_SCALER_VALUE_TYPE,BILL_SCALAR_VAL_INT_CLASS,obis,6,BILL_SCALAR_VAL_ARR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1459,12 +1367,12 @@ int32_t proc_billing_val_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_bill_param_det.tot_num_val_obis = msg[loc_idx-1];
@@ -1489,7 +1397,7 @@ int32_t proc_billing_val_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
 				
 				return -1;
 			}
@@ -1499,7 +1407,7 @@ int32_t proc_billing_val_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -1529,12 +1437,12 @@ int32_t proc_billing_scalar_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_bill_param_det.tot_num_scalar = msg[loc_idx-1];
@@ -1560,7 +1468,7 @@ int32_t proc_billing_scalar_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -1570,7 +1478,7 @@ int32_t proc_billing_scalar_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -1600,12 +1508,12 @@ int32_t proc_billing_scalar_val( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 		g_first_time_resp=0;
 	}
@@ -1628,7 +1536,7 @@ int32_t proc_billing_scalar_val( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -1638,7 +1546,7 @@ int32_t proc_billing_scalar_val( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -1671,13 +1579,13 @@ int32_t proc_billing_value( uint8_t* msg, uint32_t len)
 		
 		if(index == len)
 		{
-			dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
 			return -1;
 		}
 		
 		gen_bill_param_det.tot_num_value = msg[index-1];
 		
-		dbg_log(INFORM,"%-20s : Billing NumOfEntry : %d, Num of Params : %d\n",
+		lib_dbg_log(INFORM,"%-20s : Billing NumOfEntry : %d, Num of Params : %d\n",
 		fun_name,gen_bill_param_det.tot_num_value,g_num_ls_param);
 		
 		g_first_time_resp=0;
@@ -1702,7 +1610,7 @@ int32_t proc_billing_value( uint8_t* msg, uint32_t len)
 			
 			if(index == len)
 			{
-				dbg_log(REPORT,"%-20s : No start stamp seen.\n",
+				lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",
 				fun_name);
 				return -1;
 			}
@@ -1712,7 +1620,7 @@ int32_t proc_billing_value( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 
 	return RET_SUCCESS;
@@ -1731,7 +1639,7 @@ int32_t fill_billing_val(uint8_t bill_index)
 
 	uint8_t 	idx=0;
 	int8_t 		*p_tmp_str=NULL;
-	float 		flt_val = 0.0,scal_flt_val=0.0;
+	float 		flt_val = 0.0,scal_flt_val=1;
 	uint8_t		uint8_temp_val=0;
 	int16_t		int16_temp_val=0;
 	uint16_t	uint16_temp_val=0;
@@ -1755,14 +1663,14 @@ int32_t fill_billing_val(uint8_t bill_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				
-				//dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+				//lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 				//fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,float_temp_val);
 	
 				flt_val = (float)((float)float_temp_val * scal_flt_val);
 				
-				//dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val);
+				//lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val);
 				
 				if(store_bill_val(bill_index, idx, flt_val) < 0)
 					continue;
@@ -1780,24 +1688,24 @@ int32_t fill_billing_val(uint8_t bill_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 /* 				printf(":::::::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_dp_param_det.scalar_val[idx].value,scal_flt_val); */
 				
 				if(gen_data_val_info[idx].data_type==UNSIGNED_32BIT_TYPE)
 				{
 					flt_val = (float)((float)uint32_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,(float)uint32_temp_val); */
 				}
 				else
 				{
 					flt_val = (float)((float)int32_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,(float)int32_temp_val); */
 				}
 				
-				/* dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
+				/* lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
 				if(store_bill_val(bill_index, idx, flt_val) < 0)
 					continue;
 	
@@ -1813,7 +1721,7 @@ int32_t fill_billing_val(uint8_t bill_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[0];
 				p_tmp_str[0] = gen_data_val_info[idx].value[1];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				/* printf("16BIT_TYPE :::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_dp_param_det.scalar_val[idx].value,scal_flt_val); */
@@ -1827,17 +1735,17 @@ int32_t fill_billing_val(uint8_t bill_index)
 				if(gen_data_val_info[idx].data_type==UNSIGNED_16BIT_TYPE)
 				{
 					flt_val = (float)((float)uint16_temp_val * scal_flt_val);	
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,uint16_temp_val); */
 				}
 				else
 				{
 					flt_val = (float)((float)int16_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,int16_temp_val); */
 				}
 				
-				/* dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
+				/* lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
 				if(store_bill_val(bill_index, idx, flt_val) < 0)
 					continue;
 
@@ -1846,7 +1754,7 @@ int32_t fill_billing_val(uint8_t bill_index)
 			case UNSIGNED_8BIT_TYPE:
 				p_tmp_str=(int8_t*)&uint8_temp_val;
 				p_tmp_str[0] = gen_data_val_info[idx].value[0];
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				flt_val = (float)((float)uint8_temp_val * scal_flt_val);
 				
 				if(store_bill_val(bill_index, idx, flt_val) < 0)
@@ -1881,10 +1789,10 @@ int32_t get_dp_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_d
 	uint8_t val_obis[6] = {0};
 	
 	GET_OBIS_OCTETS(DP_VAL_OBIS_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : DAILY_VAL_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : DAILY_VAL_OBIS_TYPE\n",fun_name);
 	if(get_gen_val_obis(meter_comm_params, DAILY_VAL_OBIS_TYPE,DP_VAL_INT_CLASS,val_obis,6,DP_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get daily profile val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get daily profile val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1898,10 +1806,10 @@ int32_t get_dp_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_d
 	 int_class=0x0007, attr_no=0x0003; */
 	
 	GET_OBIS_OCTETS(DP_VAL_OBIS_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : DAILY_SCALAR_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : DAILY_SCALAR_OBIS_TYPE\n",fun_name);
 	if(get_gen_scalar_obis(meter_comm_params, DAILY_SCALAR_OBIS_TYPE,DP_SCALAR_INT_CLASS,val_obis,6,DP_SCALAR_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1915,10 +1823,10 @@ int32_t get_dp_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_d
 	int_class=0x0007, attr_no=0x0002; */
 	
 	GET_OBIS_OCTETS(DP_SCALAR_VAL_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : DAILY_SCALAR_VALUE_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : DAILY_SCALAR_VALUE_TYPE\n",fun_name);
 	if(get_gen_scalar_val(meter_comm_params, DAILY_SCALAR_VALUE_TYPE,DP_SCALAR_VAL_INT_CLASS,val_obis,6,DP_SCALAR_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -1953,41 +1861,6 @@ int32_t store_dp_date_time(uint8_t dp_index, uint8_t index)
 	memcpy(&g_all_dp_param_obis_val.param_obis_val_info[index].value,&date_time,sizeof(date_time_t));
 	
 	return RET_SUCCESS;
-	
-	//if(memcmp(gen_dp_param_det.val_obis[index],g_date_time_obis,6)==0)
-	if(1)
-	{
-		g_dp_entry_idx++;
-		
-		printf("dp_index : %d, Storing date for g_dp_entry_idx : %d -->>> %d_%d %02d:%02d \n",
-														dp_index,g_dp_entry_idx,
-														gen_data_val_info[index].value[3],
-														gen_data_val_info[index].value[2],
-														gen_data_val_info[index].value[5],
-														gen_data_val_info[index].value[6]);
-
-		year = (gen_data_val_info[index].value[0]<<8)|(gen_data_val_info[index].value[1]);
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.day= gen_data_val_info[index].value[3];
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.month= gen_data_val_info[index].value[2];
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.year =  year;
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.hour= gen_data_val_info[index].value[5];
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.minute= gen_data_val_info[index].value[6];
-		all_daily_profile_data_value.daily_profile_val_info[dp_index].date_time.second= 0;
-		
-/* 		printf("g_ls_entry_idx ::: %d Stored date %02d-%02d  %02d:%02d \n",g_ls_entry_idx,
-				all_ls_data_info.block_val_info[g_ls_entry_idx].date_time.day,
-				all_ls_data_info.block_val_info[g_ls_entry_idx].date_time.month,
-				all_ls_data_info.block_val_info[g_ls_entry_idx].date_time.hour,
-				all_ls_data_info.block_val_info[g_ls_entry_idx].date_time.minute
-		); */
-		
-		return RET_SUCCESS;
-	}
-	else
-	{
-		//printf("Ls date time not matched for ls_idx : %d index : %d\n",ls_idx,index);
-		return -1;
-	}
 }
 
 /**************************************************************************************************
@@ -2132,11 +2005,11 @@ int32_t save_dp_data_file(void)
 	
 		if(p_file_ptr == NULL)
 		{
-			dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : Adding OBIS Header for new file : %s\n",fun_name,curr_ls_file_path);
+		lib_dbg_log(INFORM,"%-20s : Adding OBIS Header for new file : %s\n",fun_name,curr_ls_file_path);
 		for(idx=0; idx<g_all_dp_param_obis_val.tot_num_params; idx++)
 		{
 			memset(obis_buff,0,sizeof(obis_buff));
@@ -2156,16 +2029,45 @@ int32_t save_dp_data_file(void)
 			
 			fflush(p_file_ptr);
 		}
+		
+		fclose(p_file_ptr);
+	}
+	
+	int8_t fun_ret =0;
+	for(idx=0; idx<g_all_dp_param_obis_val.tot_num_params; idx++)
+	{
+		memset(value_buff,0,sizeof(obis_buff));
+		switch(g_all_dp_param_obis_val.param_obis_val_info[idx].data_type)
+		{
+			case OCTET_STRING_TYPE:
+			{
+				memset(&date_time,0,sizeof(date_time));
+				memcpy(&date_time,&g_all_dp_param_obis_val.param_obis_val_info[idx].value,sizeof(date_time_t));
+				sprintf(value_buff,"%02d_%02d_%04d",date_time.day,date_time.month,date_time.year);
+				fun_ret=1;
+			}
+			break;
+		}
+		if(fun_ret)
+			break;
+	}
+	
+	fun_ret = find_value_det(curr_ls_file_path,value_buff);
+	if(fun_ret==1)
+	{
+		return RET_SUCCESS;
 	}
 	else
 	{
-		p_file_ptr = fopen(curr_ls_file_path,"a");
+		lib_dbg_log(REPORT,"%-20s : New Dp entry details found need to store \n",fun_name);
+	}
 	
-		if(p_file_ptr == NULL)
-		{
-			dbg_log(REPORT,"%-20s : File is not opened append mode, Error : %s\n",fun_name,strerror(errno));
-			return -1;
-		}
+	p_file_ptr = fopen(curr_ls_file_path,"a");
+
+	if(p_file_ptr == NULL)
+	{
+		lib_dbg_log(REPORT,"%-20s : File is not opened append mode, Error : %s\n",fun_name,strerror(errno));
+		return -1;
 	}
 	
 	for(idx=0; idx<g_all_dp_param_obis_val.tot_num_params; idx++)
@@ -2208,286 +2110,6 @@ int32_t save_dp_data_file(void)
 	return RET_SUCCESS;
 }
 
-int32_t save_dp_data_file1(void)
-{
-	static char fun_name[]="save_dp_data_file()";
-	char 		curr_ls_file_path[64];
-	uint8_t		idx = 0;
-	FILE		*p_file_ptr = NULL;
-	float 		p_flt_ptr=0.0;
-	struct 		stat st;
-	
-	memset(curr_ls_file_path,0,sizeof(curr_ls_file_path));
-	sprintf(curr_ls_file_path,"%s/dp_%02d_%04d",
-	g_ls_data_dir_path,
-	all_daily_profile_data_value.daily_profile_val_info[0].date_time.month,
-	all_daily_profile_data_value.daily_profile_val_info[0].date_time.year
-	);
-	
-	p_file_ptr = fopen(curr_ls_file_path,"w");
-	
-	if(p_file_ptr == NULL)
-	{
-		dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
-		return -1;
-	}
-	
-	fprintf(p_file_ptr,"%s\n","DATE\tKWH_IMP\tKWH_EXP\tKVAH_IMP\tKVAH_EXP\tRE_High\tRE_Low\tKVARH_Q1\tKVARH_Q2\tKVARH_Q3\tKVARH_Q4");
-	fflush(p_file_ptr);
-	
-	fprintf(p_file_ptr,"%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t\%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\n",
-
-			g_date_time_obis[0],g_date_time_obis[1],g_date_time_obis[2],g_date_time_obis[3],
-			g_date_time_obis[4],g_date_time_obis[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[5],
-
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[5]);
-			
-	dbg_log(INFORM,"%-20s : Total num of mid_night data available : %d \n",fun_name,g_dp_entry_idx);
-	
-	dbg_log(INFORM,"%-20s : Listing all midnight data val info : %d \n",fun_name,gen_dp_param_det.tot_num_value);
-	
-	//for(idx=0; idx<g_dp_entry_idx; idx++)
-	for(idx=0; idx<gen_dp_param_det.tot_num_value; idx++)
-	{
-		printf(">>>idx : %d, fileName : %s/dp_%02d_%04d\n",
-		idx,g_ls_data_dir_path,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.month,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.year);
-		
-		if(all_daily_profile_data_value.daily_profile_val_info[idx].date_time.day == 0)
-		{
-			dbg_log(REPORT,"%-20s : Idx : %d Date Time can't be 00_00_0000 \n",fun_name,idx);
-			continue;
-		}
-		
-		memset(curr_ls_file_path,0,sizeof(curr_ls_file_path));
-		
-		sprintf(curr_ls_file_path,"%s/dp_%02d_%04d",
-		g_ls_data_dir_path,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.month,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.year
-		);
-		
-		printf(">>>idx : %d, fileName : %s\n",idx,curr_ls_file_path);
-		if(stat(curr_ls_file_path,&st)==-1)
-		{
-			fclose(p_file_ptr);
-			
-			p_file_ptr = fopen(curr_ls_file_path,"w");
-			
-			if(p_file_ptr == NULL)
-			{
-				dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
-				return -1;
-			}
-			
-			fprintf(p_file_ptr,"%s\n","DATE\tKWH_IMP\tKWH_EXP\tKVAH_IMP\tKVAH_EXP\tRE_High\tRE_Low\tKVARH_Q1\tKVARH_Q2\tKVARH_Q3\tKVARH_Q4");
-			fflush(p_file_ptr);
-			
-			fprintf(p_file_ptr,"%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t\%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\t%d.%d.%d.%d.%d.%d\n",
-
-			g_date_time_obis[0],g_date_time_obis[1],g_date_time_obis[2],g_date_time_obis[3],
-			g_date_time_obis[4],g_date_time_obis[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_imp.param_obis_code[5],
-
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kwh_exp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_imp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvah_exp.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enhi.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].react_enlo.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q1.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q2.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q3.param_obis_code[5],
-			
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[0],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[1],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[2],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[3],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[4],
-			all_daily_profile_data_value.daily_profile_val_info[0].kvarh_q4.param_obis_code[5]);
-		}
-		
-		fprintf(p_file_ptr,"%02d_%02d_%04d\t",
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.day,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.month,
-		all_daily_profile_data_value.daily_profile_val_info[idx].date_time.year);
-	
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kwh_imp.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kwh_exp.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvah_imp.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvah_exp.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].react_enhi.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].react_enlo.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvarh_q1.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvarh_q2.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvarh_q3.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\t",p_flt_ptr);
-		
-		p_flt_ptr=0.0;
-		memcpy(&p_flt_ptr,&all_daily_profile_data_value.daily_profile_val_info[idx].kvarh_q4.param_value,4);
-		fprintf(p_file_ptr,"%0.5f\n\n",p_flt_ptr);
-
-		fflush(p_file_ptr);
-	}
-	
-	fclose(p_file_ptr);
-	
-	if(g_secure_met_flag==1)
-	{
-		dbg_log(INFORM,"%-20s : Meter storing order is FIFO need to sort the DP file : %s\n",fun_name,curr_ls_file_path);
-		
-		//sort_dp_data_file(curr_ls_file_path);
-	}
-	
-	return RET_SUCCESS;
-}
-
 /**************************************************************************************************
 *Function 					: get_daily_profile_value()
 *Input Parameters 			: Structure containing Commn  fd, meter id , password , type of meter and read all dp flag.
@@ -2512,13 +2134,13 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_raw_data_idx = 0;
 	g_query_type = DAILY_VALUES_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : DAILY_VALUES_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : DAILY_VALUES_TYPE\n",fun_name);
 	
 	if(dp_all==1)
 	{
 		if(send_get_request(meter_comm_params,DP_DATA_VAL_INT_CLASS, obis, 6, DP_DATA_VAL_ATTR_NO)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get daily profile  value info\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value info\n",fun_name);
 			return -1;
 		}
 	}
@@ -2526,7 +2148,7 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 	{
 		if(get_curr_date_time(meter_comm_params)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get current meter date time\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : failed to get current meter date time\n",fun_name);
 			return -1;
 		}
 		
@@ -2538,7 +2160,7 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 		
 		if(send_blk_profile_request(meter_comm_params, DP_DATA_VAL_INT_CLASS, obis, 6, DP_DATA_VAL_ATTR_NO)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get daily profile data\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : failed to get daily profile data\n",fun_name);
 			return -1;
 		}
 	}
@@ -2555,7 +2177,7 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get daily profile  value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -2566,7 +2188,7 @@ int32_t get_daily_profile_value(meter_comm_params_t*meter_comm_params, uint8_t d
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get daily profile  value get next frame frame\n",fun_name);
 				return -1;
 			}
 			g_get_nxt_blk_val = g_get_nxt_blk_val+1;
@@ -2606,14 +2228,14 @@ int32_t proc_daily_profile_val_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
 		/* loc_idx=17+OFFSET; */
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",fun_name,msg[loc_idx-1],len-(loc_idx+3));
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_dp_param_det.tot_num_val_obis = msg[loc_idx-1];
 		
@@ -2637,7 +2259,7 @@ int32_t proc_daily_profile_val_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
 				
 				return -1;
 			}
@@ -2649,7 +2271,7 @@ int32_t proc_daily_profile_val_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -2680,12 +2302,12 @@ int32_t proc_daily_profile_scalar_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_dp_param_det.tot_num_scalar = msg[loc_idx-1];
@@ -2711,7 +2333,7 @@ int32_t proc_daily_profile_scalar_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -2722,7 +2344,7 @@ int32_t proc_daily_profile_scalar_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -2753,13 +2375,13 @@ int32_t proc_daily_profile_scalar_val( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 		g_first_time_resp=0;
 	}
@@ -2782,7 +2404,7 @@ int32_t proc_daily_profile_scalar_val( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -2793,7 +2415,7 @@ int32_t proc_daily_profile_scalar_val( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -2826,13 +2448,13 @@ int32_t proc_daily_profile_value( uint8_t* msg, uint32_t len)
 		
 		if(index == len)
 		{
-			dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
 			return -1;
 		}
 		
 		gen_dp_param_det.tot_num_value = msg[loc_idx-1];
 		
-		dbg_log(INFORM,"%-20s : DP num_of_element : %d\n",fun_name,gen_dp_param_det.tot_num_value);
+		lib_dbg_log(INFORM,"%-20s : DP num_of_element : %d\n",fun_name,gen_dp_param_det.tot_num_value);
 		
 		g_first_time_resp=0;
 	}
@@ -2856,7 +2478,7 @@ int32_t proc_daily_profile_value( uint8_t* msg, uint32_t len)
 			
 			if(index == len)
 			{
-				dbg_log(REPORT,"%-20s : No start stamp seen.\n",
+				lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",
 				fun_name);
 				return -1;
 			}
@@ -2866,7 +2488,7 @@ int32_t proc_daily_profile_value( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	//EXIT :
@@ -2886,7 +2508,7 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 
 	uint8_t 	idx=0;
 	int8_t 		*p_tmp_str=NULL;
-	float 		flt_val = 0.0,scal_flt_val=0.0;
+	float 		flt_val = 0.0,scal_flt_val=1;
 	uint8_t		uint8_temp_val=0;
 	int16_t		int16_temp_val=0;
 	uint16_t	uint16_temp_val=0;
@@ -2909,14 +2531,14 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				
-				/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+				/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 				fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,float_temp_val); */
 	
 				flt_val = (float)((float)float_temp_val * scal_flt_val);
 				
-				//dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val);
+				//lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val);
 				
 				if(store_dp_val(dp_index, idx, flt_val) < 0)
 					continue;
@@ -2934,24 +2556,24 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 /* 				printf(":::::::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_dp_param_det.scalar_val[idx].value,scal_flt_val); */
 				
 				if(gen_data_val_info[idx].data_type==UNSIGNED_32BIT_TYPE)
 				{
 					flt_val = (float)((float)uint32_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,(float)uint32_temp_val); */
 				}
 				else
 				{
 					flt_val = (float)((float)int32_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,(float)int32_temp_val); */
 				}
 				
-				/* dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
+				/* lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
 				if(store_dp_val(dp_index, idx, flt_val) < 0)
 					continue;
 	
@@ -2967,7 +2589,7 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 				p_tmp_str[1] = gen_data_val_info[idx].value[0];
 				p_tmp_str[0] = gen_data_val_info[idx].value[1];
 				
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				/* printf("16BIT_TYPE :::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_dp_param_det.scalar_val[idx].value,scal_flt_val); */
@@ -2981,17 +2603,17 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 				if(gen_data_val_info[idx].data_type==UNSIGNED_16BIT_TYPE)
 				{
 					flt_val = (float)((float)uint16_temp_val * scal_flt_val);	
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,uint16_temp_val); */
 				}
 				else
 				{
 					flt_val = (float)((float)int16_temp_val * scal_flt_val);
-					/* dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
+					/* lib_dbg_log(INFORM,"%-20s : Scalar val : %d, ScalFltVal : %f, Before Multiply val : %f\n",
 					fun_name,gen_dp_param_det.scalar_val[idx].value,scal_flt_val,int16_temp_val); */
 				}
 				
-				/* dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
+				/* lib_dbg_log(INFORM,"%-20s : After Multiply value : %f\n",fun_name,flt_val); */
 				if(store_dp_val(dp_index, idx, flt_val) < 0)
 					continue;
 
@@ -3000,7 +2622,7 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 			case UNSIGNED_8BIT_TYPE:
 				p_tmp_str=(int8_t*)&uint8_temp_val;
 				p_tmp_str[0] = gen_data_val_info[idx].value[0];
-				get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_dp_param_det.scalar_val[idx].value,&scal_flt_val);
 				flt_val = (float)((float)uint8_temp_val * scal_flt_val);
 				
 				if(store_dp_val(dp_index, idx, flt_val) < 0)
@@ -3022,12 +2644,67 @@ int32_t fill_daily_profile_val(uint8_t dp_index)
 
 /* Event Related */
 /**************************************************************************************************
+*Function 					: find_value_det()
+*Input Parameters 			: event class type.
+*Output Parameters 			: None.
+*Return	Value				: Success or appropriate error code.
+*Description 				: To store events details into file for a event class type.
+********************************************************************************************************/
+int8_t find_value_det(char *event_file_path, char *value_buff)
+{
+	struct stat file_st;
+
+	if(stat(event_file_path,&file_st)==-1)
+	{
+		return -1;
+	}
+	else
+	{
+		int32_t		file_fd=0;
+		file_fd = open(event_file_path, O_RDONLY);
+		if (file_fd == -1) 
+		{
+			printf("can't open file - %s", event_file_path);
+			return -1;
+		}
+
+		char *p_file_read = NULL;
+		p_file_read = (char*)malloc(file_st.st_size+1);
+		memset(p_file_read,0,file_st.st_size+1);
+		if (file_st.st_size!=read(file_fd, p_file_read, file_st.st_size)) 
+		{
+			printf("can't read file - %s", event_file_path);
+			close(file_fd);
+			free(p_file_read);
+			return -1;
+		}
+		
+		close(file_fd);
+		
+		p_file_read[file_st.st_size]='\0';
+		
+		if ( strstr(p_file_read,value_buff) != NULL )
+		{
+			static char fun_name[]="find_value_det()";
+			lib_dbg_log(INFORM,"%-20s : file_name : %s , found Time entry : %s\n",fun_name,event_file_path,value_buff);
+			free(p_file_read);
+			return 1;
+		}
+		
+		free(p_file_read);
+	}
+	
+	return RET_SUCCESS;
+}
+
+/**************************************************************************************************
 *Function 					: store_event_det_file()
 *Input Parameters 			: event class type.
 *Output Parameters 			: None.
 *Return	Value				: Success or appropriate error code.
 *Description 				: To store events details into file for a event class type.
 ********************************************************************************************************/
+
 int32_t store_event_det_file(uint8_t event_class)
 {
 	static char fun_name[]="store_event_det_file()";
@@ -3041,8 +2718,8 @@ int32_t store_event_det_file(uint8_t event_class)
 	date_time_t date_time;
 	
 	memset(curr_ls_file_path,0,sizeof(curr_ls_file_path));
-	sprintf(curr_ls_file_path,"%s/event_%d",g_ls_data_dir_path,event_class);
-	
+	//sprintf(curr_ls_file_path,"%s/event_%d",g_ls_data_dir_path,event_class);
+	sprintf(curr_ls_file_path,"%s/cms_lib_data",g_ls_data_dir_path);
 	if(stat(curr_ls_file_path,&st)==-1)
 	{
 		file_avl=0;
@@ -3052,18 +2729,22 @@ int32_t store_event_det_file(uint8_t event_class)
 		file_avl=1;
 	}
 	
+	if(file_avl==1)
+	{
+		;
+	}
+	
 	//if(g_append_event_file_flag==0)
 	if(file_avl==0)
 	{
 		p_file_ptr = fopen(curr_ls_file_path,"w");
 		if(p_file_ptr == NULL)
 		{
-			dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
-			g_append_event_file_flag=1;
+			lib_dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : Adding OBIS Header for Event file : %s\n",fun_name,curr_ls_file_path);
+		lib_dbg_log(INFORM,"%-20s : Adding OBIS Header for Event file : %s\n",fun_name,curr_ls_file_path);
 		for(idx=0; idx<g_all_event_param_obis_val.tot_num_params; idx++)
 		{
 			memset(obis_buff,0,sizeof(obis_buff));
@@ -3083,21 +2764,55 @@ int32_t store_event_det_file(uint8_t event_class)
 			
 			fflush(p_file_ptr);
 		}
+		
+		fclose(p_file_ptr);
+		g_append_event_file_flag=1;
+	}
+	
+	int8_t fun_ret=0;
+	
+	for(idx=0; idx<g_all_event_param_obis_val.tot_num_params; idx++)
+	{
+		memset(value_buff,0,sizeof(value_buff));
+		switch(g_all_event_param_obis_val.param_obis_val_info[idx].data_type)
+		{
+			case OCTET_STRING_TYPE:
+			{
+				memset(&date_time,0,sizeof(date_time));
+				memcpy(&date_time,&g_all_event_param_obis_val.param_obis_val_info[idx].value,sizeof(date_time_t));
+				sprintf(value_buff,"%02d_%02d_%02d %02d:%02d",date_time.day,date_time.month,date_time.year,date_time.hour,date_time.minute);
+				fun_ret=1;
+			}
+			break;
+			
+			default :
+			break;
+		}
+		if(fun_ret)
+			break;
+	}
+	
+	fun_ret = find_value_det(curr_ls_file_path, value_buff);
+	if(fun_ret==1)
+	{
+		g_append_event_file_flag=1;
+		return RET_SUCCESS;
 	}
 	else
 	{
-		p_file_ptr = fopen(curr_ls_file_path,"a");
-		if(p_file_ptr == NULL)
-		{
-			dbg_log(REPORT,"%-20s : Event File is not opened Append mode, Error : %s\n",fun_name,strerror(errno));
-			g_append_event_file_flag=1;
-			return -1;
-		}
+		lib_dbg_log(REPORT,"%-20s : New Event entry details found need to store event type : %u\n",fun_name,event_class);
+	}
+
+	p_file_ptr = fopen(curr_ls_file_path,"a");
+	if(p_file_ptr == NULL)
+	{
+		lib_dbg_log(REPORT,"%-20s : Event File is not opened Append mode, Error : %s\n",fun_name,strerror(errno));
+		return -1;
 	}
 	
 	for(idx=0; idx<g_all_event_param_obis_val.tot_num_params; idx++)
 	{
-		memset(value_buff,0,sizeof(obis_buff));
+		memset(value_buff,0,sizeof(value_buff));
 		switch(g_all_event_param_obis_val.param_obis_val_info[idx].data_type)
 		{
 			case OCTET_STRING_TYPE:
@@ -3132,12 +2847,12 @@ int32_t store_event_det_file(uint8_t event_class)
 		if(idx==g_all_event_param_obis_val.tot_num_params-1)
 		{
 			fprintf(p_file_ptr,"%s\n",value_buff);
-			printf("%s\n",value_buff);
+			//printf("%s\n",value_buff);
 		}
 		else
 		{
 			fprintf(p_file_ptr,"%s\t",value_buff);
-			printf("%s\t",value_buff);
+			//printf("%s\t",value_buff);
 		}
 		
 		fflush(p_file_ptr);
@@ -3170,11 +2885,11 @@ int32_t get_num_event_entries(meter_comm_params_t *meter_comm_params, uint8_t* o
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_raw_data_idx = 0;
 	g_query_type = EVENT_ENTRIES_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : EVENT_ENTRIES_TYPE, for event class : %d\n",fun_name,obis[4]);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : EVENT_ENTRIES_TYPE, for event class : %d\n",fun_name,obis[4]);
 
 	if(send_get_request(meter_comm_params, EVENT_ENTRY_INT_CLASS, obis, 6, EVENT_ENTRY_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
 		return -1;
 	}
 	
@@ -3189,7 +2904,7 @@ int32_t get_num_event_entries(meter_comm_params_t *meter_comm_params, uint8_t* o
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event entry rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event entry rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -3199,7 +2914,7 @@ int32_t get_num_event_entries(meter_comm_params_t *meter_comm_params, uint8_t* o
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event entry get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event entry get next frame frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -3295,12 +3010,12 @@ int32_t proc_event_val_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_event_param_det.tot_num_val_obis = msg[loc_idx-1];
@@ -3325,7 +3040,7 @@ int32_t proc_event_val_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
 				
 				return -1;
 			}
@@ -3335,7 +3050,7 @@ int32_t proc_event_val_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -3366,12 +3081,12 @@ int32_t proc_event_scalar_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 		
 		gen_event_param_det.tot_num_scalar = msg[loc_idx-1];
@@ -3397,7 +3112,7 @@ int32_t proc_event_scalar_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -3407,7 +3122,7 @@ int32_t proc_event_scalar_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
@@ -3438,12 +3153,12 @@ int32_t proc_event_scalar_val( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		g_first_time_resp=0;
@@ -3467,7 +3182,7 @@ int32_t proc_event_scalar_val( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -3477,7 +3192,7 @@ int32_t proc_event_scalar_val( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
@@ -3503,7 +3218,7 @@ int32_t proc_event_value(uint8_t* msg, uint32_t len)
 	{
 		gen_event_param_det.tot_num_value = 0;
 		
-		dbg_log(INFORM,"%-20s : Event Data not available for this Event Type : %d\n",fun_name,event_idx);
+		lib_dbg_log(INFORM,"%-20s : Event Data not available for this Event Type : %d\n",fun_name,event_idx);
 		
 		all_events_data_value.events_type_info[event_idx].num_event = 0;
 		
@@ -3525,11 +3240,11 @@ int32_t proc_event_value(uint8_t* msg, uint32_t len)
 		
 		if(index == len)
 		{
-			dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
 			return -1;
 		}
 
-		dbg_log(INFORM,"%-20s : event_idx : %d num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : event_idx : %d num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,event_idx,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_event_param_det.tot_num_value = msg[loc_idx-1];
@@ -3569,7 +3284,7 @@ int32_t proc_event_value(uint8_t* msg, uint32_t len)
 			
 			if(index == len)
 			{
-				dbg_log(REPORT,"%-20s : No start stanp seen.\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : No start stanp seen.\n",fun_name);
 				return -1;
 			}
 		}
@@ -3578,7 +3293,7 @@ int32_t proc_event_value(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	return RET_SUCCESS;
 }
 
@@ -3595,7 +3310,7 @@ int32_t fill_event_val( uint8_t event_idx)
 
 	uint8_t 	idx=0;
 	int8_t 		*p_tmp_str=NULL;
-	float 		flt_val = 0.0,scal_flt_val=0.0;
+	float 		flt_val = 0.0,scal_flt_val=1;
 	uint8_t		uint8_temp_val=0;
 	int16_t		int16_temp_val=0;
 	uint16_t	uint16_temp_val=0;
@@ -3618,7 +3333,7 @@ int32_t fill_event_val( uint8_t event_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				flt_val = (float)((float)float_temp_val * scal_flt_val);
 				if(store_event_val(event_idx, idx, flt_val) < 0)
@@ -3637,7 +3352,7 @@ int32_t fill_event_val( uint8_t event_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				if(gen_data_val_info[idx].data_type==UNSIGNED_32BIT_TYPE)
 					flt_val = (float)((float)uint32_temp_val * scal_flt_val);
@@ -3659,7 +3374,7 @@ int32_t fill_event_val( uint8_t event_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[0];
 				p_tmp_str[0] = gen_data_val_info[idx].value[1];
 				
-				get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_event_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 			/* 	printf("16BIT_TYPE :::::event_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				event_idx,idx,gen_event_param_det.scalar_val[idx].value,scal_flt_val); */
@@ -3679,7 +3394,7 @@ int32_t fill_event_val( uint8_t event_idx)
 				//printf("UNSIGNED_8BIT_TYPE : Type\n");
 				p_tmp_str=(int8_t*)&uint8_temp_val;
 				p_tmp_str[0] = gen_data_val_info[idx].value[0];
-				get_scaler_mf(gen_event_param_det.scalar_val[idx].value, &scal_flt_val);
+				//get_scaler_mf(gen_event_param_det.scalar_val[idx].value, &scal_flt_val);
 				flt_val = (float)((float)uint8_temp_val * scal_flt_val);
 				
 				if(store_event_val(event_idx, idx, flt_val) < 0)
@@ -3714,8 +3429,16 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 	
 	uint8_t obis[6] = {0};
 	uint8_t temp_nxt_blk_flag;
+	int8_t  fun_ret;
 	
 	g_event_type_idx = event_class;
+
+	fun_ret = get_event_entry_order(meter_comm_params);
+	if(fun_ret<0)
+	{
+		lib_dbg_log(REPORT,"%-20s : failed to get event entry order for type : %d\n",fun_name,event_class);
+		return fun_ret;
+	}
 
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
@@ -3725,15 +3448,16 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 	GET_OBIS_OCTETS(EVENT_DATA_VAL_OBIS_STR,obis);
 	obis[4] = event_class;
 	
-	if(get_num_event_entries(meter_comm_params,obis)<0)
+	fun_ret = get_num_event_entries(meter_comm_params,obis);
+	if(fun_ret<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get event entry order for type : %d\n",fun_name,event_class);
-		return -1;
+		lib_dbg_log(REPORT,"%-20s : failed to get number event entry for type : %d\n",fun_name,event_class);
+		return fun_ret;
 	}
 	
 	if(g_max_num_event[g_event_type_idx]==0)
 	{
-		dbg_log(INFORM,"%-20s : No events available for this event type : %d\n",fun_name,event_class);
+		lib_dbg_log(INFORM,"%-20s : No events available for this event type : %d\n",fun_name,event_class);
 		all_events_data_value.events_type_info[g_event_type_idx].num_event = 0;
 	
 		return RET_SUCCESS;
@@ -3742,12 +3466,12 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_raw_data_idx = 0;
 	g_query_type = EVENT_VALUE_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : EVENT_VALUE_TYPE for event type : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : EVENT_VALUE_TYPE for event type : %d\n",
 	fun_name,event_class);
 
 	if(send_get_event_request(meter_comm_params,EVENT_DATA_VAL_INT_CLASS, obis, 6, EVENT_DATA_VAL_ATTR_NO,read_all_event_flag)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get event value data info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get event value data info\n",fun_name);
 		return -1;
 	}
 	
@@ -3762,7 +3486,7 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -3772,7 +3496,7 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event value get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event value get next frame frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -3783,7 +3507,7 @@ int32_t get_event_class_data(meter_comm_params_t *meter_comm_params, uint8_t eve
 	
 	//store_event_det_file(event_class);
 	
-	memcpy(meter_comm_params->meter_response,&g_event_val_info,sizeof(event_val_info_t));
+	//memcpy(meter_comm_params->meter_response,&g_event_val_info,sizeof(event_val_info_t));
 	
 	return all_events_data_value.events_type_info[event_class].num_event;
 }
@@ -3801,10 +3525,10 @@ int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	uint8_t val_obis[6] = {0};
 
 	GET_OBIS_OCTETS(EVENT_VAL_OBIS_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : EVENT_VALUE_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : EVENT_VALUE_OBIS_TYPE\n",fun_name);
 	if(get_gen_val_obis(meter_comm_params, EVENT_VALUE_OBIS_TYPE,EVENT_VAL_INT_CLASS,val_obis,6,EVENT_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get event val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get event val obis code\n",fun_name);
 		return RET_VAL_OBIS_EVENT_FAIL;
 	}
 	
@@ -3819,10 +3543,10 @@ int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	
 	GET_OBIS_OCTETS(EVENT_SCALAR_OBIS_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : EVENT_SCALER_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : EVENT_SCALER_OBIS_TYPE\n",fun_name);
 	if(get_gen_scalar_obis(meter_comm_params, EVENT_SCALER_OBIS_TYPE,EVENT_SCALAR_INT_CLASS,val_obis,6,EVENT_SCALAR_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get event scalar obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get event scalar obis code\n",fun_name);
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
@@ -3837,10 +3561,10 @@ int8_t get_event_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	
 	GET_OBIS_OCTETS(EVENT_SCALAR_VAL_OBIS_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : EVENT_SCALER_VALUE_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : EVENT_SCALER_VALUE_TYPE\n",fun_name);
 	if(get_gen_scalar_val(meter_comm_params, EVENT_SCALER_VALUE_TYPE,EVENT_SCALAR_VAL_INT_CLASS,val_obis,6,EVENT_SCALAR_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get event scalar value\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get event scalar value\n",fun_name);
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
@@ -3866,10 +3590,10 @@ int8_t get_ls_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_de
 	
 	GET_OBIS_OCTETS(LS_VAL_OBIS_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_VAL_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_VAL_OBIS_TYPE\n",fun_name);
 	if(get_gen_val_obis(meter_comm_params, BLOCK_VAL_OBIS_TYPE,LS_VAL_INT_CLASS,val_obis,6,LS_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
@@ -3884,10 +3608,10 @@ int8_t get_ls_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_de
 	
 	GET_OBIS_OCTETS(LS_SCALAR_OBIS_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_SCALER_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_SCALER_OBIS_TYPE\n",fun_name);
 	if(get_gen_scalar_obis(meter_comm_params, BLOCK_SCALER_OBIS_TYPE,LS_SCALAR_INT_CLASS,val_obis,6,LS_SCALAR_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
@@ -3902,10 +3626,10 @@ int8_t get_ls_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_de
 	
 	GET_OBIS_OCTETS(LS_SCALAR_VAL_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_SCALER_VALUE_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_SCALER_VALUE_TYPE\n",fun_name);
 	if(get_gen_scalar_val(meter_comm_params, BLOCK_SCALER_VALUE_TYPE,LS_SCALAR_VAL_INT_CLASS,val_obis,6,LS_SCALAR_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_LS_FAIL;
 	}
 	
@@ -3940,16 +3664,16 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 	
 	GET_OBIS_OCTETS(LS_DATA_VAL_OBIS_STR,obis);
 	g_query_type = BLOCK_VALUES_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_VALUES_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_VALUES_TYPE\n",fun_name);
 	
 	if(send_blk_profile_request(meter_comm_params, LS_DATA_VAL_INT_CLASS, obis, 6, LS_DATA_VAL_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get load survey data\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get load survey data\n",fun_name);
 		return -1;
 	}
 	else if(g_no_ls_data_avl_flag==1)
 	{
-		dbg_log(REPORT,"%-20s : No block data available for this date time stamp\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : No block data available for this date time stamp\n",fun_name);
 		return -1;
 	}
 	
@@ -3964,7 +3688,7 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -3975,7 +3699,7 @@ int32_t read_ls_data(meter_comm_params_t *meter_comm_params)
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_val)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
 				return -1;
 			}
 			g_get_nxt_blk_val=g_get_nxt_blk_val+1;
@@ -4002,17 +3726,17 @@ int32_t recv_ls_blk_range_data(meter_comm_params_t *meter_comm_params, date_time
 	memcpy(&g_st_date_time,&st_date_time,sizeof(date_time_t));
 	memcpy(&g_end_date_time,&end_date_time,sizeof(date_time_t));
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 	g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 	g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	
 	if(read_ls_data(meter_comm_params)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 		
@@ -4020,11 +3744,11 @@ int32_t recv_ls_blk_range_data(meter_comm_params_t *meter_comm_params, date_time
 	}
 	else
 	{
-		dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 		
-		dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 		g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	}
@@ -4052,17 +3776,17 @@ int32_t recv_ls_hour_range_data(meter_comm_params_t *meter_comm_params,date_time
 	memcpy(&g_st_date_time,&st_date_time,sizeof(date_time_t));
 	memcpy(&g_end_date_time,&end_date_time,sizeof(date_time_t));
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 	g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 	g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	
 	if(read_ls_data(meter_comm_params)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 		
@@ -4070,11 +3794,11 @@ int32_t recv_ls_hour_range_data(meter_comm_params_t *meter_comm_params,date_time
 	}
 	else
 	{
-		dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 		
-		dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 		g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	}
@@ -4086,77 +3810,6 @@ int32_t recv_ls_hour_range_data(meter_comm_params_t *meter_comm_params,date_time
 	memcpy(&meter_comm_params->meter_response, &g_block_val_info, sizeof(block_val_info_t));
 	
 	return RET_SUCCESS;
-}
-
-/**************************************************************************************************
-*Function 					: check_ls_file_avl()
-*Input Parameters 			: Meter Idx, Ls File Name.
-*Output Parameters 			: None.
-*Return	Value				: Success or appropriate error code.
-*Description 				: To check complete load survey data file.
-********************************************************************************************************/
-int32_t check_ls_file_avl(char* file_name)
-{
-	char 	time_entry[32];
-	FILE	*p_file_ptr = NULL;
-	
-	memset(time_entry,0,32);
-	
-	if(g_meter_mfg_type==LNT_METER_MFG_TYPE)
-	{
-		sprintf(time_entry,"%02d:%02d",24,00);		
-	}
-	else
-	{
-		sprintf(time_entry,"%02d:%02d",23,(60-g_int_period_blk));
-	}
-	
-	static char fun_name[]="check_ls_file_avl()";
-	p_file_ptr = fopen(file_name,"r");
-	if(p_file_ptr == NULL)
-	{
-		dbg_log(REPORT,"%-20s : File : %s is not opened Read mode, Error : %s\n",fun_name,file_name,strerror(errno));
-		return -1;
-	}
-	else
-	{
-		uint8_t	line_cnt = 0;
-		char 	read_line[256];
-		while(fgets(read_line,256,p_file_ptr)!=NULL)
-		{
-			line_cnt++;
-			
-			if ( strstr(read_line, time_entry) != NULL )
-			{
-				if(line_cnt>=(g_num_blocks_blk_data+1))
-				{
-					dbg_log(INFORM,"%-20s : ::: file_name : %s Time entry : %s found \n",fun_name,file_name,time_entry);
-					
-					fclose(p_file_ptr);
-					
-					return 1;
-				}
-				else
-				{
-					fclose(p_file_ptr);
-					
-					remove(file_name);
-					
-					return 0;
-				}
-			}
-			memset(read_line,0,256);
-		}
-	}
-	
-	fclose(p_file_ptr);
-	
-	dbg_log(INFORM,"%-20s : ::: file_name : %s Time entry : %s Not found Deleting file\n",
-	fun_name,file_name,time_entry);
-	
-	remove(file_name);
-	
-	return 0;
 }
 
 /**************************************************************************************************
@@ -4184,11 +3837,11 @@ int32_t recv_ls_day_range_data(meter_comm_params_t *meter_comm_params,uint8_t la
 	g_end_date_time.minute = meter_comm_params->to.minute;
 	g_end_date_time.second = meter_comm_params->to.second;
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 	g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 	
-	dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+	lib_dbg_log(INFORM,"%-20s : Getting  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 	g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 	g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	
@@ -4196,12 +3849,12 @@ int32_t recv_ls_day_range_data(meter_comm_params_t *meter_comm_params,uint8_t la
 	{
 		if(g_no_ls_data_avl_flag==1)
 		{
-			dbg_log(REPORT,"%-20s : No Load survey data available for this date: %02d_%02d_%04d",
+			lib_dbg_log(REPORT,"%-20s : No Load survey data available for this date: %02d_%02d_%04d",
 			fun_name,g_st_date_time.day,g_st_date_time.month,g_st_date_time.year);
 		}
 		else
 		{
-			dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+			lib_dbg_log(REPORT,"%-20s : failed to get ls data for date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 			g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 			g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 			
@@ -4210,11 +3863,11 @@ int32_t recv_ls_day_range_data(meter_comm_params_t *meter_comm_params,uint8_t la
 	}
 	else
 	{
-		dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for start date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_st_date_time.day,g_st_date_time.month,g_st_date_time.year,
 		g_st_date_time.hour,g_st_date_time.minute,g_st_date_time.second);
 		
-		dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
+		lib_dbg_log(INFORM,"%-20s : Received  ls data for end date_time : %02d_%02d_%04d %02d:%02d:%02d\n",fun_name,
 		g_end_date_time.day,g_end_date_time.month,g_end_date_time.year,
 		g_end_date_time.hour,g_end_date_time.minute,g_end_date_time.second);
 	}
@@ -4247,13 +3900,13 @@ int32_t get_int_blk_period(meter_comm_params_t *meter_comm_params)
 	
 	memset(g_raw_data_buff,0,sizeof(g_raw_data_buff));
 	g_query_type = BLOCK_INT_PERIOD_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_INT_PERIOD_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : BLOCK_INT_PERIOD_TYPE\n",fun_name);
 	
 	GET_OBIS_OCTETS(LS_BLK_INT_PER_OBIS_STR,obis);
 	
 	if(send_get_request(meter_comm_params, LS_BLK_INT_PER_INT_CLASS, obis, 6, LS_BLK_INT_PER_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get block interval period info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get block interval period info\n",fun_name);
 		return -1;
 	}
 	
@@ -4268,7 +3921,7 @@ int32_t get_int_blk_period(meter_comm_params_t *meter_comm_params)
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get load survey val obis rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get load survey val obis rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -4279,13 +3932,14 @@ int32_t get_int_blk_period(meter_comm_params_t *meter_comm_params)
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get block interval period get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get block interval period get next frame frame\n",fun_name);
 				return -1;
 			}
 		}
 	}
 	
-	return RET_SUCCESS;
+	//return RET_SUCCESS;
+	return g_num_blocks_blk_data;
 }
 
 /**************************************************************************************************
@@ -4313,12 +3967,12 @@ int32_t proc_ls_val_obis(uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_ls_param_det.tot_num_val_obis = msg[loc_idx-1];
@@ -4343,7 +3997,7 @@ int32_t proc_ls_val_obis(uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
 				
 				return -1;
 			}
@@ -4355,7 +4009,7 @@ int32_t proc_ls_val_obis(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	return RET_SUCCESS;
 }
 
@@ -4383,14 +4037,14 @@ int32_t proc_ls_scalar_obis( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
 		/* loc_idx=17+OFFSET; */
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_ls_param_det.tot_num_scalar = msg[loc_idx-1];
@@ -4416,7 +4070,7 @@ int32_t proc_ls_scalar_obis( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -4427,7 +4081,7 @@ int32_t proc_ls_scalar_obis( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -4457,14 +4111,14 @@ int32_t proc_ls_scalar_val( uint8_t* msg, uint32_t len)
 		}
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 		
 		/* loc_idx=19+OFFSET; */
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		g_first_time_resp=0;
@@ -4488,7 +4142,7 @@ int32_t proc_ls_scalar_val( uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -4500,7 +4154,7 @@ int32_t proc_ls_scalar_val( uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s :  Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s :  Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -4521,7 +4175,7 @@ int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 		
 	if((msg[12+OFFSET]==0X01) && (msg[13+OFFSET]==0X81) && (msg[14+OFFSET]==0X01))
 	{
-		dbg_log(INFORM,"%-20s : no LS data available for this date qry.\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : no LS data available for this date qry.\n",fun_name);
 		return 1;
 	}
 	
@@ -4541,11 +4195,11 @@ int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 		
 		if(index == len)
 		{
-			dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : Numof ls block : %d, First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : Numof ls block : %d, First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		g_first_time_resp=0;
@@ -4574,7 +4228,7 @@ int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 			
 			if(index == len)
 			{
-				dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : No start stamp seen.\n",fun_name);
 				return -1;
 			}
 				/* loc_idx=23+OFFSET; */
@@ -4586,12 +4240,12 @@ int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	if(g_ls_decode_flag == 1)
 	{
-		dbg_log(INFORM,"%-20s : g_num_ls_param : %d g_raw_data_idx : %d\n",fun_name,g_num_ls_param,g_raw_data_idx);
+		lib_dbg_log(INFORM,"%-20s : g_num_ls_param : %d g_raw_data_idx : %d\n",fun_name,g_num_ls_param,g_raw_data_idx);
 	
 		index = 0;
 		
@@ -4646,7 +4300,7 @@ int32_t proc_ls_value(uint8_t* msg, uint32_t len)
 			
 			if(fill_ls_val(ls_index)<0)
 			{
-				dbg_log(REPORT,"%-20s : Failed to filled for ls index : %d\n",fun_name,ls_index);
+				lib_dbg_log(REPORT,"%-20s : Failed to filled for ls index : %d\n",fun_name,ls_index);
 					continue;
 			}
 		}
@@ -4817,7 +4471,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 
 	uint8_t 	idx=0;
 	int8_t 		*p_tmp_str=NULL;
-	float 		flt_val = 0.0,scal_flt_val=0.0;
+	float 		flt_val = 0.0,scal_flt_val=1;
 	uint8_t		uint8_temp_val=0;
 	int16_t		int16_temp_val=0;
 	uint16_t	uint16_temp_val=0;
@@ -4840,7 +4494,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				flt_val = (float)((float)float_temp_val * scal_flt_val);
 				if(store_ls_val( recv_ls_idx, idx, flt_val) < 0)
@@ -4859,7 +4513,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[2];
 				p_tmp_str[0] = gen_data_val_info[idx].value[3];
 				
-				get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
 /* 				printf(":::::::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_ls_param_det.scalar_val[idx].value,scal_flt_val); */
 				
@@ -4883,7 +4537,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 				p_tmp_str[1] = gen_data_val_info[idx].value[0];
 				p_tmp_str[0] = gen_data_val_info[idx].value[1];
 				
-				get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
 				
 				/* printf("16BIT_TYPE :::::recv_ls_idx : %d Idx : %d ScalarVal : %d scal_flt_val : %f\n",
 				recv_ls_idx,idx,gen_ls_param_det.scalar_val[idx].value,scal_flt_val); */
@@ -4907,7 +4561,7 @@ int32_t fill_ls_val( uint8_t recv_ls_idx)
 			case UNSIGNED_8BIT_TYPE:
 				p_tmp_str=(int8_t*)&uint8_temp_val;
 				p_tmp_str[0] = gen_data_val_info[idx].value[0];
-				get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
+				//get_scaler_mf(gen_ls_param_det.scalar_val[idx].value,&scal_flt_val);
 				flt_val = (float)((float)uint8_temp_val * scal_flt_val);
 				
 				if(store_ls_val( recv_ls_idx, idx, flt_val) < 0)
@@ -4972,7 +4626,7 @@ int32_t search_time_entry( char* filepath, char* time_entry)
 		
 		if ( strstr(p_file_read,time_entry) != NULL )
 		{
-			dbg_log(INFORM,"search_time_entry  ::: file_name : %s Time entry : %s found \n",filepath,time_entry);
+			lib_dbg_log(INFORM,"search_time_entry  ::: file_name : %s Time entry : %s found \n",filepath,time_entry);
 			free(p_file_read);
 			return 1;
 		}
@@ -5008,10 +4662,11 @@ int32_t save_ls_data_file(void)
 	//sprintf(curr_ls_file_name,"%02d:%02d",date_time.hour,date_time.minute);
 
 	memset(curr_ls_file_name,0,sizeof(curr_ls_file_name));
-	sprintf(curr_ls_file_name,"%s/%02d_%02d_%04d",g_ls_data_dir_path,date_time.day,date_time.month,date_time.year);
+	//sprintf(curr_ls_file_name,"%s/%02d_%02d_%04d",g_ls_data_dir_path,date_time.day,date_time.month,date_time.year);
+	sprintf(curr_ls_file_name,"%s/cms_lib_data",g_ls_data_dir_path);
 	if(date_time.day==0)
 	{
-		dbg_log(REPORT,"%-20s : Day value can't be Zero.\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : Day value can't be Zero.\n",fun_name);
 		return -1;
 	}
 	
@@ -5038,11 +4693,11 @@ int32_t save_ls_data_file(void)
 		p_ls_file_ptr = fopen(curr_ls_file_name,"w");
 		if(p_ls_file_ptr == NULL)
 		{
-			dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
 			return -1;
 		}
 		
-		dbg_log(INFORM,"%-20s : Adding Header for new file : %s\n",fun_name,curr_ls_file_name);
+		lib_dbg_log(INFORM,"%-20s : Adding Header for new file : %s\n",fun_name,curr_ls_file_name);
 		for(idx=0; idx<g_all_ls_param_obis_val.tot_num_params; idx++)
 		{
 			memset(obis_buff,0,sizeof(obis_buff));
@@ -5068,12 +4723,12 @@ int32_t save_ls_data_file(void)
 		p_ls_file_ptr = fopen(curr_ls_file_name,"a");
 		if(p_ls_file_ptr == NULL)
 		{
-			dbg_log(REPORT,"%-20s : File is not opened Append mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : File is not opened Append mode, Error : %s\n",fun_name,strerror(errno));
 			return -1;
 		}
 	}
 	
-	dbg_log(REPORT,"%-20s : New time entry found need to store , %02d:%02d \n",fun_name,date_time.hour,date_time.minute);
+	lib_dbg_log(REPORT,"%-20s : New time entry found need to store , %02d:%02d \n",fun_name,date_time.hour,date_time.minute);
 	for(idx=0; idx<g_all_ls_param_obis_val.tot_num_params; idx++)
 	{
 		memset(value_buff,0,sizeof(obis_buff));
@@ -5323,12 +4978,12 @@ int32_t proc_inst_val_obis(uint8_t* msg, uint32_t len)
 		
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_inst_param_det.tot_num_val_obis = msg[loc_idx-1];
@@ -5353,7 +5008,7 @@ int32_t proc_inst_val_obis(uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen in Getnext block\n",fun_name);
 				
 				return -1;
 			}
@@ -5363,7 +5018,7 @@ int32_t proc_inst_val_obis(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
 }
@@ -5394,12 +5049,12 @@ int32_t proc_inst_scalar_obis(uint8_t* msg, uint32_t len)
 		
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 	
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		gen_inst_param_det.tot_num_scalar = msg[loc_idx-1];
@@ -5425,7 +5080,7 @@ int32_t proc_inst_scalar_obis(uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -5435,7 +5090,7 @@ int32_t proc_inst_scalar_obis(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
@@ -5468,12 +5123,12 @@ int32_t proc_inst_scalar_val(uint8_t* msg, uint32_t len)
 		
 		if(idx == len)
 		{
-			dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+			lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 			
 			return -1;
 		}
 			
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx-1],len-(loc_idx+3));
 
 		g_first_time_resp=0;
@@ -5497,7 +5152,7 @@ int32_t proc_inst_scalar_val(uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
@@ -5507,7 +5162,7 @@ int32_t proc_inst_scalar_val(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
@@ -5543,13 +5198,13 @@ int32_t proc_inst_value(uint8_t* msg, uint32_t len)
 			}
 			if(idx == len)
 			{
-				dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 				
 				return -1;
 			}
 		}
 
-		dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
+		lib_dbg_log(INFORM,"%-20s : num_of_element : %d First Time Resp copied byte : %d\n",
 		fun_name,msg[loc_idx+1],len-(loc_idx+3));
 
 		gen_inst_param_det.tot_num_value = msg[loc_idx+1];
@@ -5582,7 +5237,7 @@ int32_t proc_inst_value(uint8_t* msg, uint32_t len)
 				if(idx == len)
 				{
 
-					dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
+					lib_dbg_log(INFORM,"%-20s : No start resp stamp seen\n",fun_name);
 
 					return -1;
 				}
@@ -5593,7 +5248,7 @@ int32_t proc_inst_value(uint8_t* msg, uint32_t len)
 	memcpy(&g_raw_data_buff[g_raw_data_idx],&msg[loc_idx],(len-(loc_idx+3)));
 	g_raw_data_idx = g_raw_data_idx+len-(loc_idx+3);
 	
-	dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
+	lib_dbg_log(INFORM,"%-20s : Resp copied byte : %d, g_raw_data_idx : %d\n",
 	fun_name,len-(loc_idx+3),g_raw_data_idx);
 	
 	return RET_SUCCESS;
@@ -5606,21 +5261,21 @@ int32_t proc_inst_value(uint8_t* msg, uint32_t len)
 *Return	Value				: Success or appropriate error code.
 *Description 				: To get inst value and copy into respective structure.
 ********************************************************************************************************/
-int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *recv_inst_data_val)
+int32_t get_inst_val(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info)
 {
 	static char fun_name[]="get_inst_val()";
 	
 	uint8_t obis[6] = {0};
 	uint8_t temp_nxt_blk_flag;
 	
-	memset(gen_data_val_info,0,sizeof(gen_data_val_info));
-	memset(&g_all_inst_param_obis_val,0,sizeof(g_all_inst_param_obis_val));
+	//memset(gen_data_val_info,0,sizeof(gen_data_val_info));
+	//memset(&g_all_inst_param_obis_val,0,sizeof(g_all_inst_param_obis_val));
 	
 	g_rr_frame = 0;
 	g_get_nxt_blk= 0;
 	g_get_nxt_blk_val=1;
 	g_query_type = INST_VALUES_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : INST_VALUES_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : INST_VALUES_TYPE\n",fun_name);
 	
 	g_first_time_resp=1;
 	
@@ -5630,7 +5285,7 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 	GET_OBIS_OCTETS(INST_DATA_VAL_OBIS_STR,obis);
 	if(send_get_request(meter_comm_params, INST_DATA_VAL_INT_CLASS, obis, 6, INST_DATA_VAL_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get inst scaler obis info\n",fun_name);
 		return -1;
 	}
 	
@@ -5645,7 +5300,7 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value rr frame\n",fun_name);
 				return -1;
 			}
 		}
@@ -5655,7 +5310,7 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get inst scaler value next block frame\n",fun_name);
 				g_get_nxt_blk_val=g_get_nxt_blk_val+1;
 				return -1;
 			}
@@ -5665,12 +5320,14 @@ int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *re
 	if(fill_val_obis_det(INST_VALUES_TYPE)<0)
 		return -1;
 	
-	if(fill_inst_val()<0)
-		return -1;
+	/* if(fill_inst_val()<0)
+		return -1; */
 
-	memcpy(recv_inst_data_val,&g_inst_data_val,sizeof(g_inst_data_val));
+	memcpy(p_gen_data_val_info,gen_data_val_info,sizeof(gen_data_val_info[0])*gen_inst_param_det.tot_num_value);
 	
-	memcpy(meter_comm_params->meter_response,&g_all_inst_param_obis_val,sizeof(g_all_inst_param_obis_val));
+	//memcpy(recv_inst_data_val,&g_inst_data_val,sizeof(g_inst_data_val));
+	
+	//memcpy(meter_comm_params->meter_response,&g_all_inst_param_obis_val,sizeof(g_all_inst_param_obis_val));
 	
 	return RET_SUCCESS;
 }
@@ -5687,7 +5344,7 @@ int32_t store_inst_val(uint8_t index, float recv_flt_val)
 	uint8_t idx;
 	static char fun_name[] = "store_inst_val()";
 	
-	dbg_log(INFORM,"%-20s : Index : %d, RecvFltVal : %0.5f\n",fun_name,index,recv_flt_val);
+	//lib_dbg_log(INFORM,"%-20s : Index : %d, RecvFltVal : %0.5f\n",fun_name,index,recv_flt_val);
 	
 	memcpy(&g_all_inst_param_obis_val.param_obis_val_info[index].obis_code,gen_inst_param_det.val_obis[index],6);
 	memcpy(&g_all_inst_param_obis_val.param_obis_val_info[index].data_type,&gen_data_val_info[index].data_type,1);
@@ -6069,10 +5726,10 @@ int32_t get_inst_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	uint8_t val_obis[6] = {0};
 	
 	GET_OBIS_OCTETS(INST_VAL_OBIS_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : INST_VAL_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : INST_VAL_OBIS_TYPE\n",fun_name);
 	if(get_gen_val_obis(meter_comm_params, INST_VAL_OBIS_TYPE,INST_VAL_INT_CLASS,val_obis,6,INST_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -6086,10 +5743,10 @@ int32_t get_inst_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	 int_class=0x0007, attr_no=0x0003; */
 	
 	GET_OBIS_OCTETS(INST_SCALAR_OBIS_STR,val_obis);
-	dbg_log(INFORM,"%-20s : Sending QryType : INST_SCALE_OBIS_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : INST_SCALE_OBIS_TYPE\n",fun_name);
 	if(get_gen_scalar_obis(meter_comm_params, INST_SCALE_OBIS_TYPE,INST_SCALAR_INT_CLASS,val_obis,6,INST_SCALAR_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -6104,10 +5761,10 @@ int32_t get_inst_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params
 	
 	GET_OBIS_OCTETS(INST_SCALAR_VAL_STR,val_obis);
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : INST_SCALE_VAL_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : INST_SCALE_VAL_TYPE\n",fun_name);
 	if(get_gen_scalar_val(meter_comm_params, INST_SCALE_VAL_TYPE,INST_SCALAR_VAL_INT_CLASS,val_obis,6,INST_SCALAR_VAL_ATTR_NO)<0)
 	{
-		dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
+		lib_dbg_log(INFORM,"%-20s : failed to get inst val obis code\n",fun_name);
 		return RET_VAL_OBIS_INST_FAIL;
 	}
 	
@@ -6179,7 +5836,7 @@ int32_t send_disc(meter_comm_params_t *meter_comm_params )
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending disconnect frame\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : sending disconnect frame\n",fun_name);
 	
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
@@ -6264,7 +5921,7 @@ int32_t send_snrm(meter_comm_params_t *meter_comm_params)
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending SNRM frame\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : sending SNRM frame\n",fun_name);
 	
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
@@ -6284,14 +5941,14 @@ int32_t get_curr_date_time(meter_comm_params_t *meter_comm_params)
 	uint8_t obis[6]={0};
 	
 	g_query_type = DATE_TIME_TYPE;
-	dbg_log(INFORM,"%-20s : Sending QryType : DATE_TIME_TYPE\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : DATE_TIME_TYPE\n",fun_name);
 	
 	GET_OBIS_OCTETS(DATE_TIME_OBIS_STR,obis);
 	print_data(obis,6);
 	
 	if(send_get_request(meter_comm_params,DATE_TIME_INT_CLASS,obis,6,DATE_TIME_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get Meter date time info info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get Meter date time info info\n",fun_name);
 		return RET_VAL_OBIS_NP_FAIL;
 	}
 	
@@ -6319,12 +5976,12 @@ int32_t get_event_entry_order(meter_comm_params_t *meter_comm_params)
 	g_raw_data_idx = 0;
 	g_query_type = CHECK_LIFO_OR_FIFO;
 	
-	dbg_log(INFORM,"%-20s : Sending QryType : CHECK_LIFO_OR_FIFO\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : Sending QryType : CHECK_LIFO_OR_FIFO\n",fun_name);
 
 	GET_OBIS_OCTETS(EVENT_ENTRY_OBIS_STR,obis);
 	if(send_get_request(meter_comm_params,EVENT_ENTRY_ORDER_INT_CLASS, obis, 6, EVENT_ENTRY_ORDER_ATTR_NO)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get event entry data info\n",fun_name);
 		return RET_VAL_OBIS_NP_FAIL;
 	}
 	
@@ -6339,7 +5996,7 @@ int32_t get_event_entry_order(meter_comm_params_t *meter_comm_params)
 		{
 			if(send_rr_frame(meter_comm_params)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event entry rr frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event entry rr frame\n",fun_name);
 				return RET_VAL_OBIS_NP_FAIL;
 			}
 		}
@@ -6350,7 +6007,7 @@ int32_t get_event_entry_order(meter_comm_params_t *meter_comm_params)
 			uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 			if(send_get_next_blk(meter_comm_params, *g_block_num_det)<0)
 			{
-				dbg_log(REPORT,"%-20s : failed to get event entry get next frame frame\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : failed to get event entry get next frame frame\n",fun_name);
 				return RET_VAL_OBIS_NP_FAIL;
 			}
 		}
@@ -6462,7 +6119,7 @@ int32_t send_get_bill_request (meter_comm_params_t *meter_comm_params,uint16_t i
 			end_bill_num=g_tot_bill_entry;
 		}
 		
-		dbg_log(INFORM,"%-20s : LI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_bill_num,end_bill_num);
+		lib_dbg_log(INFORM,"%-20s : LI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_bill_num,end_bill_num);
 
 	}
 	else if(g_meter_store_order == FI_FO)
@@ -6480,7 +6137,7 @@ int32_t send_get_bill_request (meter_comm_params_t *meter_comm_params,uint16_t i
 		else
 			end_bill_num=g_tot_bill_entry;
 		
-		dbg_log(INFORM,"%-20s : FI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_bill_num,end_bill_num);
+		lib_dbg_log(INFORM,"%-20s : FI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_bill_num,end_bill_num);
 	}
 	
 	p_gen_ptr = (uint8_t*)&st_bill_num;
@@ -6527,7 +6184,7 @@ int32_t send_get_bill_request (meter_comm_params_t *meter_comm_params,uint16_t i
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending get_billing_request frame\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : sending get_billing_request frame\n",fun_name);
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
 	return send_fun_ret;
@@ -6641,8 +6298,7 @@ int32_t send_get_event_request (meter_comm_params_t *meter_comm_params,uint16_t 
 			end_event_num=g_tot_event_entry;
 		}
 		
-		dbg_log(INFORM,"%-20s : LI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_event_num,end_event_num);
-
+		lib_dbg_log(INFORM,"%-20s : LI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_event_num,end_event_num);
 	}
 	else if(g_meter_store_order == FI_FO)
 	{
@@ -6665,7 +6321,7 @@ int32_t send_get_event_request (meter_comm_params_t *meter_comm_params,uint16_t 
 		else
 			end_event_num=g_tot_event_entry;
 		
-		dbg_log(INFORM,"%-20s : FI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_event_num,end_event_num);
+		lib_dbg_log(INFORM,"%-20s : FI_FO, StNumEvent : %d, EndNumEvent : %d\n",fun_name,st_event_num,end_event_num);
 	}
 	
 	p_gen_ptr = (uint8_t*)&st_event_num;
@@ -6712,7 +6368,7 @@ int32_t send_get_event_request (meter_comm_params_t *meter_comm_params,uint16_t 
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending get_event_request frame\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : sending get_event_request frame\n",fun_name);
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
 	return send_fun_ret;
@@ -6817,8 +6473,8 @@ int32_t send_get_next_blk(meter_comm_params_t *meter_comm_params, uint32_t blk_v
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
 	memcpy(&blk_val_data,&blk_val,4);
-	//dbg_log(INFORM,"%-20s : sending Next block val : %d\n",fun_name,blk_val_data);
-	dbg_log(INFORM,"%-20s : sending Next block val : %d\n",fun_name,blk_val);
+	//lib_dbg_log(INFORM,"%-20s : sending Next block val : %d\n",fun_name,blk_val_data);
+	lib_dbg_log(INFORM,"%-20s : sending Next block val : %d\n",fun_name,blk_val);
 	
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
@@ -6926,7 +6582,7 @@ int32_t send_get_request(meter_comm_params_t *meter_comm_params, uint16_t int_cl
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending get_request frame\n","send_get_request()");
+	lib_dbg_log(INFORM,"%-20s : sending get_request frame\n","send_get_request()");
 	
 	send_fun_ret = send_msg_meter(meter_comm_params, g_send_buff, idx);
 	
@@ -7107,7 +6763,7 @@ int32_t send_aarq(meter_comm_params_t *meter_comm_params)
 	
 	g_send_buff[idx++] = DLMS_START_END_FLAG;
 
-	dbg_log(INFORM,"%-20s : sending AARQ frame\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : sending AARQ frame\n",fun_name);
 	
 	send_fun_ret = send_msg_meter(meter_comm_params,g_send_buff, idx);
 	
@@ -7129,19 +6785,19 @@ int8_t get_nameplate_info(meter_comm_params_t *meter_comm_params, obis_name_plat
 	
 	if(get_curr_date_time(meter_comm_params)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
+		lib_dbg_log(REPORT,"%-20s : failed to get Meter curr date time\n",fun_name); 
 		return RET_VAL_OBIS_NP_FAIL;
 	}
 	
 	for(idx=0; idx<6; idx++)
 	{
 		g_query_type = NAME_PLATE_PARAMS_TYPE;
-		dbg_log(INFORM,"%-20s : Sending QryType : NAME_PLATE_PARAMS_TYPE : %d\n",fun_name,idx);
+		lib_dbg_log(INFORM,"%-20s : Sending QryType : NAME_PLATE_PARAMS_TYPE : %d\n",fun_name,idx);
 		g_name_plate_idx = idx;
 		
 		if(send_get_request(meter_comm_params,NP_INT_CLASS, name_plate_obis[idx], 6, NP_ATTR_NO)<0)
 		{
-			dbg_log(REPORT,"%-20s : failed to get Name plae info for obis : %d,%d,%d,%d,%d,%d\n",
+			lib_dbg_log(REPORT,"%-20s : failed to get Name plae info for obis : %d,%d,%d,%d,%d,%d\n",
 			fun_name,name_plate_obis[idx][0],
 			name_plate_obis[idx][1],name_plate_obis[idx][2],
 			name_plate_obis[idx][3],name_plate_obis[idx][4],
@@ -7153,7 +6809,7 @@ int8_t get_nameplate_info(meter_comm_params_t *meter_comm_params, obis_name_plat
 	
 	if( get_event_entry_order(meter_comm_params)<0)
 	{
-		dbg_log(REPORT,"%-20s : failed to get meter storing entry order\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : failed to get meter storing entry order\n",fun_name);
 		
 		return RET_VAL_OBIS_NP_FAIL;
 	}
@@ -7181,7 +6837,7 @@ int8_t get_nameplate_info(meter_comm_params_t *meter_comm_params, obis_name_plat
 	
 	#endif
 	
-	dbg_log(REPORT,"%-20s : Total time taken to proc Name plate details : %ld\n",fun_name,(time(NULL)-curr_time));
+	lib_dbg_log(REPORT,"%-20s : Total time taken to proc Name plate details : %ld\n",fun_name,(time(NULL)-curr_time));
 	
 	return RET_SUCCESS;
 }
@@ -7213,14 +6869,14 @@ int32_t send_msg_meter(meter_comm_params_t *meter_comm_params, uint8_t* msg, int
 			fun_ret = write_ser_port(meter_comm_params->fd, msg, len);
 			if(fun_ret<0)
 			{
-				dbg_log(REPORT,"%-20s : Write serial failed, Retry Val : %d\n",fun_name,retry+1);
+				lib_dbg_log(REPORT,"%-20s : Write serial failed, Retry Val : %d\n",fun_name,retry+1);
 				//send_diag_info(midx,"%-16s : Write serial failed, Retry Val : %d",g_curr_meter_ser_info,retry+1);
 				usleep(500000);
 				continue;
 			}
 			else
 			{
-				dbg_log(INFORM,"%-20s : Num Bytes Write %d\n",fun_name,len);
+				lib_dbg_log(INFORM,"%-20s : Num Bytes Write %d\n",fun_name,len);
 				print_data(msg, len);
 				
 				memset(g_recv_buff,0,sizeof(g_recv_buff));
@@ -7228,19 +6884,19 @@ int32_t send_msg_meter(meter_comm_params_t *meter_comm_params, uint8_t* msg, int
 				fun_ret = ser_read_ret = read_ser_port(meter_comm_params->fd, g_recv_buff, 2);
 				if(ser_read_ret<0)
 				{
-					dbg_log(REPORT,"%-20s : Read serial failed, Retry Val : %d\n",fun_name,retry+1);
+					lib_dbg_log(REPORT,"%-20s : Read serial failed, Retry Val : %d\n",fun_name,retry+1);
 					usleep(500000);
 					continue;
 				}
 				else
 				{
-					dbg_log(INFORM,"%-20s : Num Bytes Read %d\n",fun_name,ser_read_ret);
+					lib_dbg_log(INFORM,"%-20s : Num Bytes Read %d\n",fun_name,ser_read_ret);
 					print_data(g_recv_buff, ser_read_ret);
 					
 					fun_ret = proc_read_resp(g_recv_buff, ser_read_ret);
 					if(fun_ret<0)
 					{
-						dbg_log(REPORT,"%-20s : Processing response failed, Retry Val : %d\n",fun_name,retry+1);
+						lib_dbg_log(REPORT,"%-20s : Processing response failed, Retry Val : %d\n",fun_name,retry+1);
 						usleep(500000);
 						continue;
 					}
@@ -7345,7 +7001,7 @@ int32_t get_meter_date_time(uint8_t* msg, int32_t len)
 	meter_date_time.second = msg[24+OFFSET];
 
 	
-	dbg_log(INFORM,"%-20s : Current Meter Date Time : %02d_%02d_%04d %02d:%02d:%02d\n",
+	lib_dbg_log(INFORM,"%-20s : Current Meter Date Time : %02d_%02d_%04d %02d:%02d:%02d\n",
 												fun_name,
 												meter_date_time.day,
 												meter_date_time.month,
@@ -7444,7 +7100,7 @@ int32_t get_name_plate_det(uint8_t np_idx)
 					}
 					else
 					{
-						dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
+						lib_dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
 						return RET_VAL_OBIS_NP_FAIL;
 					}
 				break;
@@ -7456,7 +7112,7 @@ int32_t get_name_plate_det(uint8_t np_idx)
 						p_loc_prt = (uint8_t*)&g_name_plate_info.int_pt_ratio;
 					else
 					{
-						dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
+						lib_dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
 						return RET_VAL_OBIS_NP_FAIL;
 					}
 					p_loc_prt[1]=g_recv_buff[16+OFFSET];
@@ -7488,7 +7144,7 @@ int32_t get_name_plate_det(uint8_t np_idx)
 						p_loc_prt = (uint8_t*)&g_name_plate_info.int_pt_ratio;
 					else
 					{
-						dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
+						lib_dbg_log(REPORT,"%-20s : Invalid Data Type for np_idx : %d\n",fun_name,np_idx);
 						return RET_VAL_OBIS_NP_FAIL;
 					}
 					p_loc_prt[3]=g_recv_buff[16+OFFSET];
@@ -7541,7 +7197,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 	{
 		if(len<9)
 		{
-			dbg_log(REPORT,"%-20s : Invalid/ Error response came from meter\n",fun_name);
+			lib_dbg_log(REPORT,"%-20s : Invalid/ Error response came from meter\n",fun_name);
 			
 			//send_diag_info(midx,"%-16s : Invalid/ Error response came from meter",g_curr_meter_ser_info);
 			
@@ -7557,7 +7213,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 		s_send = (tot_seq >> 1 ) & 0x07;
 		g_recv_seq_num = (s_send + 1 ) % 8;
 		
-		//dbg_log(INFORM,"%-20s : tot_seq : %02X Send Seq No : %d stored recv sew num : %02X\n",
+		//lib_dbg_log(INFORM,"%-20s : tot_seq : %02X Send Seq No : %d stored recv sew num : %02X\n",
 		//fun_name, tot_seq, s_send,g_recv_seq_num);
 	}
 	
@@ -7581,7 +7237,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 		
 		uint32_t *g_block_num_val = (uint32_t *)g_block_num_det;
 		
-		//dbg_log(INFORM,"%-20s : >>>> RecvBlockVal Details : %d\n",fun_name,*g_block_num_val);
+		//lib_dbg_log(INFORM,"%-20s : >>>> RecvBlockVal Details : %d\n",fun_name,*g_block_num_val);
 	}
 	
 	switch(g_query_type)
@@ -7589,13 +7245,13 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 		case AARQ_TYPE:
 			if(len<32+OFFSET)
 			{
-				dbg_log(REPORT,"%-20s : Invalid Frame receive!!!\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : Invalid Frame receive!!!\n",fun_name);
 				fun_ret = RET_AUTH_FAIL;
 			}
 			
 			if(msg[28+OFFSET]!=0)
 			{
-				dbg_log(REPORT,"%-20s : AARQ Response failed, Meter Password validation failed\n",fun_name);
+				lib_dbg_log(REPORT,"%-20s : AARQ Response failed, Meter Password validation failed\n",fun_name);
 				
 				//send_diag_info(midx,"%-16s : Meter Password validation failed",g_curr_meter_ser_info);
 				
@@ -7619,13 +7275,13 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 			g_meter_store_order = 0;
 			if( (msg[14+OFFSET] == 0) && (msg[15+OFFSET] == 0x16) && (msg[16+OFFSET] == 0x01) )
 			{
-				dbg_log(INFORM,"%-20s : Meter storing order is  : LI_FO\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : Meter storing order is  : LI_FO\n",fun_name);
 				g_meter_store_order = LI_FO;
 				//g_secure_met_flag = 0;
 			}
 			else
 			{
-				dbg_log(INFORM,"%-20s : Meter storing order is  : FI_FO\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : Meter storing order is  : FI_FO\n",fun_name);
 				g_meter_store_order = FI_FO;
 				//g_secure_met_flag = 1;
 			}
@@ -7663,7 +7319,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 		case BLOCK_VALUES_TYPE:
 			if((msg[12+OFFSET]==0X01) && (msg[13+OFFSET]==0X81) && (msg[14+OFFSET]==0X01))
 			{
-				dbg_log(INFORM,"%-20s : no LS data available for this date qry.\n",fun_name);
+				lib_dbg_log(INFORM,"%-20s : no LS data available for this date qry.\n",fun_name);
 				g_no_ls_data_avl_flag = 1;
 				fun_ret = 0;
 			}
@@ -7686,7 +7342,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 			g_num_blocks_blk_data = (uint8_t) (86400 / g_int_period_blk);
 			g_int_period_blk = (g_int_period_blk / 60);
 			
-			dbg_log(INFORM,"%-20s : Periof interval : %d , Num of Blocks %d\n",
+			lib_dbg_log(INFORM,"%-20s : Periof interval : %d , Num of Blocks %d\n",
 			fun_name,g_int_period_blk,g_num_blocks_blk_data);
 
 			fun_ret = 0;
@@ -7719,7 +7375,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 			g_tot_event_entry = msg[len-5]  | (g_tot_event_entry<<8);
 			g_tot_event_entry = msg[len-4]  | (g_tot_event_entry);
 			
-			dbg_log(INFORM,"%-20s : Total Event entry : %d\n",fun_name,g_tot_event_entry);
+			lib_dbg_log(INFORM,"%-20s : Total Event entry : %d\n",fun_name,g_tot_event_entry);
 			g_max_num_event[g_event_type_idx] = g_tot_event_entry;
 			fun_ret = 0;
 		}
@@ -7750,7 +7406,7 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 			g_tot_bill_entry = msg[len-5]  | (g_tot_bill_entry<<8);
 			g_tot_bill_entry = msg[len-4]  | (g_tot_bill_entry);
 			
-			dbg_log(INFORM,"%-20s : Total Billing entry : %d\n",fun_name,g_tot_bill_entry);
+			lib_dbg_log(INFORM,"%-20s : Total Billing entry : %d\n",fun_name,g_tot_bill_entry);
 			fun_ret = 0;
 		}
 		break;
@@ -7857,14 +7513,14 @@ int32_t validate_met_resp(uint8_t* msg, int32_t len )
 
 	if ( msg[0] != DLMS_START_END_FLAG )
 	{
-		dbg_log(REPORT,"%-20s : DLMS Start Flag Not Found\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : DLMS Start Flag Not Found\n",fun_name);
 		//send_diag_info(midx,"%-16s : DLMS Start Flag Not Found",g_curr_meter_ser_info);
 		return RET_CRC_FAIL;
 	}
 	
 	if ( msg[len-1] != DLMS_START_END_FLAG )
 	{
-		dbg_log(REPORT,"%-20s : DLMS End Flag Not Found\n",fun_name);
+		lib_dbg_log(REPORT,"%-20s : DLMS End Flag Not Found\n",fun_name);
 		//send_diag_info(midx,"%-16s : DLMS End Flag Not Found",g_curr_meter_ser_info);
 		return RET_CRC_FAIL;
 	}
@@ -7879,7 +7535,7 @@ int32_t validate_met_resp(uint8_t* msg, int32_t len )
 	if( loc_fcs != tmp )
 	{
 		print_data(msg,len);
-		dbg_log(REPORT,"%-20s : Header FCS Not Matched, RecvFcs : %02X, CalCulated FCS : %02X\n",fun_name,loc_fcs,tmp);
+		lib_dbg_log(REPORT,"%-20s : Header FCS Not Matched, RecvFcs : %02X, CalCulated FCS : %02X\n",fun_name,loc_fcs,tmp);
 		//send_diag_info(midx,"%-16s : DLMS Header FCS Not Matched",g_curr_meter_ser_info);
 		return RET_CRC_FAIL;
 	}
@@ -7894,7 +7550,7 @@ int32_t validate_met_resp(uint8_t* msg, int32_t len )
 	if( loc_fcs != tmp )
 	{
 		print_data(msg,len);
-		dbg_log(REPORT,"%-20s : Final FCS Not Matched RecvFcs : %02X, CalCulated FCS : %02X\n",fun_name,loc_fcs,tmp);
+		lib_dbg_log(REPORT,"%-20s : Final FCS Not Matched RecvFcs : %02X, CalCulated FCS : %02X\n",fun_name,loc_fcs,tmp);
 		//send_diag_info(midx,"%-16s : DLMS Final FCS Not Matched",g_curr_meter_ser_info);
 		return RET_CRC_FAIL;
 	}
@@ -7927,13 +7583,13 @@ void print_data(uint8_t* msg, int32_t len)
 			
 			if((frame_cnt*frame_len-1==idx) && (idx>0))
 			{
-				dbg_log(INFORM,"%s\n",loc_buff);
+				lib_dbg_log(INFORM,"%s\n",loc_buff);
 				frame_cnt++;
 				memset(loc_buff,0,sizeof(loc_buff));
 			}
 		}
 		
-		dbg_log(INFORM,"%s\n\n",loc_buff);
+		lib_dbg_log(INFORM,"%s\n\n",loc_buff);
 	}
 }
 

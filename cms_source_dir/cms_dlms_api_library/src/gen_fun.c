@@ -161,16 +161,16 @@ int8_t init_serial(meter_comm_params_t *meter_comm_params)
 	
 	baudrate = 	port_speed[serport_params.baudrate];
 
-	dbg_log(INFORM,"%-20s : SerPort Param details :: BaudRate : %d FlowCtrl %d sw_flow_ctrl %d DataBits %d Parity %d StopBits %d\n",fun_name,baudrate,hw_flow_ctrl,sw_flow_ctrl,databits,parity,stopbits);
+	lib_dbg_log(INFORM,"%-20s : SerPort Param details :: BaudRate : %d FlowCtrl %d sw_flow_ctrl %d DataBits %d Parity %d StopBits %d\n",fun_name,baudrate,hw_flow_ctrl,sw_flow_ctrl,databits,parity,stopbits);
 
 	struct termios		set_termios;
 	
 	memset((void *)&set_termios, 0, sizeof(struct termios));
 	
-	dbg_log(INFORM,"%-20s : Opening Comm Uart Port : %s\n",fun_name,serport_params.ser_port);
+	lib_dbg_log(INFORM,"%-20s : Opening Comm Uart Port : %s\n",fun_name,serport_params.ser_port);
 	if ( (meter_comm_params->fd = open(serport_params.ser_port, O_RDWR | O_NOCTTY)) == -1)
 	{
-		dbg_log(FATAL,"%-20s : Serial port open() failed - %s: %s\n",fun_name,serport_params.ser_port, strerror(errno));
+		lib_dbg_log(FATAL,"%-20s : Serial port open() failed - %s: %s\n",fun_name,serport_params.ser_port, strerror(errno));
 		return RET_PORT_OPEN_FAIL;
 	}
 
@@ -196,11 +196,11 @@ int8_t init_serial(meter_comm_params_t *meter_comm_params)
 	ret_val=tcsetattr(meter_comm_params->fd,TCSANOW,&set_termios);
 	if ( ret_val == -1)
 	{
-		 dbg_log(FATAL,"%-25s : Serial port tcsetaddtr() failed - %s\n",fun_name,strerror(errno)); 
+		 lib_dbg_log(FATAL,"%-25s : Serial port tcsetaddtr() failed - %s\n",fun_name,strerror(errno)); 
 		return RET_PORT_OPEN_FAIL;
 	}
 	
-	dbg_log(INFORM,"%-20s : RS232 - COmmunication Port UART Init End\n",fun_name);
+	lib_dbg_log(INFORM,"%-20s : RS232 - COmmunication Port UART Init End\n",fun_name);
 
 	/* g_serial_fd = meter_comm_params->fd; */
 	return RET_SUCCESS;
@@ -218,7 +218,7 @@ int32_t write_ser_port(int32_t serial_fd, uint8_t *msg, int32_t len)
 	if(write(serial_fd, msg, len)<0)
 	{
 		static char fun_name[]="write_ser_port()";
-		dbg_log(FATAL,"%-25s : FD : %d, Serial write failed, Error : %s\n",fun_name,serial_fd,strerror(errno)); 
+		lib_dbg_log(FATAL,"%-25s : FD : %d, Serial write failed, Error : %s\n",fun_name,serial_fd,strerror(errno)); 
 		return RET_SER_PORT_WRITE_FAIL;
 	}
 	
@@ -244,7 +244,7 @@ int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 	{
 		if(ioctl(serial_fd, FIONREAD, &byte_present) == -1)
 		{
-			dbg_log(FATAL,"%-25s : ioctl Failed : Error : %s\n",fun_name,strerror(errno)); 
+			lib_dbg_log(FATAL,"%-25s : ioctl Failed : Error : %s\n",fun_name,strerror(errno)); 
 			return RET_SER_PORT_READ_FAIL;
 		}
 	
@@ -261,7 +261,7 @@ int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 	if ( wait_cnt == max_wait_cnt )
 	{
 		//printf("Reched Max WaitCount : %d\n",max_wait_cnt);
-		dbg_log(FATAL,"%-25s : Reached maxium wait time.\n",fun_name);
+		lib_dbg_log(FATAL,"%-25s : Reached maxium wait time.\n",fun_name);
 		return RET_SER_PORT_READ_FAIL;
 	}
 
@@ -273,7 +273,7 @@ int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 		int32_t loc_byte_read=0;
 		if((loc_byte_read = read(serial_fd, loc_buff, byte_present)) == -1)
 		{
-			dbg_log(FATAL,"%-25s : Serial read failed : Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(FATAL,"%-25s : Serial read failed : Error : %s\n",fun_name,strerror(errno));
 			
 			return RET_SER_PORT_READ_FAIL;
 		}
@@ -330,7 +330,7 @@ int32_t read_ser_port(int32_t serial_fd, uint8_t*trav, uint8_t time_out)
 				byte_present = 0;
 				if(ioctl(serial_fd, FIONREAD,&byte_present) == -1)
 				{
-					dbg_log(FATAL,"%-25s : ioctl Failed : Error : %s\n",fun_name,strerror(errno));
+					lib_dbg_log(FATAL,"%-25s : ioctl Failed : Error : %s\n",fun_name,strerror(errno));
 					
 					return RET_SER_PORT_READ_FAIL;
 				}

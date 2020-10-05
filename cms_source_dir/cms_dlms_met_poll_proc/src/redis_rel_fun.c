@@ -122,7 +122,7 @@ int32_t send_det_to_redis(char *msg, uint32_t len, char *key_name)
 	return RET_SUCCESS;
 }
 
-int32_t send_inst_det_to_redis(inst_val_info_t *inst_data_val,int len, char *p_key_name,uint8_t midx)
+int32_t send_inst_det_to_redis(char *p_key_name,uint8_t midx)
 {
 	char time_buff[32];
 	char key_name[32];
@@ -247,79 +247,6 @@ int32_t send_inst_det_to_redis(inst_val_info_t *inst_data_val,int len, char *p_k
 	freeReplyObject(p_redis_reply);
 	
 	printf("Updated Inst info into redis server last update time : %s\n",time_buff);
-	
-	return 0;
-	
-	#if 0
-	memset(time_buff,0,sizeof(time_buff));
-	sprintf(time_buff,"%02d_%02d_%04d %02d:%02d:%02d",
-	inst_data_val->date_time.day,
-	inst_data_val->date_time.month,
-	inst_data_val->date_time.year,
-	inst_data_val->date_time.hour,
-	inst_data_val->date_time.minute,
-	inst_data_val->date_time.second
-	);
-	
-	printf("Updating Inst info into redis server for key_name : %s\n",key_name);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Time %s",key_name,time_buff);freeReplyObject(p_redis_reply);
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s CurrIr %s",key_name,inst_data_val->cur_ir.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s CurrIb %s",key_name,inst_data_val->cur_ib.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s CurrIy %s",key_name,inst_data_val->cur_iy.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s VoltR %s",key_name,inst_data_val->volt_r.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s VoltY %s",key_name,inst_data_val->volt_y.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s VoltB %s",key_name,inst_data_val->volt_b.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfR %s",key_name,inst_data_val->pf_r.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfY %s",key_name,inst_data_val->pf_y.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfB %s",key_name,inst_data_val->pf_b.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfAvg %s",key_name,inst_data_val->pf_avg.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfAvg %s",key_name,inst_data_val->pf_avg.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s PfAvg %s",key_name,inst_data_val->pf_avg.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Freq %s",key_name,inst_data_val->freq.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kva %s",key_name,inst_data_val->kva.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kw %s",key_name,inst_data_val->kw.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kwh %s",key_name,inst_data_val->kwh.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s KvarhLag %s",key_name,inst_data_val->kvarh_lag.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s KvarhLead %s",key_name,inst_data_val->kvarh_lead.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kvah %s",key_name,inst_data_val->kvah.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kwmd %s",key_name,inst_data_val->kwmd.param_value);freeReplyObject(p_redis_reply);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s Kvamd %s",key_name,inst_data_val->kvamd.param_value);freeReplyObject(p_redis_reply);
-	
-	memset(time_buff,0,sizeof(time_buff));
-	sprintf(time_buff,"%02d_%02d_%04d %02d:%02d:%02d",
-	inst_data_val->bill_date.day,
-	inst_data_val->bill_date.month,
-	inst_data_val->bill_date.year,
-	inst_data_val->bill_date.hour,
-	inst_data_val->bill_date.minute,
-	inst_data_val->bill_date.second
-	);
-	
-	p_redis_reply = redisCommand(p_redis_handler, "HMSET %s BillDate %s",key_name,time_buff);freeReplyObject(p_redis_reply);
-	
-	printf("Inst Info Saved status : %s\n", p_redis_reply->str); //that shows +OK
-	#endif
 	
 	return RET_SUCCESS;
 }

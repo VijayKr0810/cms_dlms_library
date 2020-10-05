@@ -310,7 +310,6 @@ int8_t init_comm(meter_comm_params_t *meter_comm_params);
 int8_t connect_to_meter(meter_comm_params_t *meter_comm_params);
 int8_t disconnect_meter(meter_comm_params_t *meter_comm_params);
 int8_t get_nameplate_details(meter_comm_params_t *meter_comm_params, obis_name_plate_info_t *np_params_obis_val_info);
-int8_t get_inst_values(meter_comm_params_t *meter_comm_params, inst_val_info_t *recv_inst_data_val);
 int8_t get_ls_values_block_range(meter_comm_params_t *meter_comm_params,uint8_t last_num_blk_read);
 int8_t get_ls_values_hour_range(meter_comm_params_t *meter_comm_params,uint8_t last_num_hr_read);
 int8_t get_ls_values_day_range(meter_comm_params_t *meter_comm_params,uint8_t last_num_days_read);

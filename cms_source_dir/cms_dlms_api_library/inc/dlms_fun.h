@@ -290,7 +290,8 @@ int32_t get_gen_val_obis(meter_comm_params_t *meter_comm_params, uint8_t recv_qr
 int32_t fill_inst_val(void);
 int32_t get_scaler_mf(int8_t mf,float *mf_val);
 char* get_float_str(float recv_flt_val);
-int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *recv_inst_data_val);
+//int32_t get_inst_val(meter_comm_params_t *meter_comm_params, inst_val_info_t *recv_inst_data_val);
+int32_t get_inst_val(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info);
 int8_t get_ls_obis_code_det(meter_comm_params_t *meter_comm_params,gen_params_det_t*recv_gen_ls_param_det);
 int32_t read_ls_data(meter_comm_params_t *meter_comm_params);
 int32_t read_today_ls_data(meter_comm_params_t *meter_comm_params );

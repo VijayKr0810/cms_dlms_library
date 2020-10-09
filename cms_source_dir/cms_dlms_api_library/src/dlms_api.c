@@ -20,6 +20,7 @@ int8_t get_inst_values(meter_comm_params_t *meter_comm_params, gen_data_val_info
 /* Extern */
 extern date_time_t 				meter_date_time;
 extern uint32_t 				g_int_period_blk;
+extern uint8_t 					OFFSET;
 
 
 /* Globals */
@@ -80,6 +81,28 @@ int8_t connect_to_meter(meter_comm_params_t *meter_comm_params)
 {
 	static char fun_name[]="connect_to_meter()";
 	int8_t ret_val=0;
+	
+	memset(g_ls_data_dir_path,0,sizeof(g_ls_data_dir_path));
+	sprintf(g_ls_data_dir_path,"%s",meter_comm_params->filename);
+	
+	switch(meter_comm_params->meter_addr_format)
+	{
+		case 1:
+			OFFSET=0;
+		break;
+		
+		case 2:
+			OFFSET=1;
+		break;
+		
+		case 4:
+			OFFSET=3;
+		break;
+		
+		default:
+			OFFSET=0;
+		break;
+	}
 	
 	//ret_val = send_disc(meter_comm_params->fd,meter_comm_params->meter_id,meter_comm_params->meter_addr_format);
 	ret_val = send_disc(meter_comm_params);

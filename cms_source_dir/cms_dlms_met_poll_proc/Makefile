@@ -1,4 +1,3 @@
-
 CC = /home/ganesh/bin/arm-2011.09/bin/arm-none-linux-gnueabi-gcc
 CFLAGS	= -I. -Wall -Wno-unused-variable -DSAM9X
 

@@ -1,4 +1,4 @@
-"InstParams":
+{"InstParams":
 {
 	"NumParams":"22",
 	"ObisCodeList":
@@ -26,5 +26,5 @@
 		{"obis":"1.0.1.6.0.255","def":"kwmd"},	
 		{"obis":"1.0.9.6.0.255","def":"kvamd"}	
 	]
-}
+}}
 

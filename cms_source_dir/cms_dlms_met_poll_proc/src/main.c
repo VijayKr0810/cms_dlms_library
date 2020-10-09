@@ -1,3 +1,14 @@
+/***********************************************************************
+* Copyright (c) 2020 All Right Reserved
+*
+* Author:	Creative Micro Systems
+* Contact:	support@cmsgp.com
+* File: 	main.c
+* Summary:  Meter Poll Process of DLMS Module.
+*
+**********************************************************************/
+
+/* Includes */
 #include "gen_inc.h"
 #include "dlms_api_config.h"
 #include "dlms_api.h"
@@ -5,35 +16,51 @@
 #include "dlms_fun.h"
 #include "/home/iot-gateway/hiredis/hiredis.h"
 
+/* Local Micros */
+#define   MAX_RESP_TIME_ENTRY 50
 #define REFF_INST_POLL_TIME 	2
 #define REFF_EVENT_POLL_TIME 	5*60
 #define REFF_LS_POLL_TIME 		15*60
 #define ROOT_LIB_DATA_DIR 		"/usr/cms/data/LibData"
 #define ROOT_LIB_DATA_PORT_DIR 		"/usr/cms/data/LibData"
+#define MET_POLL_LOG_FILE_NAME "cms_met_poll_proc"
+#define INST_INFO_KEY 		"inst_info"
+#define NP_INFO_KEY 		"np_info"
+#define BILLING_INFO_KEY 	"billing_key_info"
+#define EVENT_INFO_KEY 		"event_type_key_info"
+#define LS_BLK_INFO_KEY 	"ls_blk_info"
 
-
-int32_t met_poll_dbg_log(uint8_t mode, const char *p_format, ...);
-int32_t redis_init(char *hostname, uint16_t port);
-int32_t update_np_det_to_redis(obis_name_plate_info_t *name_plate_info, uint32_t len);
-int32_t send_det_to_redis(char *msg, uint32_t len, char *key_name);
-//int32_t send_inst_det_to_redis(inst_val_info_t *inst_data_val,int len, char *key_name, uint8_t midx);
-int32_t send_inst_det_to_redis(char *key_name, uint8_t midx);
-void 	check_od_msg_request(void);
-int8_t get_inst_values(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info);
+/* Function ProtoTypes */
+void send_hc_msg(void);
+void check_met_ser_num(void);
+void get_prev_met_ser_num(void);
+int32_t read_cfg_from_redis(void);
+int get_prev_ls_data(uint8_t midx);
+void	check_od_msg_request(void);
 int32_t delete_old_files(uint8_t midx);
-int32_t convert_to_decoded_data(char *in_file_path, char *in_file_name, gen_params_det_t *recv_gen_param_det);
+void clear_temp_lib_data(uint8_t midx);
+int32_t delete_old_files(uint8_t midx);
+int32_t fill_recv_inst_val(uint8_t midx);
+int32_t redis_init(char *hostname, uint16_t port);
+int32_t check_ls_file_avl(char* file_name, uint8_t midx);
+int32_t send_inst_det_to_redis(char *key_name, uint8_t midx);
+void get_date(char *p_file_name,int *day,int *mon,int *year);
+int32_t met_poll_dbg_log(uint8_t mode, const char *p_format, ...);
+int32_t send_det_to_redis(char *msg, uint32_t len, char *key_name);
+int32_t update_np_det_to_redis(obis_name_plate_info_t *name_plate_info, uint32_t len);
+void fill_meter_comm_params_det(meter_comm_params_t *meter_comm_params ,uint8_t midx);
+void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val);
+int8_t get_inst_values(meter_comm_params_t *meter_comm_params, gen_data_val_info_t *p_gen_data_val_info);
 int32_t append_in_exist_file(char *in_file_path, char *in_file_name, gen_params_det_t *recv_gen_param_det);
+int32_t convert_to_decoded_data(char *in_file_path, char *in_file_name, gen_params_det_t *recv_gen_param_det);
 
-/* Global */
-
-#define   MAX_RESP_TIME_ENTRY 50
+/* Globals */
 time_t 					g_last_hc_msg_time;
 char					p_comm_port_det[16];
 char					g_data_dir_path[64];
 uint8_t 				g_need_to_read_obis[MAX_NO_OF_METER_PER_PORT];
 uint8_t 				g_port_idx,g_midx;
 char 					poll_debug_file_name[64];
-
 int32_t 				g_num_blocks_blk_data[MAX_NO_OF_METER_PER_PORT];
 time_t 					g_inst_resp_time[MAX_NO_OF_METER_PER_PORT][MAX_RESP_TIME_ENTRY];
 time_t 					g_ls_resp_time[MAX_NO_OF_METER_PER_PORT][MAX_RESP_TIME_ENTRY];
@@ -53,8 +80,10 @@ uint8_t 				g_ls_resp_time_cnt;
 uint8_t 				g_dp_resp_time_cnt;
 uint8_t 				g_event_resp_time_cnt;
 uint8_t 				g_bill_resp_time_cnt;
+char					g_curr_meter_ser_info[MAX_NO_OF_METER_PER_PORT][32];
+char					g_prev_meter_ser_info[MAX_NO_OF_METER_PER_PORT][32];
 
-
+/* Structures */
 gen_data_val_info_t			gen_data_val_info[128];
 
 all_param_obis_val_info_t 	g_all_inst_param_obis_val,
@@ -78,190 +107,17 @@ inst_val_info_t					g_inst_data_val;
 	
 redisContext 			*p_redis_handler=NULL;
 redisReply 				*p_redis_reply=NULL;
-char					g_curr_meter_ser_info[MAX_NO_OF_METER_PER_PORT][32];
-char					g_prev_meter_ser_info[MAX_NO_OF_METER_PER_PORT][32];
 
-/*  Local Micro*/
-#define MET_POLL_LOG_FILE_NAME "cms_met_poll_proc"
-#define INST_INFO_KEY 		"inst_info"
-#define NP_INFO_KEY 		"np_info"
-#define BILLING_INFO_KEY 	"billing_key_info"
-#define EVENT_INFO_KEY 		"event_type_key_info"
-#define LS_BLK_INFO_KEY 	"ls_blk_info"
-
-void send_hc_msg(void);
-void fill_meter_comm_params_det(meter_comm_params_t *meter_comm_params ,uint8_t midx);
-void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val);
-void get_prev_met_ser_num(void);
-void check_met_ser_num(void);
-int32_t read_cfg_from_redis(void);
-int32_t fill_recv_inst_val(uint8_t midx);
 
 /* ------------------------------------------------------------------------------------------- */
 
 /**************************************************************************************************
-*Function 					: check_ls_file_avl()
-*Input Parameters 			: Meter Idx, Ls File Name.
+*Function 					: main()
+*Input Parameters 			: Command line argument. port details
 *Output Parameters 			: None.
 *Return	Value				: Success or appropriate error code.
-*Description 				: To check complete load survey data file.
+*Description 				: Initail point of Module.
 ********************************************************************************************************/
-int32_t check_ls_file_avl(char* file_name, uint8_t midx)
-{
-	/* char 	time_entry[32]; */
-	FILE	*p_file_ptr = NULL;
-	
-	/* memset(time_entry,0,32); */
-	
-/* 	if(g_meter_mfg_type==LNT_METER_MFG_TYPE)
-	{
-		sprintf(time_entry,"%02d:%02d",24,00);		
-	}
-	else
-	{
-		sprintf(time_entry,"%02d:%02d",23,(60-g_int_period_blk));
-	} */
-	
-	static char fun_name[]="check_ls_file_avl()";
-	p_file_ptr = fopen(file_name,"r");
-	if(p_file_ptr == NULL)
-	{
-		met_poll_dbg_log(REPORT,"%-20s : File : %s is not opened Read mode, Error : %s\n",fun_name,file_name,strerror(errno));
-		return -1;
-	}
-	else
-	{
-		uint16_t	line_cnt = 0;
-		char 		read_line[256];
-		while(fgets(read_line,256,p_file_ptr)!=NULL)
-		{
-			line_cnt++;
-			if(line_cnt>=(g_num_blocks_blk_data[midx]+1))
-			{
-				met_poll_dbg_log(INFORM,"%-20s : ::: file_name : %s All entry  found \n",fun_name,file_name);
-				
-				fclose(p_file_ptr);
-				
-				return 1;
-			}
-			else
-			{
-				fclose(p_file_ptr);
-				
-				remove(file_name);
-				
-				return 0;
-			}
-			memset(read_line,0,sizeof(read_line));
-		}
-	}
-
-	fclose(p_file_ptr);
-
-	remove(file_name);
-	
-	return 0;
-}
-
-int get_prev_ls_data(uint8_t midx)
-{
-	int32_t 		fun_ret=-1,idx=0;
-	time_t 			ls_curr_time=0;
-	char 			file_path[64];
-	char 			file_name[64];
-	time(&ls_curr_time);
-	
-	char cms_lib_data[64];
-	memset(cms_lib_data,0,sizeof(cms_lib_data));
-	sprintf(cms_lib_data,"rm -rf %s/*",ROOT_LIB_DATA_DIR);
-	
-	struct tm *p_curr_time = localtime(&ls_curr_time);
-	
-	struct tm st_time,time_stamp,next_date_tm;
-	time_t time_of_day=0,next_time_day=0;
-			
-	if(dlms_dcu_config.dlms_dcu_info.read_prev_ls_data==1)
-	{
-		st_time.tm_mday = p_curr_time->tm_mday;
-		st_time.tm_mon =  p_curr_time->tm_mon;
-		st_time.tm_year = p_curr_time->tm_year;
-		st_time.tm_hour = 0;
-		st_time.tm_min = 0;
-		st_time.tm_sec = 0;
-
-		time_of_day = mktime(&st_time);
-		time_of_day -= (24*60*60);
-		localtime_r(&time_of_day,&time_stamp);
-		
-		time_t tot_time_now=time(NULL);
-		
-		static char fun_name[]="get_prev_ls_data()";
-		for(idx=0; idx<LAST_NUM_DAYS_LS_READ; idx++)
-		{
-			memset(file_path,0,sizeof(file_path));
-			memset(file_name,0,sizeof(file_name));
-			system(cms_lib_data);
-				
-			send_hc_msg();
-			
-			localtime_r(&time_of_day,&time_stamp);
-				
-			next_time_day =  time_of_day + 60*60*24;
-			localtime_r(&next_time_day,&next_date_tm);
-			
-			meter_comm_params.from.day = time_stamp.tm_mday;
-			meter_comm_params.from.month = time_stamp.tm_mon+1;
-			meter_comm_params.from.year = time_stamp.tm_year+1900;
-			meter_comm_params.from.hour = 0;
-			meter_comm_params.from.minute = 4;
-			meter_comm_params.from.second = 0;
-				
-			meter_comm_params.to.day = next_date_tm.tm_mday;
-			meter_comm_params.to.month = next_date_tm.tm_mon+1;
-			meter_comm_params.to.year = next_date_tm.tm_year+1900;
-			meter_comm_params.to.hour = 0;
-			meter_comm_params.to.minute = 3;
-			meter_comm_params.to.second = 0;
-			
-			sprintf(file_path,"%s/meter_id_%d/%02d_%02d_%04d",ROOT_DATA_DIR,
-				g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,
-				meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
-				
-			if(check_ls_file_avl(file_path,midx)==1)
-			{
-				met_poll_dbg_log(REPORT,"%-20s : Data File Present : %s\n",fun_name,file_path);
-				time_of_day = time_of_day-(60*60*24);
-				continue;
-			}
-			
-			time_t time_now = time(NULL);
-			fun_ret = get_ls_values_day_range(&meter_comm_params,1);
-			if(fun_ret<0)
-			{
-				met_poll_dbg_log(REPORT,"%-20s : Failed to prev day ls data from Meter Error Code : %d\n",
-				fun_name,midx,fun_ret);
-			}
-			else
-			{
-				met_poll_dbg_log(REPORT,"%-20s : DayIdx : %d, Recv Prev day ls data for day : %02d_%02d_%04d\n",
-				fun_name,idx+1,meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
-				
-				met_poll_dbg_log(REPORT,"%-20s : Total Time taken to get 1 day ls data : %ld\n",fun_name,time(NULL)-time_now);
-				
-				//sprintf(file_name,"%02d_%02d_%04d",meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
-				sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
-				append_in_exist_file(file_path, file_name, &gen_ls_param_det[midx]);
-			}
-			
-			time_of_day = time_of_day-(60*60*24);
-		}
-		
-		met_poll_dbg_log(REPORT,"%-20s : Total Time taken to get all prev day ls data : %ld\n",fun_name,time(NULL)-tot_time_now);
-	}
-	
-	return RET_SUCCESS;
-}
-
 int main(int argc, char **argv)
 {
 	static char 	fun_name[]="main()";
@@ -270,10 +126,10 @@ int main(int argc, char **argv)
 	struct 			stat dir_st = {0};
 	time_t tot_time_now,time_now;
 	
-	char cms_lib_data[64];
-	memset(cms_lib_data,0,sizeof(cms_lib_data));
-	sprintf(cms_lib_data,"rm -rf %s/*",ROOT_LIB_DATA_DIR);
-				
+
+	g_last_hc_msg_time=time(NULL);
+	clear_temp_lib_data(0);
+	
 	g_midx=midx;
 	memset(poll_debug_file_name,0,sizeof(poll_debug_file_name));
 	
@@ -282,8 +138,6 @@ int main(int argc, char **argv)
 		printf("Please provide port details!!, recv numof argument : %d\n",argc);
 		return -1;
 	}
-	
-	g_last_hc_msg_time=time(NULL);
 	
 	g_port_idx= atoi(argv[1]);
 	if(g_port_idx>MAX_NO_OF_SERIAL_PORT)
@@ -304,7 +158,13 @@ int main(int argc, char **argv)
 	}
 	
 	send_hc_msg();
-	read_cfg_from_redis();
+	
+	if(read_cfg_from_redis()!=RET_SUCCESS)
+	{
+		g_midx=midx;
+		met_poll_dbg_log(REPORT,"%-20s : Get Basic config from redis failed\n",fun_name);
+		return -1;
+	}
 	
 	g_midx=midx;
 	met_poll_dbg_log(INFORM,"%-20s : Uart Port det for this Port : %s\n",
@@ -314,8 +174,6 @@ int main(int argc, char **argv)
 	
 	memset(&meter_comm_params,0,sizeof(meter_comm_params_t));
 	fill_meter_comm_params_det(&meter_comm_params,0);
-	
-	//printf(">>> Filled ls data dir path : %s\n",meter_comm_params.filename);
 	
 	send_hc_msg();
 	
@@ -339,7 +197,7 @@ int main(int argc, char **argv)
 			met_poll_dbg_log(INFORM,"%-20s : Created Root Lib data dir : %s\n",fun_name,g_data_dir_path);
 		}
 	}
-		
+	
 	for(midx=0; midx<MAX_NO_OF_METER_PER_PORT; midx++)
 	{
 		g_midx=midx;
@@ -349,6 +207,17 @@ int main(int argc, char **argv)
 		if(!dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].enable)
 		{
 			continue;
+		}
+		
+		memset(g_data_dir_path,0,sizeof(g_data_dir_path));
+		sprintf(g_data_dir_path,"%s/meter_id_%d",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+		
+		if (stat(g_data_dir_path, &dir_st) == -1) 
+		{
+			if( (mkdir(g_data_dir_path,0777) ) < 0 )					
+			{
+				met_poll_dbg_log(INFORM,"%-20s : Created Root Lib data dir : %s\n",fun_name,g_data_dir_path);
+			}
 		}
 		
 		memset(g_data_dir_path,0,sizeof(g_data_dir_path));
@@ -376,6 +245,33 @@ int main(int argc, char **argv)
 	
 	get_prev_met_ser_num();
 
+	/* dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[0].meter_addr=22;
+	fill_meter_comm_params_det(&meter_comm_params,0);
+	connect_to_meter(&meter_comm_params);
+	
+	meter_comm_params.from.day =29;
+	meter_comm_params.from.month = 8;
+	meter_comm_params.from.year = 2020;
+	meter_comm_params.from.hour = 0;
+	meter_comm_params.from.minute = 4;
+	meter_comm_params.from.second = 0;
+	
+	meter_comm_params.to.day = 1;
+	meter_comm_params.to.month = 9;
+	meter_comm_params.to.year = 2020;
+	meter_comm_params.to.hour = 0;
+	meter_comm_params.to.minute = 4;
+	meter_comm_params.to.second =0;
+	
+
+	fun_ret = get_ls_values_day_range(&meter_comm_params,1);
+	if(fun_ret<0)
+	{
+		met_poll_dbg_log(REPORT,"%-20s : Failed to get Current day ls data from Meter Error Code : %d\n",fun_name,fun_ret);
+	}
+			
+	return 0; */
+	
 	char file_path[64];
 	char file_name[64];
 	char dir_path[64];
@@ -397,7 +293,7 @@ int main(int argc, char **argv)
 				met_poll_dbg_log(REPORT,"%-20s : Failed to connect Meter Error Code : %d\n",fun_name,fun_ret);
 				p_redis_reply = redisCommand(p_redis_handler, "HMSET SerPort%dMet%dStatus VALUE %d",g_port_idx,midx,0);
 				freeReplyObject(p_redis_reply);
-				g_need_to_read_obis[midx]=0;
+				g_need_to_read_obis[midx]=1;
 				continue;
 			}
 			else
@@ -421,7 +317,7 @@ int main(int argc, char **argv)
 			{
 				met_poll_dbg_log(REPORT,"%-20s : Failed to get nameplate info from Meter Error Code : %d\n",
 				fun_name,fun_ret);
-				g_need_to_read_obis[midx]=0;
+				g_need_to_read_obis[midx]=1;
 				continue;
 			}
 			else
@@ -448,6 +344,8 @@ int main(int argc, char **argv)
 				met_poll_dbg_log(INFORM,"%-20s : Recv all obis code from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
 				g_need_to_read_obis[midx]=0;
 				
+				send_hc_msg();
+				
 				met_poll_dbg_log(REPORT,"%-20s : Inst obis info details!!!\n",fun_name);
 				for(idx=0; idx<gen_inst_param_det[midx].tot_num_val_obis; idx++)
 					print_val_scal_onis_val_info(gen_inst_param_det[midx].val_obis[idx],gen_inst_param_det[midx].scalar_val[idx].obis_code,gen_inst_param_det[midx].scalar_val[idx].value);
@@ -469,6 +367,8 @@ int main(int argc, char **argv)
 					print_val_scal_onis_val_info(gen_daily_prof_param_det[midx].val_obis[idx],gen_daily_prof_param_det[midx].scalar_val[idx].obis_code,gen_daily_prof_param_det[midx].scalar_val[idx].value);
 			}
 
+			send_hc_msg();
+			
 			g_num_blocks_blk_data[midx] = get_int_blk_period(&meter_comm_params);
 			if(g_num_blocks_blk_data[midx]<0)
 			{
@@ -508,13 +408,13 @@ int main(int argc, char **argv)
 			{
 				send_hc_msg();
 				
-				system(cms_lib_data);
+				clear_temp_lib_data(midx);
 	
 				memset(file_path,0,sizeof(file_path));
 				memset(file_name,0,sizeof(file_name));
 					
 				sprintf(file_path,"%s/meter_id_%d/event_%d",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,event_class_type);
-				sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+				sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 					
 				time_now = time(NULL);
 				fun_ret = get_event_data_all(&meter_comm_params,event_class_type);
@@ -538,7 +438,7 @@ int main(int argc, char **argv)
 			memset(dir_path,0,sizeof(dir_path));
 			memset(file_name,0,sizeof(file_name));
 			
-			system(cms_lib_data);
+			clear_temp_lib_data(midx);
 				
 			send_hc_msg();
 			time_now = time(NULL);
@@ -551,8 +451,8 @@ int main(int argc, char **argv)
 			else
 			{
 				met_poll_dbg_log(INFORM,"%-20s : Recv midnight Data from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
-					
-				sprintf(dir_path,"%s",ROOT_LIB_DATA_DIR);
+				
+				sprintf(dir_path,"%s/meter_id_%d",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 				
 				DIR 			*p_data_dir=NULL;
 				struct dirent 	*p_dir_str=NULL;
@@ -572,7 +472,7 @@ int main(int argc, char **argv)
 					if ( strstr(p_dir_str->d_name,"dp") != NULL)
 					{
 						sprintf(file_path,"%s/meter_id_%d/%s",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,p_dir_str->d_name);
-						sprintf(file_name,"%s/%s",ROOT_LIB_DATA_DIR,p_dir_str->d_name);
+						sprintf(file_name,"%s/meter_id_%d/%s",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,p_dir_str->d_name);
 						convert_to_decoded_data(file_path, file_name, &gen_daily_prof_param_det[midx]);	
 					}
 				}
@@ -580,7 +480,7 @@ int main(int argc, char **argv)
 				closedir(p_data_dir);
 			}
 			
-			system(cms_lib_data);
+			clear_temp_lib_data(midx);
 			send_hc_msg();
 			time_now = time(NULL);
 			fun_ret = get_billing_info(&meter_comm_params);
@@ -597,11 +497,12 @@ int main(int argc, char **argv)
 				memset(file_name,0,sizeof(file_name));
 					
 				sprintf(file_path,"%s/meter_id_%d/billing",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
-				sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+				sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 				
 				convert_to_decoded_data(file_path, file_name, &gen_bill_param_det[midx]);	
 			}
 			
+			send_hc_msg();
 			time_t ls_curr_time=0;
 			time(&ls_curr_time);
 			
@@ -624,7 +525,7 @@ int main(int argc, char **argv)
 			meter_comm_params.to.minute = p_curr_time->tm_min;
 			meter_comm_params.to.second = p_curr_time->tm_sec;
 			
-			system(cms_lib_data);
+			clear_temp_lib_data(midx);
 			time_now = time(NULL);
 			fun_ret = get_ls_values_day_range(&meter_comm_params,1);
 			if(fun_ret<0)
@@ -641,7 +542,7 @@ int main(int argc, char **argv)
 				meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
 				
 				//sprintf(file_name,"%02d_%02d_%04d",meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
-				sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+				sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 				append_in_exist_file(file_path, file_name, &gen_ls_param_det[midx]);
 			}
 			
@@ -662,16 +563,25 @@ int main(int argc, char **argv)
 	time_t curr_time ,ls_curr_time,time_of_day;
 	struct tm st_time,time_stamp;
 	
-	time_t g_last_inst_read_time = time(NULL);
-	time_t g_last_ls_read_time = time(NULL);
-	time_t g_last_dp_read_time = time(NULL);
-	time_t g_last_event_read_time = time(NULL);
-	time_t g_last_bill_read_time = time(NULL);
+	time_t g_last_inst_read_time[MAX_NO_OF_METER_PER_PORT];
+	time_t g_last_ls_read_time[MAX_NO_OF_METER_PER_PORT];
+	time_t g_last_dp_read_time[MAX_NO_OF_METER_PER_PORT];
+	time_t g_last_event_read_time[MAX_NO_OF_METER_PER_PORT];
+	time_t g_last_bill_read_time[MAX_NO_OF_METER_PER_PORT];
+		
+	for(midx=0; midx<MAX_NO_OF_METER_PER_PORT; midx++)
+	{
+		 g_last_inst_read_time[midx] = time(NULL);
+		 g_last_ls_read_time[midx] = time(NULL);
+		 g_last_dp_read_time[midx] = time(NULL);
+		 g_last_event_read_time[midx] = time(NULL);
+		 g_last_bill_read_time[midx] = time(NULL);
+	}
 	
 	struct tm *p_curr_time=NULL;
 	
 	g_midx=0;
-	met_poll_dbg_log(REPORT,"%-20s : Entering into Idle polling loop!!!!\n",fun_name);
+	met_poll_dbg_log(REPORT,"%-20s : >>>>>Entering into Idle polling loop!!!!\n",fun_name);
 	
 	int32_t cnt=0, cnt1;
 	while(0)
@@ -777,13 +687,14 @@ int main(int argc, char **argv)
 					}
 				}
 				
-				if(dlms_dcu_config.dcu_poll_info.inst_poll_info.enable)
+				//if(dlms_dcu_config.dcu_poll_info.inst_poll_info.enable)
+				if(1)
 				{
-					if((curr_time-g_last_inst_read_time)>=REFF_INST_POLL_TIME)
+					if((curr_time-g_last_inst_read_time[midx])>=REFF_INST_POLL_TIME)
 					{
 						time_t curr_inst_time;
 						curr_inst_time=time(NULL);
-						g_last_inst_read_time=curr_time;
+						g_last_inst_read_time[midx]=curr_time;
 						memset(&g_inst_data_val,0,sizeof(g_inst_data_val));
 		
 						//fun_ret = get_inst_values(&meter_comm_params, &g_inst_data_val);
@@ -835,13 +746,13 @@ int main(int argc, char **argv)
 				
 				if(dlms_dcu_config.dcu_poll_info.bill_poll_info.enable)
 				{
-					if((curr_time-g_last_bill_read_time)>dlms_dcu_config.dcu_poll_info.bill_poll_info.poll_hr*60*60)
+					if((curr_time-g_last_bill_read_time[midx])>dlms_dcu_config.dcu_poll_info.bill_poll_info.poll_hr*60*60)
 					{
-						system(cms_lib_data);
+						clear_temp_lib_data(midx);
 							
 						time_t curr_bill_time=time(NULL);
 						send_hc_msg();
-						g_last_bill_read_time=curr_time;
+						g_last_bill_read_time[midx]=curr_time;
 						
 						fun_ret = get_billing_info(&meter_comm_params);
 						if(fun_ret<0)
@@ -856,7 +767,7 @@ int main(int argc, char **argv)
 							
 							sprintf(file_path,"%s/meter_id_%d/billing",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 							//sprintf(file_name,"%s","billing");
-							sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+							sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 							convert_to_decoded_data(file_path, file_name, &gen_bill_param_det[midx]);
 				
 							g_bill_resp_time[midx][g_bill_resp_time_cnt]=(time(NULL)-curr_bill_time);
@@ -882,23 +793,23 @@ int main(int argc, char **argv)
 								
 								freeReplyObject(p_redis_reply);				
 							}
-							//send_det_to_redis((char*)&g_inst_data_val,sizeof(g_inst_data_val),INST_INFO_KEY);
 						}
 					}
 				}
 					
-				if(dlms_dcu_config.dcu_poll_info.event_poll_info.enable)
+				//if(dlms_dcu_config.dcu_poll_info.event_poll_info.enable)
+				if(1)
 				{
 					time_t curr_event_time=time(NULL);
 					
-					if((curr_time-g_last_event_read_time)>REFF_EVENT_POLL_TIME)
+					if((curr_time-g_last_event_read_time[midx])>REFF_EVENT_POLL_TIME)
 					{
-						g_last_event_read_time=curr_time;
+						g_last_event_read_time[midx]=curr_time;
 						uint8_t event_class_type=0;
 						
 						for(event_class_type=0; event_class_type<7; event_class_type++)
 						{
-							system(cms_lib_data);
+							clear_temp_lib_data(midx);
 							
 							fun_ret = get_event_data(&meter_comm_params,event_class_type);
 							if(fun_ret<0)
@@ -911,7 +822,7 @@ int main(int argc, char **argv)
 							{
 								sprintf(file_path,"%s/meter_id_%d/event_%d",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,event_class_type);
 								//sprintf(file_name,"event_%d",event_class_type);
-								sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+								sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 								convert_to_decoded_data(file_path, file_name, &gen_event_param_det[midx]);
 								
 								g_event_resp_time[midx][g_event_resp_time_cnt]=(time(NULL)-curr_event_time);
@@ -942,9 +853,6 @@ int main(int argc, char **argv)
 								char event_key_buff[32];
 								memset(event_key_buff,0,sizeof(event_key_buff));
 								sprintf(event_key_buff,"%s_%d",EVENT_INFO_KEY,event_class_type);
-								
-								//memcpy(&event_val_info,&meter_comm_params.meter_response,sizeof(event_val_info_t));
-								//send_det_to_redis((char*)&event_val_info,sizeof(event_val_info_t),event_key_buff);
 							}
 						}
 					}
@@ -954,12 +862,12 @@ int main(int argc, char **argv)
 				{
 					time_t curr_dp_time=time(NULL);
 					
-					if((curr_time-g_last_dp_read_time)>dlms_dcu_config.dcu_poll_info.daily_prof_poll_info.poll_hr*60*60)
+					if((curr_time-g_last_dp_read_time[midx])>dlms_dcu_config.dcu_poll_info.daily_prof_poll_info.poll_hr*60*60)
 					{
-						system(cms_lib_data);
+						clear_temp_lib_data(midx);
 							
 						send_hc_msg();
-						g_last_dp_read_time=curr_time;
+						g_last_dp_read_time[midx]=curr_time;
 						
 						fun_ret = get_midnight_data(&meter_comm_params);
 						if(fun_ret<0)
@@ -982,7 +890,8 @@ int main(int argc, char **argv)
 							DIR 			*p_data_dir=NULL;
 							struct dirent 	*p_dir_str=NULL;
 				
-							sprintf(dir_path,"%s",ROOT_LIB_DATA_DIR);
+							//sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+							sprintf(dir_path,"%s/meter_id_%d",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 							p_data_dir = opendir(dir_path);
 							if ( p_data_dir == NULL )
 							{
@@ -998,8 +907,8 @@ int main(int argc, char **argv)
 								if ( strstr(p_dir_str->d_name,"dp") != NULL)
 								{
 									sprintf(file_path,"%s/meter_id_%d/%s",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,p_dir_str->d_name);
-									
-									sprintf(file_name,"%s/%s",ROOT_LIB_DATA_DIR,p_dir_str->d_name);
+
+									sprintf(file_name,"%s/meter_id_%d/%s",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,p_dir_str->d_name);
 									
 									convert_to_decoded_data(file_path, file_name, &gen_daily_prof_param_det[midx]);	
 								}
@@ -1029,16 +938,17 @@ int main(int argc, char **argv)
 					}
 				}
 				
-				if(dlms_dcu_config.dcu_poll_info.ls_poll_info.enable)
+				//if(dlms_dcu_config.dcu_poll_info.ls_poll_info.enable)
+				if(1)
 				{
 					time_t curr_ls_time=time(NULL);
 
-					if((curr_time-g_last_ls_read_time)>REFF_LS_POLL_TIME)
+					if((curr_time-g_last_ls_read_time[midx])>REFF_LS_POLL_TIME)
 					{
-						system(cms_lib_data);
+						clear_temp_lib_data(midx);
 							
 						send_hc_msg();
-						g_last_ls_read_time=curr_time;
+						g_last_ls_read_time[midx]=curr_time;
 						
 						time(&ls_curr_time);
 	
@@ -1112,14 +1022,9 @@ int main(int argc, char **argv)
 							meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
 							
 							//sprintf(file_name,"%02d_%02d_%04d",meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
-							sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
+							sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+							//sprintf(file_name,"%s/cms_lib_data",ROOT_LIB_DATA_DIR);
 							append_in_exist_file(file_path, file_name, &gen_ls_param_det[midx]);
-						
-							//block_val_info_t g_block_val_info;
-							
-							//memcpy(&g_block_val_info,&meter_comm_params.meter_response,sizeof(block_val_info_t));
-							
-							//send_det_to_redis((char*)&g_block_val_info,sizeof(block_val_info_t),LS_BLK_INFO_KEY);
 						}
 					}
 				}
@@ -1137,6 +1042,13 @@ int main(int argc, char **argv)
 	return RET_SUCCESS;
 }
 
+/**************************************************************************************************
+*Function 					: send_hc_msg()
+*Input Parameters 			: Void
+*Output Parameters 			: None.
+*Return	Value				: Void.
+*Description 				: To send HC Message to Redis server on a periodic time.
+********************************************************************************************************/
 void send_hc_msg(void)
 {
 	time_t curr_time=time(NULL);
@@ -1158,57 +1070,13 @@ void send_hc_msg(void)
 	}
 }
 
-void fill_meter_comm_params_det(meter_comm_params_t *meter_comm_params ,uint8_t midx)
-{
-	static char fun_name[]="fill_meter_comm_params_det()";
-	char cms_lib_data[64];
-	
-	memset(cms_lib_data,0,sizeof(cms_lib_data));
-	sprintf(cms_lib_data,"rm -rf %s/*",ROOT_LIB_DATA_DIR);
-	system(cms_lib_data);
-
-	meter_comm_params->inf_type=INF_SERIAL;
-	meter_comm_params->meter_type=dlms_dcu_config.dlms_dcu_info.meter_type;
-	meter_comm_params->meter_addr_format=dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_addr_size;
-	
-	meter_comm_params->meter_id=dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_addr;
-
-	memcpy(meter_comm_params->interface_params,(char*)&dlms_dcu_config.ser_prot_cfg.ser_prot_param[g_port_idx],sizeof(dlms_dcu_config.ser_prot_cfg.ser_prot_param[g_port_idx]));
-	
-	sprintf(meter_comm_params->filename,"%s",ROOT_LIB_DATA_DIR);
-	strcpy(meter_comm_params->meter_pass,dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_pass);
-	
-	//met_poll_dbg_log(REPORT,"%-20s : Filled Meter Comm Param details!!!, MetAddr : %d,  Addr Size : %d, PassWord : %s\n",
-	//fun_name,meter_comm_params->meter_id,meter_comm_params->meter_addr_format,meter_comm_params->meter_pass);
-}
-
-void get_date(char *p_file_name,int *day,int *mon,int *year)
-{
-	char *token;
-	char *delim = "_";
-	char str[4][8];
-	int idx = 0;
-	
-	memset(str,0,sizeof(str));
-	token = strtok(p_file_name, delim);
-	while( token != NULL )
-	{
-		memset(str[idx],0,8);
-		strcpy(str[idx],token);
-		token = strtok(NULL,delim);
-		//printf("Token %d - %s\n",i,str[i]);
-		idx++;
-	}
-	
-	*day = atoi(str[0]);
-	*mon = atoi(str[1]);
-	*year = atoi(str[2]);
-
-	//printf("day : %d mon : %d year : %d\n",*day,*mon,*year);
-
-	return;
-}
-
+/**************************************************************************************************
+*Function 					: delete_old_files()
+*Input Parameters 			: Meter Index
+*Output Parameters 			: None.
+*Return	Value				: Success/Failure.
+*Description 				: To delete old file , which is more than 46 days old.
+********************************************************************************************************/
 int32_t delete_old_files(uint8_t midx)
 {
 	static char 	fun_name[]="delete_old_files()";
@@ -1284,6 +1152,113 @@ int32_t delete_old_files(uint8_t midx)
 	return RET_SUCCESS;
 }
 
+/**************************************************************************************************
+*Function 					: check_ls_file_avl()
+*Input Parameters 			: Meter Idx, Ls File Name.
+*Output Parameters 			: None.
+*Return	Value				: Success or appropriate error code.
+*Description 				: To check complete load survey data file.
+********************************************************************************************************/
+int32_t check_ls_file_avl(char* file_name, uint8_t midx)
+{
+	/* char 	time_entry[32]; */
+	FILE	*p_file_ptr = NULL;
+	
+	/* memset(time_entry,0,32); */
+	
+/* 	if(g_meter_mfg_type==LNT_METER_MFG_TYPE)
+	{
+		sprintf(time_entry,"%02d:%02d",24,00);		
+	}
+	else
+	{
+		sprintf(time_entry,"%02d:%02d",23,(60-g_int_period_blk));
+	} */
+	
+	static char fun_name[]="check_ls_file_avl()";
+	p_file_ptr = fopen(file_name,"r");
+	if(p_file_ptr == NULL)
+	{
+		met_poll_dbg_log(REPORT,"%-20s : File : %s is not opened Read mode, Error : %s\n",fun_name,file_name,strerror(errno));
+		return -1;
+	}
+	else
+	{
+		uint16_t	line_cnt = 0;
+		char 		read_line[256];
+		while(fgets(read_line,256,p_file_ptr)!=NULL)
+		{
+			line_cnt++;
+			if(line_cnt>=(g_num_blocks_blk_data[midx]+1))
+			{
+				met_poll_dbg_log(INFORM,"%-20s : ::: file_name : %s All entry  found \n",fun_name,file_name);
+				
+				fclose(p_file_ptr);
+				
+				return 1;
+			}
+			/* else
+			{
+				fclose(p_file_ptr);
+				
+				remove(file_name);
+				
+				return 0;
+			} */
+			memset(read_line,0,sizeof(read_line));
+		}
+	}
+
+	fclose(p_file_ptr);
+	
+	met_poll_dbg_log(INFORM,"%-20s : ::: file_name : %s Not All entry  found, Removing file\n",fun_name,file_name);
+	
+	remove(file_name);
+	
+	return 0;
+}
+
+/**************************************************************************************************
+*Function 					: get_date()
+*Input Parameters 			: Ls File Name, day,month,year.
+*Output Parameters 			: day,month,year.
+*Return	Value				: void.
+*Description 				: To get date info from load survey data file.
+********************************************************************************************************/
+void get_date(char *p_file_name,int *day,int *mon,int *year)
+{
+	char *token;
+	char *delim = "_";
+	char str[4][8];
+	int idx = 0;
+	
+	memset(str,0,sizeof(str));
+	token = strtok(p_file_name, delim);
+	while( token != NULL )
+	{
+		memset(str[idx],0,8);
+		strcpy(str[idx],token);
+		token = strtok(NULL,delim);
+		//printf("Token %d - %s\n",i,str[i]);
+		idx++;
+	}
+	
+	*day = atoi(str[0]);
+	*mon = atoi(str[1]);
+	*year = atoi(str[2]);
+
+	//printf("day : %d mon : %d year : %d\n",*day,*mon,*year);
+
+	return;
+}
+
+/**************************************************************************************************
+*Function 					: print_val_scal_onis_val_info()
+*Input Parameters 			: pointer of valobis scalarobis and scalar value.
+*Output Parameters 			: Void.
+*Return	Value				: void.
+*Description 				: To print the obis info.
+********************************************************************************************************/
 void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_t scalar_val)
 {
 	static char fun_name[]="val_obis_det()";
@@ -1293,8 +1268,16 @@ void print_val_scal_onis_val_info(uint8_t* val_obis, uint8_t* scalar_obis, int8_
 	scalar_obis[0],scalar_obis[1],scalar_obis[2],scalar_obis[3],scalar_obis[4],scalar_obis[5],scalar_val);
 }
 
+/**************************************************************************************************
+*Function 					: get_prev_met_ser_num()
+*Input Parameters 			: Void.
+*Output Parameters 			: Void.
+*Return	Value				: void.
+*Description 				: To get previous meter sreial number.
+********************************************************************************************************/
 void get_prev_met_ser_num(void)
 {
+	static char fun_name[]="get_prev_met_ser_num()";
 	uint8_t 	midx=0;
 	memset(g_prev_meter_ser_info,0,sizeof(g_prev_meter_ser_info));
 	
@@ -1311,9 +1294,18 @@ void get_prev_met_ser_num(void)
 				strcpy(g_prev_meter_ser_info[midx],p_redis_reply->element[0]->str);
 			}
 		}
+		
+		met_poll_dbg_log(INFORM,"%-20s : %d > From Redis Meter Serial : %s\n",fun_name,midx+1,g_prev_meter_ser_info[midx]);
 	}
 }
 
+/**************************************************************************************************
+*Function 					: check_met_ser_num()
+*Input Parameters 			: Void.
+*Output Parameters 			: Void.
+*Return	Value				: void.
+*Description 				: To check meter sreial number mismatch.
+********************************************************************************************************/
 void check_met_ser_num(void)
 {
 	static char fun_name[]="check_met_ser_num()";
@@ -1357,6 +1349,13 @@ void check_met_ser_num(void)
 		}
 		else
 		{
+			if(strlen(g_prev_meter_ser_info[midx])==0)
+			{
+				g_midx=midx;
+				met_poll_dbg_log(INFORM,"%-20s : Prev Meter SerNum is empty, Move to check next.\n",fun_name);
+				continue;
+			}
+		
 			char del_dir_cnt[32];
 			
 			g_midx=midx;
@@ -1365,7 +1364,7 @@ void check_met_ser_num(void)
 			
 			memset(del_dir_cnt,0,sizeof(del_dir_cnt));
 			
-			met_poll_dbg_log(INFORM,"%-20s : Deleting dir_path : %s/meter_id_%d",
+			met_poll_dbg_log(INFORM,"%-20s : Deleting dir_path : %s/meter_id_%d\n",
 			fun_name,ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
 			
 			sprintf(del_dir_cnt,"rm -rf %s/meter_id_%d/*",ROOT_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
@@ -1404,19 +1403,182 @@ void check_met_ser_num(void)
 	}
 	
 	if(need_to_store_flag)
+	{
 		memcpy(g_prev_meter_ser_info,g_curr_meter_ser_info,sizeof(g_prev_meter_ser_info));
+	}
+}
+
+/**************************************************************************************************
+*Function 					: clear_temp_lib_data()
+*Input Parameters 			: Meter Index.
+*Output Parameters 			: Void.
+*Return	Value				: void.
+*Description 				: To clear temp lib data in a directory.
+********************************************************************************************************/
+void clear_temp_lib_data(uint8_t midx)
+{
+	char cms_lib_data[128];
+	//FILE *p_file_ptr;
+	
+	memset(cms_lib_data,0,sizeof(cms_lib_data));
+	
+	sprintf(cms_lib_data,"rm -rf %s/meter_id_%d/*",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+	//sprintf(cms_lib_data,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+	
+	/* p_file_ptr = fopen(cms_lib_data,"w");
+	if(p_file_ptr!=NULL)
+		fclose(p_file_ptr); */
+	
+	system(cms_lib_data);
+}
+
+/**************************************************************************************************
+*Function 					: get_prev_ls_data()
+*Input Parameters 			: Meter Index.
+*Output Parameters 			: Void.
+*Return	Value				: Success/Failure.
+*Description 				: To get previous load survey data from meter.
+********************************************************************************************************/
+int get_prev_ls_data(uint8_t midx)
+{
+	static char fun_name[]="get_prev_ls_data()";
+	int32_t 		fun_ret=-1,idx=0;
+	time_t 			ls_curr_time=0;
+	char 			file_path[64];
+	char 			file_name[64];
+	time(&ls_curr_time);
+	
+	clear_temp_lib_data(midx);
+	
+	struct tm *p_curr_time = localtime(&ls_curr_time);
+	
+	struct tm st_time,time_stamp,next_date_tm;
+	time_t time_of_day=0,next_time_day=0;
+			
+	if(dlms_dcu_config.dlms_dcu_info.read_prev_ls_data==1)
+	{
+		st_time.tm_mday = p_curr_time->tm_mday;
+		st_time.tm_mon =  p_curr_time->tm_mon;
+		st_time.tm_year = p_curr_time->tm_year;
+		st_time.tm_hour = 0;
+		st_time.tm_min = 0;
+		st_time.tm_sec = 0;
+
+		time_of_day = mktime(&st_time);
+		time_of_day -= (24*60*60);
+		localtime_r(&time_of_day,&time_stamp);
+		
+		time_t tot_time_now=time(NULL);
+		
+		for(idx=0; idx<LAST_NUM_DAYS_LS_READ; idx++)
+		{
+			memset(file_path,0,sizeof(file_path));
+			memset(file_name,0,sizeof(file_name));
+			
+			clear_temp_lib_data(midx);
+			
+			send_hc_msg();
+			
+			localtime_r(&time_of_day,&time_stamp);
+				
+			next_time_day =  time_of_day + 60*60*24;
+			localtime_r(&next_time_day,&next_date_tm);
+			
+			meter_comm_params.from.day = time_stamp.tm_mday;
+			meter_comm_params.from.month = time_stamp.tm_mon+1;
+			meter_comm_params.from.year = time_stamp.tm_year+1900;
+			meter_comm_params.from.hour = 0;
+			meter_comm_params.from.minute = 4;
+			meter_comm_params.from.second = 0;
+				
+			meter_comm_params.to.day = next_date_tm.tm_mday;
+			meter_comm_params.to.month = next_date_tm.tm_mon+1;
+			meter_comm_params.to.year = next_date_tm.tm_year+1900;
+			meter_comm_params.to.hour = 0;
+			meter_comm_params.to.minute = 3;
+			meter_comm_params.to.second = 0;
+			
+			sprintf(file_path,"%s/meter_id_%d/%02d_%02d_%04d",ROOT_DATA_DIR,
+				g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1,
+				meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
+				
+			if(check_ls_file_avl(file_path,midx)==1)
+			{
+				met_poll_dbg_log(REPORT,"%-20s : Data File Present : %s\n",fun_name,file_path);
+				time_of_day = time_of_day-(60*60*24);
+				continue;
+			}
+			
+			time_t time_now = time(NULL);
+			fun_ret = get_ls_values_day_range(&meter_comm_params,1);
+			if(fun_ret<0)
+			{
+				met_poll_dbg_log(REPORT,"%-20s : Failed to prev day ls data from Meter Error Code : %d\n",
+				fun_name,midx,fun_ret);
+			}
+			else
+			{
+				met_poll_dbg_log(REPORT,"%-20s : DayIdx : %d, Recv Prev day ls data for day : %02d_%02d_%04d\n",
+				fun_name,idx+1,meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
+				
+				met_poll_dbg_log(REPORT,"%-20s : Total Time taken to get 1 day ls data : %ld\n",fun_name,time(NULL)-time_now);
+				
+				//sprintf(file_name,"%02d_%02d_%04d",meter_comm_params.from.day,meter_comm_params.from.month,meter_comm_params.from.year);
+				sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+				append_in_exist_file(file_path, file_name, &gen_ls_param_det[midx]);
+			}
+			
+			time_of_day = time_of_day-(60*60*24);
+		}
+		
+		met_poll_dbg_log(REPORT,"%-20s : Total Time taken to get all prev day ls data : %ld\n",fun_name,time(NULL)-tot_time_now);
+	}
+	else
+	{
+		met_poll_dbg_log(REPORT,"%-20s : To read prev LS data flag is disable!!!\n",fun_name);
+	}
+	
+	return RET_SUCCESS;
+}
+
+/**************************************************************************************************
+*Function 					: get_prev_ls_data()
+*Input Parameters 			: Meter Index.
+*Output Parameters 			: Void.
+*Return	Value				: Success/Failure.
+*Description 				: To get previous load survey data from meter.
+********************************************************************************************************/
+void fill_meter_comm_params_det(meter_comm_params_t *meter_comm_params ,uint8_t midx)
+{
+	static char fun_name[]="fill_meter_comm_params_det()";
+
+	clear_temp_lib_data(midx);
+
+	meter_comm_params->inf_type=INF_SERIAL;
+	meter_comm_params->meter_type=dlms_dcu_config.dlms_dcu_info.meter_type;
+	meter_comm_params->meter_addr_format=dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_addr_size;
+	
+	meter_comm_params->meter_id=dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_addr;
+
+	memcpy(meter_comm_params->interface_params,(char*)&dlms_dcu_config.ser_prot_cfg.ser_prot_param[g_port_idx],sizeof(dlms_dcu_config.ser_prot_cfg.ser_prot_param[g_port_idx]));
+	
+	//sprintf(file_name,"%s/meter_id_%d/cms_lib_data",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+	sprintf(meter_comm_params->filename,"%s/meter_id_%d",ROOT_LIB_DATA_DIR,g_port_idx*MAX_NO_OF_METER_PER_PORT+midx+1);
+	strcpy(meter_comm_params->meter_pass,dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].meter_pass);
+	
+	met_poll_dbg_log(REPORT,"%-20s : Filled Meter Comm Param details!!!, MetAddr : %d,  Addr Size : %d, LibFileName : %s\n",
+	fun_name,meter_comm_params->meter_id,meter_comm_params->meter_addr_format,meter_comm_params->filename);
 }
 
 int32_t read_cfg_from_redis(void)
 {
-	memset(&dlms_dcu_config,0,sizeof(dlms_dcu_config));
-	p_redis_reply=NULL;
 	uint8_t idx=0;
 	char 	*p_gen_ptr=NULL;
 	
+	memset(&dlms_dcu_config,0,sizeof(dlms_dcu_config));
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_GEN_INFO DcuDevId NumEthPort MeterType DataFormatType DataTrfType MasterProtoType DbgLogEnable DcuDevLoc DcuGpsLoc DbgLogIp ReadPrevLsData FaultTolSupp");
 	
-	//printf("Total Elements : %d\n",p_redis_reply->elements);
+	printf("Total Elements : %d\n",p_redis_reply->elements);
 	
 	if(p_redis_reply!=NULL)
 	{
@@ -1499,12 +1661,14 @@ int32_t read_cfg_from_redis(void)
 		freeReplyObject(p_redis_reply);
 	}
 	else
+	{
+		printf("Failed to get DCU_GEN_INFO\n");
 		return -1;
-	
+	}
 
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_SERIAL_INFO NumDcuSer");
 	
-	//printf("NumDcuSer Total Elements : %d\n",p_redis_reply->elements);
+	printf("DCU_SERIAL_INFO NumDcuSer Total Elements : %d\n",p_redis_reply->elements);
 	
 	if(p_redis_reply!=NULL)
 	{
@@ -1525,17 +1689,20 @@ int32_t read_cfg_from_redis(void)
 			goto EXIT;
 	}
 	else
+	{
+		printf("Failed to get DCU_SERIAL_INFO\n");
 		goto EXIT;
+	}
 	
-	//printf("Getting Other ser info\n");
+	printf("Getting Other ser info\n");
 	
 	for(idx=0; idx<MAX_NO_OF_SERIAL_PORT; idx++)
 	{
-		//printf("Getting Serial info for Idx : %d\n",idx);
+		printf("Getting Serial info for Idx : %d\n",idx);
 		
 		p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_SERIAL_INFO DcuSer%dPort DcuSer%dBaudrate DcuSer%dDataBits DcuSer%dStopBits DcuSer%dParity DcuSer%dInfMode",idx+1,idx+1,idx+1,idx+1,idx+1,idx+1);
 	
-		//printf("Idx : %d Total Elements : %d\n",idx+1,p_redis_reply->elements);
+		printf("PortIdx : %d Total Elements : %d\n",idx+1,p_redis_reply->elements);
 		
 		if(p_redis_reply!=NULL)
 		{
@@ -1582,10 +1749,13 @@ int32_t read_cfg_from_redis(void)
 			freeReplyObject(p_redis_reply);
 		}
 		else
+		{
+			printf("Failed to get DCU_SERIAL_INFO for port : %d\n",idx+1);
 			goto EXIT;
+		}
 	}
 	
-	p_redis_reply = redisCommand(p_redis_handler,"hmget INST_POLL_INFO Enable PollType Periodicity PollSec PollMint PollHr");
+	/*p_redis_reply = redisCommand(p_redis_handler,"hmget INST_POLL_INFO Enable PollType Periodicity PollSec PollMint PollHr");
 
 	//printf("Inst Total Elements : %d\n",p_redis_reply->elements);
 
@@ -1767,10 +1937,11 @@ int32_t read_cfg_from_redis(void)
 		else 
 			goto EXIT;
 	}
-		
+*/
+		 
 	p_redis_reply = redisCommand(p_redis_handler,"hmget BILL_POLL_INFO Enable PollType Periodicity PollSec PollMint PollHr");
 
-	//printf("Bill Total Elements : %d\n",p_redis_reply->elements);
+	printf("Bill Total Elements : %d\n",p_redis_reply->elements);
 
 	if(p_redis_reply!=NULL)
 	{
@@ -1828,10 +1999,15 @@ int32_t read_cfg_from_redis(void)
 		else 
 			goto EXIT;
 	}
+	else
+	{
+		printf("Failed to get BILL_POLL_INFO\n");
+		goto EXIT;
+	}
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DP_POLL_INFO Enable PollType Periodicity PollSec PollMint PollHr");
 
-	//printf("DP Total Elements : %d\n",p_redis_reply->elements);
+	printf("DP Total Elements : %d\n",p_redis_reply->elements);
 
 	if(p_redis_reply!=NULL)
 	{
@@ -1889,7 +2065,14 @@ int32_t read_cfg_from_redis(void)
 		else 
 			goto EXIT;
 	}
+	else
+	{
+		printf("Failed to get DP_POLL_INFO\n");
+		goto EXIT;
+	}
 	 	
+	printf("!!!!getting SerMetInfo\n");
+	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget P_%dSER_MET_INFO NumMeters",g_port_idx);
 	if(p_redis_reply!=NULL)
 	{
@@ -1903,14 +2086,17 @@ int32_t read_cfg_from_redis(void)
 			goto EXIT;
 	}
 	else
+	{
+		printf("Failed to get Port%dSER_MET_INFO\n",g_port_idx);
 		goto EXIT;
+	}
 	
-	
+	printf("!!!!getting SerMetInfo Config details\n");
 	for(idx=0; idx<MAX_NO_OF_METER_PER_PORT; idx++)
 	{
-		p_redis_reply = redisCommand(p_redis_handler,"hmget P_%dSerMeter_%dConfig Enable MeterId MeterAddrSize MeterAddr MeterPass MeterLoc",idx+1);
+		p_redis_reply = redisCommand(p_redis_handler,"hmget P_%dSerMeter_%dConfig Enable MeterId MeterAddrSize MeterAddr MeterPass MeterLoc",g_port_idx,idx+1);
 	
-		//printf("Idx : %d Total Elements : %d\n",idx+1,p_redis_reply->elements);
+		printf("MeterIdx : %d Total Elements : %d\n",idx+1,p_redis_reply->elements);
 		
 		if(p_redis_reply!=NULL)
 		{
@@ -1918,7 +2104,6 @@ int32_t read_cfg_from_redis(void)
 			if(p_gen_ptr!=NULL)
 			{
 				dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[idx].enable=atoi(p_redis_reply->element[0]->str);
-				
 			}
 			else 
 				goto EXIT;
@@ -1956,13 +2141,17 @@ int32_t read_cfg_from_redis(void)
 			freeReplyObject(p_redis_reply);
 		}
 		else
+		{
+			printf("Failed to get P_%dSerMeter_%dConfig\n",g_port_idx,idx+1);
 			goto EXIT;
+		}
 	}
 
 	return 0;
 	
 	EXIT:
-	return -1;
+		printf("This is exit, i.e something wrong in above config\n");
+		return -1;
 }
 
 /* End Of File */

@@ -1,4 +1,4 @@
-"BillParams":
+{"BillParams":
 {
 	"NumParams":"40",
 	"ObisCodeList":
@@ -45,4 +45,4 @@
 		{"obis": "1.0.9.6.8.255","def":"kvamd_tz8"}
 	]
 }
-
+}

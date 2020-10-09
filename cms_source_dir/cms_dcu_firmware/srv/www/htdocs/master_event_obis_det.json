@@ -1,4 +1,4 @@
-"EventParams":
+{"EventParams":
 {
 	"NumParams":"12",
 	"ObisCodeList":
@@ -16,5 +16,5 @@
 		{"obis":"1.0.1.8.0.255","def":" kwh"},
 		{"obis":"0.0.96.11.0.255","def":"event_code"}	
 	]
-}
+}}
 

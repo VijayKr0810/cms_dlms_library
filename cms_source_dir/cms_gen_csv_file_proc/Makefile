@@ -38,10 +38,6 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@$(CC) $(INCDIR) $(CMS_COMMON_INC_DIR) $(CMS_LIB_INC_DIR) $(CFLAGS) $(REDIS_LIB_DIR) $(LIBS) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
-#$(OBJECTS2): $(OBJDIR)/%.o : $(GEN_FUN_DIR)/%.c
-	# @$(CC) $(INCDIR) $(CFLAGS) $(REDIS_LIB_DIR) $(LIBS) -c $< -o $@
-	# @echo "Compiled "$<" successfully!"
-	
 .PHONEY: clean
 clean:
 	@$(rm) $(OBJDIR)/*.o

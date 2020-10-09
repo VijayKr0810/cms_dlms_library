@@ -1,7 +1,7 @@
 {
 "Ethernet":"2",
 "SER_NUM":"DCU_0001",
-"FW_VER":"T_V1.00_22Sep2020",
+"FW_VER":"T_V1.00_06Oct2020",
 "MODEL_NO":"CS-MDAS-DCU-42X",
 "Port":"4",
 "HwType":"ATSAM91X"

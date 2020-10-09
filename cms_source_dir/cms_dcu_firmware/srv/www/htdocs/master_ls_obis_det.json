@@ -1,4 +1,4 @@
-"LSParams":
+{"LSParams":
 {
 	"NumParams":"14",
 	"ObisCodeList":
@@ -18,5 +18,5 @@
 		{"obis": "1.0.10.29.0.255","def":"kvah_exp"},
 		{"obis":"1.0.9.29.0.255","def":" kvah_imp"}	
 	]
-}
+}}
 

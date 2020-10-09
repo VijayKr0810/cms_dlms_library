@@ -1,4 +1,4 @@
-"MNParams":
+{"MNParams":
 {
 	"NumParams":"11",
 	"ObisCodeList":
@@ -15,5 +15,5 @@
 		{"obis":"1.0.7.8.0.255","def":" kvarh_q3"},
 		{"obis":"1.0.8.8.0.255","def":" kvarh_q4"}
 	]
-}
+}}
 

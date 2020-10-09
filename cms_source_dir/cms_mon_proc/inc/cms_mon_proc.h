@@ -7,6 +7,7 @@
 
 #define 				DCU_CSV_FILE_TYPE 			1
 #define 				SEND_DIAG_MSG_TIME 			30
+#define 				CHECK_PROC_TIME 			30
 
 #define 				CMS_BIN_TO_REDIS_PROC		"/usr/cms/bin/cms_bin_to_redis_proc"
 #define 				CMS_NTP_CLIENT_PROC			"/usr/cms/bin/cms_ntpclient_proc"
@@ -14,6 +15,7 @@
 #define 				CMS_WEB_BACK_END_PROC		"/usr/cms/bin/cms_web_back_end_proc"
 #define 				CMS_GEN_CSV_FILE_PROC		"/usr/cms/bin/cms_gen_csv_proc"
 #define 				CMS_RESET_SWITCH_PROC		"/usr/cms/bin/reset_switch_check.sh"
+#define 				CMS_FTP_PUSH_PROC			"/usr/cms/bin/cms_ftp_push_proc"
 
 #define 				CMS_ZOMBIE_CHECK_SCRIPT		"/usr/cms/bin/zombie_process_check.sh"
 #define 				CMS_MODEM_STATUS_SCRIPT		"/usr/cms/bin/modem_status.sh"

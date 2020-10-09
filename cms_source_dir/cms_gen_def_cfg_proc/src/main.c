@@ -153,7 +153,7 @@ void fill_default_cfg(void)
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].enable=1;
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_id=idx+1;
 			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr_size=4;
-			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr=17+idx;
+			dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_addr=22+idx;
 			strcpy(dlms_dcu_config.dlms_channel_cfg[pidx].met_cfg[idx].meter_pass,"lnt1");
 			memset(loc_buff,0,sizeof(loc_buff));
 			sprintf(loc_buff,"DCU_MET_LOC_%d",pidx*MAX_NO_OF_SERIAL_PORT+idx+1);
@@ -167,7 +167,7 @@ void fill_default_cfg(void)
 		dlms_dcu_config.eth_meter_cfg.eth_param[idx].enable=1;
 		dlms_dcu_config.eth_meter_cfg.eth_param[idx].meter_id=idx+1;
 		dlms_dcu_config.eth_meter_cfg.eth_param[idx].meter_addr_size=4;
-		dlms_dcu_config.eth_meter_cfg.eth_param[idx].meter_addr=17+idx;
+		dlms_dcu_config.eth_meter_cfg.eth_param[idx].meter_addr=22+idx;
 		strcpy(dlms_dcu_config.eth_meter_cfg.eth_param[idx].meter_pass,"lnt1");
 		memset(loc_buff,0,sizeof(loc_buff));
 		sprintf(loc_buff,"DCU_MET_LOC_%d",idx);
@@ -298,18 +298,18 @@ void fill_default_cfg(void)
 	strcpy(dlms_dcu_config.vpn_cfg.pptp_cfg.remote_password,"pptpd");
 	//strcpy(dlms_dcu_config.vpn_cfg.pptp_cfg.rem_ip,"122.166.196.34");
 	
-	dlms_dcu_config.ftp_ser_cfg.enable=0;
-	strcpy(dlms_dcu_config.ftp_ser_cfg.ser_ip,"192.168.10.193");
+	dlms_dcu_config.ftp_ser_cfg.enable=1;
+	strcpy(dlms_dcu_config.ftp_ser_cfg.ser_ip,"192.168.101.193");
 	strcpy(dlms_dcu_config.ftp_ser_cfg.username,"vijay");
 	strcpy(dlms_dcu_config.ftp_ser_cfg.password,"radhey$123");
 	strcpy(dlms_dcu_config.ftp_ser_cfg.loc_dir,"dlms_api_dir");
 	dlms_dcu_config.ftp_ser_cfg.ser_port=21;
 	dlms_dcu_config.ftp_ser_cfg.upload_period=15;
 	dlms_dcu_config.ftp_ser_cfg.diff_log_ser=0;
-	strcpy(dlms_dcu_config.ftp_ser_cfg.log_ser_ip,"192.168.10.193");
+	strcpy(dlms_dcu_config.ftp_ser_cfg.log_ser_ip,"192.168.101.193");
 	strcpy(dlms_dcu_config.ftp_ser_cfg.log_username,"vijay");
 	strcpy(dlms_dcu_config.ftp_ser_cfg.log_password,"radhey$123");
-	strcpy(dlms_dcu_config.ftp_ser_cfg.log_loc_dir,"dlms_api_dir");
+	strcpy(dlms_dcu_config.ftp_ser_cfg.log_loc_dir,"dlms_api_log_dir");
 	dlms_dcu_config.ftp_ser_cfg.log_ser_port=21;
 	dlms_dcu_config.ftp_ser_cfg.log_upload_period=15;
 	
@@ -367,7 +367,6 @@ void create_version_file(void)
 	
 	memset(version_buff,0,sizeof(version_buff));
 	memset(time_buff,0,sizeof(time_buff));
-	
 	
 	strcpy(version_buff,DCU_VERSION_PREFIX);
 	

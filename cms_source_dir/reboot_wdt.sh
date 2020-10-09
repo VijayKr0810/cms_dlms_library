@@ -217,7 +217,7 @@ do
 		sleep 5
 		write_into_file "Issueing PowerOff Command"
 		echo "Issueing PowerOff Command"
-		#/sbin/poweroff
+		/sbin/poweroff
 		exit
 	fi
 done

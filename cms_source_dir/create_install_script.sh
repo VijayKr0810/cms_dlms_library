@@ -96,12 +96,12 @@ cd ..
 cp ./cms_mon_proc/cms_mon_proc bin/.
 echo ""
 
-# echo "building FtpProc ..."
-# cd ./dcu_ftp_proc
-# make clean;make
-# cd ..
-# cp ./dcu_ftp_proc/dcu_ftp_proc bin/.
-# echo ""
+echo "building FtpProc ..."
+cd ./cms_ftp_push_proc
+make clean;make
+cd ..
+cp ./cms_ftp_push_proc/cms_ftp_push_proc bin/.
+echo ""
 
 echo "building cms_dlms_api_library..."
 cd ./cms_dlms_api_library
@@ -147,14 +147,6 @@ make clean;make
 cd ..
 cp ./cms_gen_csv_file_proc/cms_gen_csv_proc bin/.
 echo ""
-
-
-# echo "building ntpClientProc ..."
-# cd ./ntpclient
-# make clean;make
-# cd ..
-# cp ./ntpclient/dcuNtpClientProc bin/.
-# echo ""
 
 # echo ""
 # echo "building modTcpSlaveProc ..."

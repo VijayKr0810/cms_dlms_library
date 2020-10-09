@@ -14,7 +14,7 @@ redisReply 						*p_redis_reply;
 char 							g_rbt_buffer[512];
 char 							debug_file_name[64];
 uint8_t 						g_num_procs;
-time_t                          g_rawtime,g_last_diag_time,g_last_hc_send_time;
+time_t                          g_rawtime,g_last_diag_time,g_last_hc_send_time,g_check_proc_time;
 time_t 							g_proc_timeout[MAX_PROCESSES];
 uint8_t 						g_kill_all,g_restart,g_reboot_pidx;
 uint8_t 						g_dlms_proc_fail_cnt[MAX_NO_OF_SERIAL_PORT];
@@ -202,7 +202,7 @@ int32_t check_hc_msg(void)
 		p_redis_reply = redisCommand(p_redis_handler,"hmget web_back_end_hc_msg updatetime");
 		if(p_redis_reply->element[0]->str)
 		{
-			dbg_log(INFORM,"%-20s : >>Rcv HC Msg from Web BackEnd Proc, Updated time : %d\n",
+			dbg_log(INFORM,"%-20s : HC Msg Time from Web BackEnd Proc, Updated time : %d\n",
 				fun_name,atoi(p_redis_reply->element[0]->str));
 			
 			g_proc_timeout[pidx]=atoi(p_redis_reply->element[0]->str);
@@ -219,7 +219,7 @@ int32_t check_hc_msg(void)
 			p_redis_reply = redisCommand(p_redis_handler,"hmget P%d_dlms_poll_proc_hc_msg updatetime",idx);
 			if(p_redis_reply->element[0]->str)
 			{
-				dbg_log(INFORM,"%-20s : >>Rcv HC Msg from DLMS ProcId : %d, Updated time : %d\n",
+				dbg_log(INFORM,"%-20s : HC Msg Time from DLMS ProcId : %d, Updated time : %d\n",
 				fun_name,idx,atoi(p_redis_reply->element[0]->str));
 				g_proc_timeout[pidx]=atoi(p_redis_reply->element[0]->str);
 			}
@@ -388,7 +388,7 @@ void waitfor_child(int32_t sig)
 						dbg_log(INFORM,"%-20s : Problem with the process : %s failing continuously.\n",fun_name,
 						proc_info[proc_idx].proc_name);
 						
-						memset(msg_data,0,128);
+						memset(msg_data,0,sizeof(msg_data));
 						sprintf(msg_data,"Problem with the process : %s failing continuously",proc_info[proc_idx].proc_name);
 						
 						write_reboot_info(RBT_FROM_WDT, msg_data);
@@ -398,11 +398,11 @@ void waitfor_child(int32_t sig)
 						return;
 					}
 					
-					memset(msg_data,0,128);
+					memset(msg_data,0,sizeof(msg_data));
 					sprintf(msg_data," Restarting the process : %s failing continuously",proc_info[proc_idx].proc_name);						
 					write_reboot_info(RBT_FROM_WDT, msg_data);		
 					
-					sleep(5);
+					//sleep(3);
 					
 					exec_procs(proc_idx);
 					proc_info[proc_idx].restart_time = time_now;
@@ -476,6 +476,16 @@ int32_t fill_proc_cfg_file(void)
 	sprintf(proc_info[proc_idx].cmd_line_arg2,"0");
 	proc_idx++;
 	
+	printf("Checking FTP Push proc status : %d\n",dlms_dcu_config.ftp_ser_cfg.enable);
+	if(dlms_dcu_config.ftp_ser_cfg.enable == 1)
+	{
+		memset(	&proc_info[proc_idx],0,sizeof(proc_info_t));
+		memcpy(&proc_info[proc_idx].proc_name,CMS_FTP_PUSH_PROC,sizeof(CMS_FTP_PUSH_PROC));
+		sprintf(proc_info[proc_idx].cmd_line_arg1,"0");
+		sprintf(proc_info[proc_idx].cmd_line_arg2,"0");
+		proc_idx++;
+	}
+	
 	g_num_procs = proc_idx;
 	
 	dbg_log(INFORM,"%-20s : procCfg() : Num of procs : %d\n",fun_name,g_num_procs);
@@ -496,11 +506,11 @@ void exec_procs(int32_t idx)
 	static char fun_name[] = "exec_procs()";
 	time_t	time_now;
 	char msg_data[128];
-	memset(msg_data,0,128);
+	memset(msg_data,0,sizeof(msg_data));
 	
 	time_now = time(NULL);
 	
-	dbg_log(INFORM,"%-20s : Starting child  %d proc : %s %s %s\n",
+	dbg_log(INFORM,"%-20s : Starting child %d proc : %s %s %s\n",
 	fun_name,idx,proc_info[idx].proc_name,proc_info[idx].cmd_line_arg1,proc_info[idx].cmd_line_arg2);
 	
 	/* sprintf(msg_data,"starting child  %d proc %s",idx,proc_info[idx].proc_name);
@@ -520,7 +530,7 @@ void exec_procs(int32_t idx)
 		
 		g_proc_timeout[idx]=time_now;
 		
-		dbg_log(INFORM, "%-20s : Started child %d successfully , pid : %d\n",fun_name,idx,ret);
+		dbg_log(INFORM, "%-20s : Started child : %d successfully , pid : %d\n",fun_name,idx,ret);
 	}
 	
 	dbg_log(INFORM,"%-20s : ***** End of exec_procs****\n",fun_name);
@@ -591,7 +601,7 @@ int32_t invoke_procs(void)
 	{
 		exec_procs(proc_idx);
 		
-		sleep(2);
+		sleep(1);
 	}
 	
 	dbg_log(INFORM,"%-20s : *** End of invokeProc ***\n",fun_name);
@@ -617,11 +627,10 @@ int32_t check_proc_timeout(void)
 	
 	for(proc_idx=0; proc_idx<g_num_procs; proc_idx++)
 	{
-		dbg_log(REPORT,"%-20s : ProcId : %d CurrTime : %d , PrevTime : %d\n",fun_name,proc_idx,curr_time,g_proc_timeout[proc_idx]);
-
+		dbg_log(INFORM,"%-20s : ProcId : %d CurrTime : %d , PrevTime : %d\n",fun_name,proc_idx,curr_time,g_proc_timeout[proc_idx]);
 		if((curr_time-g_proc_timeout[proc_idx])>REFF_TIME_OUT)
 		{
-			dbg_log(REPORT,"%-20s : ProcId : %d DiffTimeout : %d sec\n",fun_name,proc_idx,(curr_time-g_proc_timeout[proc_idx]));
+			dbg_log(INFORM,"%-20s : ProcId : %d DiffTimeout : %d sec\n",fun_name,proc_idx,(curr_time-g_proc_timeout[proc_idx]));
 			
 			g_proc_timeout[proc_idx]=curr_time;
 			
@@ -654,8 +663,7 @@ int32_t check_proc_timeout(void)
 					
 					g_proc_timeout[proc_idx]=time(NULL);
 					
-					memset(msg_data,0,128);
-					g_reboot_pidx=proc_idx;
+					memset(msg_data,0,sizeof(msg_data));
 					
 					sprintf(msg_data,"Dlms poll proc : %d, failed numof times : %d",port_idx,g_dlms_proc_fail_cnt[port_idx]);
 					
@@ -663,8 +671,10 @@ int32_t check_proc_timeout(void)
 					
 					write_reboot_info(RBT_FROM_WDT, msg_data);
 					
-					return 0;
+					g_dlms_proc_fail_cnt[port_idx]=0;
 					
+					g_check_proc_time = time(NULL);
+					return 0;
 				}
 				
 				port_idx++;
@@ -672,80 +682,8 @@ int32_t check_proc_timeout(void)
 		}
 	}
 	
+	g_check_proc_time = time(NULL);
 	return 0;
-}
-
-int32_t check_proc_timeout1(void)
-{
-	static char fun_name[]="check_proc_timeout()";
-	uint8_t 	pidx=0,idx=0;
-	char 		msg_data[128];	
-	time_t 		curr_timeout;
-			
-	
-	curr_timeout=time(NULL);
-	if(proc_info[idx].status)
-	{
-		if((curr_timeout-g_proc_timeout[idx])>REFF_TIME_OUT)
-		{
-			dbg_log(REPORT,"%-20s : ProcId : %d Timeout : %d sec, Need to restart the process\n",fun_name,idx,REFF_TIME_OUT);	
-		}
-	}
-	idx++;
-	
-	for (pidx = 0; pidx < MAX_NO_OF_SERIAL_PORT; pidx++ )
-	{
-		if ( dlms_dcu_config.dlms_channel_cfg[pidx].num_meter > 0 )
-		{
-			if((curr_timeout-g_proc_timeout[idx])>REFF_TIME_OUT)
-			{
-				dbg_log(INFORM,"%-20s : ProcId : %d, Current Time in sec : %d, DLMS ProcId : %d Time in sec : %d\n",
-				idx,fun_name,curr_timeout,pidx,g_proc_timeout[idx]);
-				
-				dbg_log(REPORT,"%-20s : Dlms ProcId : %d Diff Timeout : %d sec, Need to restart the process\n",
-				fun_name,pidx,(curr_timeout-g_proc_timeout[idx]));
-				
-				if ((curr_timeout-proc_info[idx].restart_time) > 310)
-				{
-					g_dlms_proc_fail_cnt[idx]+=1;
-				}
-				else
-					g_dlms_proc_fail_cnt[idx]=0;
-				
-				if ( g_dlms_proc_fail_cnt[idx] >= MAX_PROC_HANG_CNT )
-				{
-					g_proc_timeout[idx]=time(NULL);
-					
-					dbg_log(REPORT,"%-20s : Dlms poll procId : %d failed max times : %d\n",
-					fun_name,pidx,g_dlms_proc_fail_cnt[idx]);						
-					
-					memset(msg_data,0,128);
-					g_reboot_pidx=idx;
-					
-					sprintf(msg_data,"Dlms poll proc : %d, failed max numof times : %d",pidx,g_dlms_proc_fail_cnt[idx]);
-					
-					write_rbt_msg_into_redis(DLMS_POLL_PROC_ID,pidx);
-					
-					write_reboot_info(RBT_FROM_WDT, msg_data);
-					
-					return 0;
-				}
-				
-				p_redis_reply = redisCommand(p_redis_handler,"hmset P%d_dlms_poll_proc_hc_msg updatetime %d",pidx,curr_timeout);
-				freeReplyObject(p_redis_reply);
-				
-				restart_proc_id(DLMS_POLL_PROC_ID,idx);
-				
-				g_proc_timeout[idx]=time(NULL);
-				
-				proc_info[idx].restart_time=time(NULL);
-			}
-		}
-		idx++;
-	}
-	
-	return 0;
-	
 }
 
 /*********************************************************************
@@ -808,6 +746,7 @@ int32_t write_rbt_msg_into_redis(int proc_id, uint8_t port_id)
 
 int32_t restart_proc_id(int proc_id,int32_t arg_idx)
 {
+	static char fun_name[]="restart_proc_id()";
 	uint8_t proc_idx=0;
 	
 	switch(proc_id)
@@ -817,6 +756,8 @@ int32_t restart_proc_id(int proc_id,int32_t arg_idx)
 			if(proc_idx!=-1)
 			{
 				g_kill_all = 1;
+				
+				dbg_log(INFORM,"%-20s : Restarting the process : %s %s\n",fun_name,proc_info[proc_idx].proc_name,proc_info[proc_idx].cmd_line_arg1);
 				
 				kill(proc_info[proc_idx].pid,SIGKILL);
 				
@@ -882,10 +823,26 @@ void sig_handler(int32_t sig)
 
 int32_t read_cfg_from_redis(void)
 {
+	static char fun_name[]="read_cfg_from_redis()";
+	
 	uint8_t pidx=0;
 	const char *p_gen_ptr=NULL;
 	
+	memset(&dlms_dcu_config,0,sizeof(dlms_dcu_config_t));
+	
 	printf("reading config from redis\n");
+	
+	p_redis_reply = redisCommand(p_redis_handler,"hmget FTP_SER_INFO Enable");
+	if(p_redis_reply!=NULL)
+	{
+		printf("Ftp Enable Status : %d\n",atoi(p_redis_reply->element[0]->str));
+		dlms_dcu_config.ftp_ser_cfg.enable=atoi(p_redis_reply->element[0]->str);
+		freeReplyObject(p_redis_reply);
+	}
+	else
+	{
+		dbg_log(INFORM,"%-20s : FTP Push Proc Disables\n",fun_name);
+	}
 	
 	p_redis_reply = redisCommand(p_redis_handler,"hmget DCU_GEN_INFO DcuDevId");
 	if(p_redis_reply!=NULL)
@@ -967,7 +924,7 @@ int32_t read_cfg_from_redis(void)
 	else
 	{
 		printf("Error in reading config from redis\n");
-		return -1;
+		goto EXIT;
 	}
 	
 	for(pidx=0; pidx<MAX_NO_OF_SERIAL_PORT; pidx++)
@@ -1003,11 +960,10 @@ int main(int argc, char **argv)
 	memset(debug_file_name,0,sizeof(debug_file_name));
 	sprintf(debug_file_name,"%s/%s",LOG_DIR,CMS_MON_PROC_LOG_FILE_NAME);
 	
+	dbg_log(INFORM,"%-20s : This is Process Monitor Module!!!!\n",fun_name);
 	dbg_log(INFORM,"%-20s : Creating Updated Config into redis from binary file\n",fun_name);
 	
 	system(CMS_BIN_TO_REDIS_PROC);
-	
-	sleep(10);
 	
 	if(redis_init("127.0.0.1",6379)!=0)
 	{
@@ -1021,14 +977,6 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	/* memset(time_buff,0,sizeof(time_buff));
-	rawtime = time(NULL);
-	ptm = localtime(&rawtime);
-	
-	strftime(time_buff, 32,"%Y-%m-%d, %H:%M:%S", ptm); */
-	
-	//strcpy(iot_dev_diag_msg.iot_gw_up_time,time_buff);
-	
 	g_parent_pid = getpid();
 	
 	//set signal handler for parent
@@ -1038,17 +986,20 @@ int main(int argc, char **argv)
 	signal(SIGSEGV,sig_handler);
 	signal(SIGCHLD,waitfor_child);
 	
-	#if 1
 	fill_proc_cfg_file();
 	
 	for(proc_idx=0; proc_idx<g_num_procs; proc_idx++)
 		dbg_log(INFORM,"%-20s : proc no : %d : %s %s %s\n",fun_name,proc_idx+1,
-	proc_info[proc_idx].proc_name,proc_info[proc_idx].cmd_line_arg1,proc_info[proc_idx].cmd_line_arg2);
+				proc_info[proc_idx].proc_name,
+				proc_info[proc_idx].cmd_line_arg1,
+				proc_info[proc_idx].cmd_line_arg2);
 	
-
 	invoke_procs();
 	
+	sleep(5);
+	
 	g_last_diag_time = time(NULL);
+	g_check_proc_time = time(NULL);
 	g_last_hc_send_time=time(NULL);
 
 	dbg_log(INFORM,"%-20s : After Invoke, filling current time for all procs\n",fun_name);
@@ -1058,29 +1009,24 @@ int main(int argc, char **argv)
 		dbg_log(INFORM,"%-20s : ProcId : %d, Filled Current TIme in sec : %d\n",fun_name,idx,g_proc_timeout[idx]);
 	}
 	
-	#endif
-	
-	sleep(3);
-	
-	while(0)
-	{
-		dbg_log(INFORM,"%-20s : In Idle while loop to test killall command\n",fun_name);
-		
-		sleep(3);
-	}
-	
 	dbg_log(INFORM,"%-20s : >>>>>>>>>Entring into idle while loop!!!!\n",fun_name);
 	
 	while ( 1 ) 
 	{
-		check_hc_msg();	
-		
-		check_proc_timeout();		
-		
 		time_t current_time=time(NULL);
 		
+		check_hc_msg();	
+		
+/* 		if ((current_time - g_check_proc_time ) > CHECK_PROC_TIME)
+		{
+			check_proc_timeout();		
+		} */
+		
 		if ((current_time - g_last_diag_time ) > SEND_DIAG_MSG_TIME)
+		{
 			send_pmon_diag_msg_to_redis();
+			check_proc_timeout();
+		}
 		
 		write_hc_on_redis();
 		

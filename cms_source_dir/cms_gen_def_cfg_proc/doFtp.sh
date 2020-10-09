@@ -1,5 +1,5 @@
 #!/bin/sh
-HOST='192.168.101.178'
+HOST='192.168.101.81'
 USER='root'
 PASSWD='softel'
 FILE_TX_TYPE='bi'

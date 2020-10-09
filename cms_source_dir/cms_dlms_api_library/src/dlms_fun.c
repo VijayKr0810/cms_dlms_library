@@ -166,7 +166,7 @@ uint8_t 					g_no_ls_data_avl_flag,g_num_ls_param,g_secure_met_flag;
 char 						g_float_str[16];
 uint8_t 					g_event_type_idx,g_num_event_param,g_max_num_event[8],g_tot_event_entry;
 uint8_t						g_raw_data_buff[8*1024];
-int8_t 						g_int_period_blk;
+int32_t 						g_int_period_blk;
 uint32_t 					g_raw_data_idx,g_name_plate_idx,g_num_blocks_blk_data;
 uint8_t 					OFFSET,g_query_type,g_meter_store_order;
 uint8_t						g_send_buff[256],g_temp_buff[256],g_recv_buff[1024];
@@ -990,7 +990,7 @@ void print_bill_data_info(void)
 	p_file_ptr = fopen(curr_ls_file_path,"w");
 	if(p_file_ptr == NULL)
 	{
-		lib_dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+		lib_dbg_log(REPORT,"%-20s : File : %s is not opened write mode, Error : %s\n",fun_name,curr_ls_file_path,strerror(errno));
 		return ;
 	}
 
@@ -2005,7 +2005,7 @@ int32_t save_dp_data_file(void)
 	
 		if(p_file_ptr == NULL)
 		{
-			lib_dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : File : %s is not opened write mode, Error : %s\n",fun_name,curr_ls_file_path,strerror(errno));
 			return -1;
 		}
 		
@@ -2740,7 +2740,7 @@ int32_t store_event_det_file(uint8_t event_class)
 		p_file_ptr = fopen(curr_ls_file_path,"w");
 		if(p_file_ptr == NULL)
 		{
-			lib_dbg_log(REPORT,"%-20s : Event File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : Event File : %s is not opened write mode, Error : %s\n",fun_name,curr_ls_file_path,strerror(errno));
 			return -1;
 		}
 		
@@ -4693,7 +4693,7 @@ int32_t save_ls_data_file(void)
 		p_ls_file_ptr = fopen(curr_ls_file_name,"w");
 		if(p_ls_file_ptr == NULL)
 		{
-			lib_dbg_log(REPORT,"%-20s : File is not opened write mode, Error : %s\n",fun_name,strerror(errno));
+			lib_dbg_log(REPORT,"%-20s : File : %s is not opened write mode, Error : %s\n",fun_name,curr_ls_file_name,strerror(errno));
 			return -1;
 		}
 		
@@ -7336,13 +7336,17 @@ int32_t proc_read_resp(uint8_t* msg, int32_t len)
 			g_int_period_blk = 0;
 			g_num_blocks_blk_data = 0;
 			
-			g_int_period_blk |= msg[(len-5)] & 0x00FF;
+			g_int_period_blk |= msg[(len-5)] & 0xFF;
 			g_int_period_blk <<= 8;
-			g_int_period_blk |= msg[(len-4)] & 0x00FF;
-			g_num_blocks_blk_data = (uint8_t) (86400 / g_int_period_blk);
+			g_int_period_blk |= msg[(len-4)] & 0xFF;
+			
+			lib_dbg_log(INFORM,"%-20s : >>Perid of interval : %d\n",
+			fun_name,g_int_period_blk);
+			
+			g_num_blocks_blk_data = (86400 / g_int_period_blk);
 			g_int_period_blk = (g_int_period_blk / 60);
 			
-			lib_dbg_log(INFORM,"%-20s : Periof interval : %d , Num of Blocks %d\n",
+			lib_dbg_log(INFORM,"%-20s : Perid of interval : %d Mint , Num of Blocks %d\n",
 			fun_name,g_int_period_blk,g_num_blocks_blk_data);
 
 			fun_ret = 0;

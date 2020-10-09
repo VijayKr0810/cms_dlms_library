@@ -30,16 +30,19 @@ int32_t redis_init(char *hostname, uint16_t port)
 			met_poll_dbg_log(INFORM,"%-20s : Connection error: %s\n",fun_name,p_redis_handler->errstr);
             
             redisFree(p_redis_handler);
+			
+			return -1;
         } 
 		else 
 		{
 			met_poll_dbg_log(INFORM,"%-20s : Connection error: can't allocate redis context\n",fun_name);
+			return -1;
         }
     }
 	
 	met_poll_dbg_log(INFORM,"%-20s : Connected on Redis Server : %s with port : %d\n",fun_name,hostname,port);
    
-    freeReplyObject(p_redis_reply);
+    /* freeReplyObject(p_redis_reply); */
 	
 	return RET_SUCCESS;
 }

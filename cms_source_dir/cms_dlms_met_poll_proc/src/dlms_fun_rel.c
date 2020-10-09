@@ -273,7 +273,7 @@ void append_in_exist_file(char *out_file_path, char *in_file_name, gen_params_de
 		p_file_ptr = fopen(in_file_name,"r");
 		if(p_file_ptr==NULL)
 		{
-			met_poll_dbg_log(REPORT,"%-20s :  Open Input file in read mode Error :  %s\n",fun_name,strerror(errno));
+			met_poll_dbg_log(REPORT,"%-20s :  Open Input file : %s in read mode Error :  %s\n",fun_name,in_file_name,strerror(errno));
 			free(p_file_read);
 			return ;
 		}
@@ -295,7 +295,7 @@ void append_in_exist_file(char *out_file_path, char *in_file_name, gen_params_de
 		p_file_ptr = fopen(in_file_name,"r");
 		if(p_file_ptr==NULL)
 		{
-			met_poll_dbg_log(REPORT,"%-20s :  Open Input file in read mode Error :  %s\n",fun_name,strerror(errno));
+			met_poll_dbg_log(REPORT,"%-20s :  Open Input file : %s in read mode Error :  %s\n",fun_name,in_file_name,strerror(errno));
 			free(p_file_read);
 			return ;
 		}
@@ -314,7 +314,7 @@ void append_in_exist_file(char *out_file_path, char *in_file_name, gen_params_de
 		p_file_ptr = fopen(out_file_path,"a");
 		if(p_file_ptr==NULL)
 		{
-			met_poll_dbg_log(REPORT,"%-20s : Open Output file in Append mode Error :  %s\n",fun_name,strerror(errno));
+			met_poll_dbg_log(REPORT,"%-20s :  Open Input file : %s in Append mode Error :  %s\n",fun_name,out_file_path,strerror(errno));
 			free(p_file_read);
 			return ;
 		}
@@ -405,14 +405,14 @@ int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_par
 	p_file_ptr = fopen(in_file_name,"r");
 	if(p_file_ptr==NULL)
 	{
-		met_poll_dbg_log(REPORT,"%-20s :  Open Input file in read mode Error :  %s\n",fun_name,strerror(errno));
+		met_poll_dbg_log(REPORT,"%-20s : Open Input file : %s in read mode Error :  %s\n",fun_name,in_file_name,strerror(errno));
 		return RET_SUCCESS;
 	}
 	
 	p_file_ptr1 = fopen(out_file_path,"w");
 	if(p_file_ptr1==NULL)
 	{
-		met_poll_dbg_log(REPORT,"%-20s :  Open Output file in Write mode Error :  %s\n",fun_name,strerror(errno));
+		met_poll_dbg_log(REPORT,"%-20s : Open Output file : %s in Write mode Error :  %s\n",fun_name,out_file_path,strerror(errno));
 		fclose(p_file_ptr);
 		return RET_SUCCESS;
 	}
@@ -437,6 +437,7 @@ int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_par
 			char *token;
 			int32_t val_cnt=0;
 			token = strtok(g_line_buff,"\t");
+			
 			while(token!=NULL)
 			{
 				//printf("%s ",token);
@@ -449,17 +450,31 @@ int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_par
 				else
 				{
 					//float loc_flt_val;
+					scal_flt_val=0.0;
 					get_act_scaler_mf(recv_gen_param_det->scalar_val[val_cnt].value,&scal_flt_val);
 					if(val_cnt==recv_gen_param_det->tot_num_val_obis)
-						fprintf(p_file_ptr1,"%0.5f\n",atof(token)*scal_flt_val);
+					{
+						if(strstr(token,"\n"))
+						{
+							char loc_token[32];
+							memset(loc_token,0,sizeof(loc_token));
+							strncpy(loc_token,token,strlen(token)-1);
+							fprintf(p_file_ptr1,"%0.5f",atof(loc_token)*scal_flt_val);
+						}
+						else
+						{
+							fprintf(p_file_ptr1,"%0.5f\t",atof(token)*scal_flt_val);
+						}
+					}
 					else
 						fprintf(p_file_ptr1,"%0.5f\t",atof(token)*scal_flt_val);
+					
 					fflush(p_file_ptr1);
 				}
 				token = strtok(NULL,"\t");
 			}
 			//printf("%s","\n");
-			//fprintf(p_file_ptr1,"%s","\n");
+			fprintf(p_file_ptr1,"%s","\n");
 			//fflush(p_file_ptr1);
 			
 			//printf("Total Value in Input file : %d\n",val_cnt);

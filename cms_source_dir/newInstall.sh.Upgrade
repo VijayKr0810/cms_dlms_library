@@ -40,6 +40,10 @@ cp -R /root/cms_dcu_firmware/bin/* /bin/
 cp -R /root/cms_dcu_firmware/sbin/* /bin/
 cp -R /root/cms_dcu_firmware/lib/* /lib/
 
+mkdir -p /etc/redis
+mkdir -p /var/redis
+mkdir -p /var/redis/6379
+
 mkdir -p /libexec
 rm -Rf /usr/cms/*
 

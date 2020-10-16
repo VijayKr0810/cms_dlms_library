@@ -100,7 +100,7 @@ void fill_default_cfg(void)
 	
 	strcpy(dlms_dcu_config.dlms_dcu_info.dcu_location,"Bangalore");
 	strcpy(dlms_dcu_config.dlms_dcu_info.dcu_gps_loc,"Bangalore");
-	strcpy(dlms_dcu_config.dlms_dcu_info.dbglog_ip,"192.168.10.193");
+	strcpy(dlms_dcu_config.dlms_dcu_info.dbglog_ip,"192.168.101.108");
 	strcpy(dlms_dcu_config.dlms_dcu_info.ser_num,"DCU_0001");
 	
 	dlms_dcu_config.ser_prot_cfg.num_ser_port=MAX_NO_OF_SERIAL_PORT;

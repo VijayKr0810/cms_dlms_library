@@ -191,17 +191,25 @@ write_into_file "Entry into Ideal Loop to Monitor reboot status and provide wdt 
 
 while [ 1 ]
 do
+	sleep 10
 	echo "Writing Low on WDT Gpio Pin"
-	write_into_file "Writing Low on WDT Gpio Pin"
+	#write_into_file "Writing Low on WDT Gpio Pin"
 	#write_into_file("Writing Low on WDT Gpio Pin")
 	echo 0 > /sys/class/gpio/gpio$gpio/value 
 	sleep 1
 	echo "Writing High on WDT Gpio Pin"
-	write_into_file "Writing High on WDT Gpio Pin"
+	#write_into_file "Writing High on WDT Gpio Pin"
 	echo 1 > /sys/class/gpio/gpio$gpio/value
 	sleep 1
-	
-	#call function reboot_msgcheck()
+	res=$(/bin/redis-cli ping)
+	if [ -z $res ]
+	then
+		reboot_value=1
+		echo "redis is failed to ping" 
+		write_into_file "redis is failed to ping, going to reboot unit"
+	fi
+	 	
+	echo "$reboot_value"
 	reboot_msgcheck 	
 	echo "Current Reboot Status Value " "$reboot_value"
 	write_into_file "Current Reboot Status Value $reboot_value"

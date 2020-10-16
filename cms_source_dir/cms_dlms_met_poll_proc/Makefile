@@ -22,6 +22,7 @@ SRCDIR   = ./src
 INCDIR1	 = -I home/iot-gateway/hiredis
 INCDIR	 = -I -I/home/iot-gateway/redis-5.0.8-bin/include
 OBJDIR   = ./obj
+LOC_INCDIR	 = -I ./inc
 BINDIR   = .
 
 SOURCES  := $(wildcard $(SRCDIR)/*.c)
@@ -40,7 +41,7 @@ $(BINDIR)/$(TARGET): $(OBJECTS)
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
-	@$(CC) $(INCDIR) $(CMS_COMMON_INC_DIR) $(CMS_LIB_INC_DIR) $(CFLAGS) $(REDIS_LIB_DIR) $(LIBS)  -c $< -o $@
+	@$(CC) $(INCDIR) $(CMS_COMMON_INC_DIR) $(LOC_INCDIR) $(CMS_LIB_INC_DIR) $(CFLAGS) $(REDIS_LIB_DIR) $(LIBS)  -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
 .PHONEY: clean

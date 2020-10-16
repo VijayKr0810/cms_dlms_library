@@ -13,7 +13,7 @@ int32_t curl_init(uint8_t ser_type)
 {
 	if(ser_type==1)
 	{
-		create_dir(dlms_dcu_config.ftp_ser_cfg.ser_ip,
+		return create_dir(dlms_dcu_config.ftp_ser_cfg.ser_ip,
 					dlms_dcu_config.ftp_ser_cfg.ser_port,
 					dlms_dcu_config.ftp_ser_cfg.username,
 					dlms_dcu_config.ftp_ser_cfg.password,
@@ -22,7 +22,7 @@ int32_t curl_init(uint8_t ser_type)
 	}
 	else
 	{
-		create_dir(dlms_dcu_config.ftp_ser_cfg.log_ser_ip,
+		return create_dir(dlms_dcu_config.ftp_ser_cfg.log_ser_ip,
 					dlms_dcu_config.ftp_ser_cfg.log_ser_port,
 					dlms_dcu_config.ftp_ser_cfg.log_username,
 					dlms_dcu_config.ftp_ser_cfg.log_password,
@@ -60,7 +60,7 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *stream)
 	return retcode;
 }
 
-int create_dir(char *ip_addr,int port_no,char *uname,char *pwd,char *dir, char *local_file,char *rem_file)
+int32_t create_dir(char *ip_addr,int port_no,char *uname,char *pwd,char *dir, char *local_file,char *rem_file)
 {
 	static char fun_name[]="create_dir()";
 	CURL *curl;
@@ -147,7 +147,7 @@ int create_dir(char *ip_addr,int port_no,char *uname,char *pwd,char *dir, char *
 		/* Check for errors */
 		if(res != CURLE_OK)
 		{
-			dbg_log(REPORT,"%-20s : curl_easy_perform() failed :, Error : %s\n",fun_name,curl_easy_strerror(res));
+			dbg_log(REPORT,"%-20s : curl_easy_perform() failed : Error : %s\n",fun_name,curl_easy_strerror(res));
 			
 			fclose(hd_src); /* close the local file */
 			
@@ -191,7 +191,7 @@ int create_dir(char *ip_addr,int port_no,char *uname,char *pwd,char *dir, char *
 	return 0;
 }
 
-int push_data_over_ftp_server(char *ipAddr,int portNo,char *uname,char *pwd,char *dir,char *filename,char *localfile)
+int32_t push_data_over_ftp_server(char *ipAddr,int portNo,char *uname,char *pwd,char *dir,char *filename,char *localfile)
 {
 	static char fun_name[]="push_ftp_data()";
 	CURL *curl;
@@ -213,7 +213,6 @@ int push_data_over_ftp_server(char *ipAddr,int portNo,char *uname,char *pwd,char
 	}
 
 	/* fsize = (curl_off_t)file_info.st_size; */
-
 
 	/* get a FILE * of the same file */
 	hd_src = fopen(localfile, "rb");
@@ -257,7 +256,6 @@ int push_data_over_ftp_server(char *ipAddr,int portNo,char *uname,char *pwd,char
 		//create dir
 		curl_easy_setopt(curl,CURLOPT_FTP_CREATE_MISSING_DIRS,CURLFTP_CREATE_DIR_RETRY);
 
-
 		/* Now run off and do what you've been told! */
 		res = curl_easy_perform(curl);
 		/* Check for errors */
@@ -269,6 +267,8 @@ int push_data_over_ftp_server(char *ipAddr,int portNo,char *uname,char *pwd,char
 			
 			curl_easy_cleanup(curl);
 			curl_global_cleanup();
+			
+			return -1;
 		}
 
 		/* clean up the FTP commands list */

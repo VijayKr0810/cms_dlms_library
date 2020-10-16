@@ -37,7 +37,21 @@
 
 #define DCU_CSV_FILE_TYPE 	1
 
+#define MAX_PARAM_NUM 		128 // Billing has max param number . so max is 128
+#define MAX_FILE_OD_LINE 	290
+typedef struct
+{
+	uint32_t 		tot_num_obis;
+	char 			obis_val[MAX_PARAM_NUM][32];
+}obis_val_det_t;
 
+typedef struct
+{
+	uint32_t 		tot_num_line_obis;
+	obis_val_det_t 	obis_val_det[MAX_FILE_OD_LINE];
+	
+}all_obis_val_info_t;
+	
 typedef struct
 {
 	char 	obis_code[32];
@@ -331,19 +345,6 @@ int32_t convt_file_content_det(char *user_file_json, char *root_param_name, char
 		return -1;
 	}
 	
-	typedef struct
-	{
-		uint32_t 		tot_num_obis;
-		char 			obis_val[pos_idx][32];
-	}obis_val_det_t;
-	
-	typedef struct
-	{
-		uint32_t 		tot_num_line_obis;
-		obis_val_det_t 	obis_val_det[g_tot_file_line_cnt];
-		
-	}all_obis_val_info_t;
-	
 	all_obis_val_info_t all_obis_val_info;
 
 	all_obis_val_info.tot_num_line_obis=g_tot_file_line_cnt;
@@ -365,9 +366,10 @@ int32_t convt_file_content_det(char *user_file_json, char *root_param_name, char
 	{
 		//printf("%s\n",g_line);
 		loc_idx=0;
-		line_cnt++;
 		token = strtok(g_line,"\t");
 		idx=0;
+		
+		printf("Storing data for LineCnt : %d\n",line_cnt);
 		while(token!=NULL)
 		{
 			for(jdx=0; jdx<pos_idx;jdx++)
@@ -379,23 +381,24 @@ int32_t convt_file_content_det(char *user_file_json, char *root_param_name, char
 						char loc_token[32];
 						memset(loc_token,0,sizeof(loc_token));
 						strncpy(loc_token,token,strlen(token)-1);
-						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],loc_token);
+						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[loc_idx],loc_token);
 					}
 					else
 					{
-						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[idx],token);
+						strcpy(all_obis_val_info.obis_val_det[line_cnt].obis_val[loc_idx],token);
 					}
 					
 					//printf("Got Need info in list, LinCnt : %d, loc_idx : %d, Idx : %d token : %s\n",
 					//line_cnt,loc_idx,idx,all_obis_val_info.obis_val_det[line_cnt].obis_val[idx]);
-					idx++;
-					break;
+					//idx++;
+					//break;
 				}
 			}
 			loc_idx++;
 			
 			token = strtok(NULL,"\t");
 		}
+		line_cnt++;
 	}
 	
 	printf("recv Total line by line details from file : %d\n",line_cnt);
@@ -438,10 +441,7 @@ int32_t convt_file_content_det(char *user_file_json, char *root_param_name, char
 	
 	for(line_cnt=0; line_cnt<g_tot_file_line_cnt; line_cnt++)
 	{
-		if(!line_cnt)
-			continue;
-
-		//printf("Total actual obis per line : %d For line : %d\n",all_obis_val_info.obis_val_det[line_cnt].tot_num_obis,line_cnt);
+		printf("Total actual obis per line : %d For line : %d\n",all_obis_val_info.obis_val_det[line_cnt].tot_num_obis,line_cnt);
 		for(idx=0; idx<all_obis_val_info.obis_val_det[line_cnt].tot_num_obis;idx++)
 		{
 			if(idx==all_obis_val_info.obis_val_det[line_cnt].tot_num_obis-1)

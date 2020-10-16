@@ -69,11 +69,12 @@ int main(int argc, char **argv)
 	
 	if(curl_init(FTP_NORMAL_SERVER)!=0)
 	{
-		dbg_log(REPORT,"%-20s : Curl Init Failed failed First Time\n",fun_name);
+		dbg_log(REPORT,"%-20s : Curl Init Failed First Time\n",fun_name);
 		g_curl_init_flag=0;
 	}
 	else
 	{
+		dbg_log(REPORT,"%-20s : Curl Init Success\n",fun_name);
 		g_curl_init_flag=1;
 	}
 	
@@ -87,10 +88,26 @@ int main(int argc, char **argv)
 		}
 		else
 		{
+			dbg_log(REPORT,"%-20s : Log Curl Init success First Time\n",fun_name);
 			g_log_curl_init_flag=1;
 		}
 	}
 	
+	if(g_curl_init_flag!=0)
+	{
+		dbg_log(INFORM,"%-20s : First Time to send Meter data\n",fun_name);
+		send_meter_data();
+	}
+	
+	if(g_log_curl_init_flag!=0)
+	{
+		if(dlms_dcu_config.ftp_ser_cfg.diff_log_ser==1)
+		{
+			dbg_log(INFORM,"%-20s : First Time to send  DCU Log data\n",fun_name);
+			send_dcu_log_data();
+		}
+	}
+
 	time_t curr_time_sec = time(NULL);
 	time_t log_curr_time_sec = time(NULL);
 	
@@ -110,7 +127,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			if((time(NULL)-curr_time_sec)>dlms_dcu_config.ftp_ser_cfg.upload_period)
+			if((time(NULL)-curr_time_sec)>dlms_dcu_config.ftp_ser_cfg.upload_period*60)
 			{
 				curr_time_sec=time(NULL);
 				dbg_log(INFORM,"%-20s : Inside Idle Loop Time to send Meter data\n",fun_name);

@@ -3,12 +3,12 @@
 #include "dlms_api.h"
 #include "log.h"
 #include "dlms_fun.h"
+#include "dlms_met_poll_proc.h"
 #include "/home/iot-gateway/hiredis/hiredis.h"
 
-int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_params_det_t *recv_gen_param_det);
-int32_t met_poll_dbg_log(uint8_t mode, const char *p_format, ...);
-int32_t get_act_scaler_mf(int8_t mf,float *mf_val);
+
 /* Extern */
+extern uint8_t 					g_port_idx,g_midx;
 extern gen_data_val_info_t			gen_data_val_info[];
 extern all_param_obis_val_info_t 	g_all_inst_param_obis_val;
 
@@ -18,9 +18,181 @@ extern gen_params_det_t 		gen_inst_param_det[],
 								gen_bill_param_det[],
 								gen_daily_prof_param_det[];
 								
+extern dlms_dcu_config_t 			dlms_dcu_config;
+extern meter_comm_params_t 			meter_comm_params;				
+extern obis_name_plate_info_t 		name_plate_info[];
+extern redisContext 			*p_redis_handler;
+extern redisReply 				*p_redis_reply;
+extern uint8_t 					g_need_to_read_obis[];	
+extern int32_t 					g_num_blocks_blk_data[];		
 char 	g_line_buff[512];
 /* ========================================================================================== */
 
+int32_t get_inst_data_for_all_met(void)
+{
+	static char fun_name[]="inst_data_all_met()";
+	uint8_t midx;
+	time_t time_now;
+	int32_t fun_ret;
+	
+	for(midx=0; midx<MAX_NO_OF_METER_PER_PORT; midx++)
+	{
+		send_hc_msg();
+		g_midx=midx;
+		
+		if(dlms_dcu_config.dlms_channel_cfg[g_port_idx].met_cfg[midx].enable)
+		{
+			fill_meter_comm_params_det(&meter_comm_params,midx);
+			time_now=time(NULL);
+			fun_ret = connect_to_meter(&meter_comm_params);
+			if(fun_ret<0)
+			{
+				met_poll_dbg_log(REPORT,"%-20s : Failed to connect Meter Error Code : %d\n",fun_name,fun_ret);
+				p_redis_reply = redisCommand(p_redis_handler, "HMSET SerPort%dMet%dStatus VALUE %d",g_port_idx,midx,0);
+				freeReplyObject(p_redis_reply);
+				g_need_to_read_obis[midx]=1;
+				continue;
+			}
+			else
+			{
+				met_poll_dbg_log(INFORM,"%-20s : Conneted to meter.\n",fun_name);
+				p_redis_reply = redisCommand(p_redis_handler, "HMSET SerPort%dMet%dStatus VALUE %d",g_port_idx,midx,1);
+				freeReplyObject(p_redis_reply);
+			}
+			
+			send_hc_msg();
+			
+			memset(&name_plate_info[midx],0,sizeof(obis_name_plate_info_t));
+			
+			fun_ret = get_nameplate_details(&meter_comm_params, &name_plate_info[midx]);
+			if(fun_ret<0)
+			{
+				met_poll_dbg_log(REPORT,"%-20s : Failed to get nameplate info from Meter Error Code : %d\n",
+				fun_name,fun_ret);
+				g_need_to_read_obis[midx]=1;
+				continue;
+			}
+			else
+			{
+				met_poll_dbg_log(INFORM,"%-20s : Recv Nameplate from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
+				
+				update_np_det_to_redis(&name_plate_info[midx],midx);
+			}
+
+			send_hc_msg();
+			
+			time_now=time(NULL);
+			
+			if(g_need_to_read_obis[midx]==1)
+			{
+				met_poll_dbg_log(INFORM,"%-20s : Inside Read Inst Data, Need to read Obis Code flag enable\n",fun_name);
+				if(read_meter_obis_code(midx)<0)
+				{
+					g_need_to_read_obis[midx]=1;
+				}
+				else
+				{
+					met_poll_dbg_log(INFORM,"%-20s : Inside Read Inst Data, Recvd read Obis Code\n",fun_name);
+					g_need_to_read_obis[midx]=0;
+				}
+			}
+
+			send_hc_msg();
+
+			fun_ret = get_inst_values(&meter_comm_params, gen_data_val_info);
+			if(fun_ret<0)
+			{
+				met_poll_dbg_log(REPORT,"%-20s : Failed to inst info from Meter Error Code : %d\n",fun_name,fun_ret);
+				continue;
+			}
+			else
+			{
+				met_poll_dbg_log(INFORM,"%-20s : Recv Inst Data from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
+				
+				if(fill_recv_inst_val(midx)<0)
+				{
+					met_poll_dbg_log(INFORM,"%-20s : Failed to filled inst val recv from Library\n",fun_name);
+					continue;
+				}
+
+				send_inst_det_to_redis(INST_INFO_KEY,midx);
+			}
+		}
+		else
+		{
+			p_redis_reply = redisCommand(p_redis_handler, "HMSET SerPort%dMet%dStatus VALUE %d",g_port_idx,midx,2);
+			freeReplyObject(p_redis_reply);
+		}
+	}
+	
+	send_hc_msg();
+	
+	check_met_ser_num();
+	
+	return 0;
+}
+
+int32_t read_meter_obis_code(uint8_t midx)
+{
+	static char fun_name[]="read_meter_obis_code";
+	int32_t fun_ret,idx;
+	time_t time_now;
+	
+	memset(&gen_inst_param_det[midx],0,sizeof(gen_params_det_t));
+	memset(&gen_ls_param_det[midx],0,sizeof(gen_params_det_t));
+	memset(&gen_bill_param_det[midx],0,sizeof(gen_params_det_t));
+	memset(&gen_daily_prof_param_det[midx],0,sizeof(gen_params_det_t));
+	memset(&gen_event_param_det[midx],0,sizeof(gen_params_det_t));
+	
+	time_now=time(NULL);
+	fun_ret = get_obis_codes(&meter_comm_params,&gen_inst_param_det[midx],&gen_ls_param_det[midx],
+	&gen_event_param_det[midx],&gen_bill_param_det[midx],&gen_daily_prof_param_det[midx]);
+	if(fun_ret<0)
+	{
+		g_need_to_read_obis[midx]=1;
+		met_poll_dbg_log(REPORT,"%-20s : Failed to obis info from Meter Error Code : %d\n",fun_name,fun_ret);
+		return -1;
+	}
+	else
+	{
+		met_poll_dbg_log(INFORM,"%-20s : Recv all obis code from meter. Time elasped : %ld sec\n",fun_name,time(NULL)-time_now);
+		g_need_to_read_obis[midx]=0;
+		
+		send_hc_msg();
+		
+		met_poll_dbg_log(REPORT,"%-20s : Inst obis info details!!!\n",fun_name);
+		for(idx=0; idx<gen_inst_param_det[midx].tot_num_val_obis; idx++)
+			print_val_scal_onis_val_info(gen_inst_param_det[midx].val_obis[idx],gen_inst_param_det[midx].scalar_val[idx].obis_code,gen_inst_param_det[midx].scalar_val[idx].value);
+		
+		met_poll_dbg_log(REPORT,"%-20s : Load survey obis info details!!!\n",fun_name);
+		for(idx=0; idx<gen_ls_param_det[midx].tot_num_val_obis; idx++)
+			print_val_scal_onis_val_info(gen_ls_param_det[midx].val_obis[idx],gen_ls_param_det[midx].scalar_val[idx].obis_code,gen_ls_param_det[midx].scalar_val[idx].value);
+		
+		met_poll_dbg_log(REPORT,"%-20s : Event obis info details!!!\n",fun_name);
+		for(idx=0; idx<gen_event_param_det[midx].tot_num_val_obis; idx++)
+			print_val_scal_onis_val_info(gen_event_param_det[midx].val_obis[idx],gen_event_param_det[midx].scalar_val[idx].obis_code,gen_event_param_det[midx].scalar_val[idx].value);
+		
+		met_poll_dbg_log(REPORT,"%-20s : Billing obis info details!!!\n",fun_name);
+		for(idx=0; idx<gen_bill_param_det[midx].tot_num_val_obis; idx++)
+			print_val_scal_onis_val_info(gen_bill_param_det[midx].val_obis[idx],gen_bill_param_det[midx].scalar_val[idx].obis_code,gen_bill_param_det[midx].scalar_val[idx].value);
+		
+		met_poll_dbg_log(REPORT,"%-20s : Midnight obis info details!!!\n",fun_name);
+		for(idx=0; idx<gen_daily_prof_param_det[midx].tot_num_val_obis; idx++)
+			print_val_scal_onis_val_info(gen_daily_prof_param_det[midx].val_obis[idx],gen_daily_prof_param_det[midx].scalar_val[idx].obis_code,gen_daily_prof_param_det[midx].scalar_val[idx].value);
+	}
+	
+	g_num_blocks_blk_data[midx] = get_int_blk_period(&meter_comm_params);
+	if(g_num_blocks_blk_data[midx]<0)
+	{
+		met_poll_dbg_log(REPORT,"%-20s : Failed to Block details for LS, Error Code : %d\n",fun_name,g_num_blocks_blk_data[midx]);
+		return -1;
+	}
+
+	send_hc_msg();
+	
+	g_need_to_read_obis[midx]=0;
+	return 0;
+}
 /**************************************************************************************************
 *Function 					: store_recv_inst_date_time()
 *Input Parameters 			: inst index.
@@ -240,8 +412,12 @@ void append_in_exist_file(char *out_file_path, char *in_file_name, gen_params_de
 	
 	if(stat(out_file_path,&file_st)==-1)
 	{
-		met_poll_dbg_log(REPORT,"%-20s : No Present Output File : %s\n",fun_name,out_file_path);
-		convert_to_decoded_data(out_file_path,in_file_name,recv_gen_param_det);
+		met_poll_dbg_log(REPORT,"%-20s : Not Present Output File : %s\n",fun_name,out_file_path);
+		
+		if(convert_to_decoded_data(out_file_path,in_file_name,recv_gen_param_det)<0)
+		{
+			return;
+		}
 	}
 	else
 	{
@@ -406,7 +582,7 @@ int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_par
 	if(p_file_ptr==NULL)
 	{
 		met_poll_dbg_log(REPORT,"%-20s : Open Input file : %s in read mode Error :  %s\n",fun_name,in_file_name,strerror(errno));
-		return RET_SUCCESS;
+		return -1;
 	}
 	
 	p_file_ptr1 = fopen(out_file_path,"w");
@@ -414,7 +590,7 @@ int32_t convert_to_decoded_data(char *out_file_path, char *in_file_name, gen_par
 	{
 		met_poll_dbg_log(REPORT,"%-20s : Open Output file : %s in Write mode Error :  %s\n",fun_name,out_file_path,strerror(errno));
 		fclose(p_file_ptr);
-		return RET_SUCCESS;
+		return -1;
 	}
 
 	//printf(">>>Files opened for read/write...\n");

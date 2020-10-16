@@ -1,6 +1,10 @@
 #ifndef	__CMS_MON_PROC_H__
 #define	__CMS_MON_PROC_H__
 
+
+#define	PMON_MODULE_IPC_PORT				5005
+#define	PROC_MON_PROC		0x05
+
 #define 				CMS_MON_PROC_LOG_FILE_NAME "cms_mon_proc.log"
 
 #define 				MAX_PROCESSES 				15
@@ -54,4 +58,5 @@ typedef	struct
 	char	cmd_line_arg2[SIZE_8];
 }proc_info_t;
 
+int32_t create_ipc_socket(char *log_ip_addr, uint16_t loc_port);
 #endif

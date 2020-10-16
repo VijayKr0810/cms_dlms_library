@@ -2,7 +2,6 @@
 #include "log.h"
 #include "dlms_api_config.h"
 #include "cms_mon_proc.h"
-//#include "/home/iot-gateway/hiredis/hiredis.h"
 #include "/home/iot-gateway/redis-5.0.8-bin/include/hiredis.h"
 
 
@@ -11,6 +10,7 @@ dlms_dcu_config_t 				dlms_dcu_config;
 redisContext 					*p_redis_handler;
 redisReply 						*p_redis_reply;
 
+int32_t 						g_win_dbg_soc_fd;
 char 							g_rbt_buffer[512];
 char 							debug_file_name[64];
 uint8_t 						g_num_procs;
@@ -977,6 +977,18 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
+	g_win_dbg_soc_fd = create_ipc_socket(dlms_dcu_config.dlms_dcu_info.dbglog_ip,PMON_MODULE_IPC_PORT);
+	if(g_win_dbg_soc_fd<0)
+	{
+		dbg_log(INFORM,"%-20s : Failed to create Windows Dbg log socket\n",fun_name);
+		return -1;
+	}
+	else
+	{
+		dbg_log(INFORM,"%-20s : Success Windows Dbg log socket on Ip : %s, With FD : %d\n",
+		fun_name,dlms_dcu_config.dlms_dcu_info.dbglog_ip,g_win_dbg_soc_fd);
+	}
+	
 	g_parent_pid = getpid();
 	
 	//set signal handler for parent
@@ -994,7 +1006,22 @@ int main(int argc, char **argv)
 				proc_info[proc_idx].cmd_line_arg1,
 				proc_info[proc_idx].cmd_line_arg2);
 	
+	dbg_log(INFORM,"%-20s : Writing reboot status as Zero\n",fun_name);
+	p_redis_reply = redisCommand(p_redis_handler,"hmset reboot_msg reboot_status %d",0);
+			
 	invoke_procs();
+	
+	uint8_t g_port_idx;
+	for(g_port_idx=0; g_port_idx<MAX_NO_OF_SERIAL_PORT; g_port_idx++)
+	{
+		p_redis_reply = redisCommand(p_redis_handler,"hmset P%d_dlms_poll_proc_hc_msg updatetime %d",g_port_idx,time(NULL));
+		if(p_redis_reply!=NULL)
+		{
+			dbg_log(INFORM,"%-20s : PortIdx : %d, HC Set msg Status : %s\n",fun_name,g_port_idx,p_redis_reply->str);
+		}
+		
+		freeReplyObject(p_redis_reply);
+	}
 	
 	sleep(5);
 	

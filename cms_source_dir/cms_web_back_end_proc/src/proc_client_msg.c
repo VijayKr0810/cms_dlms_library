@@ -5541,7 +5541,7 @@ int32_t proc_recv_client_msg(WSClient * client, WSOpcode opcode, int client_fd, 
 			}
 			else
 				goto EXIT;
-			
+			//GET_METER_SER_LIST
 			p_gen_ptr = nx_json_get(p_root_value,"CMD_TYPE")->text_value;
 			if(p_gen_ptr != NULL)
 			{
@@ -5801,92 +5801,130 @@ int32_t proc_recv_client_msg(WSClient * client, WSOpcode opcode, int client_fd, 
 						time_trav = nx_json_get(p_root_value,"START_DT_TIME");
 						if(time_trav!=NULL)
 						{
-							p_loc_ptr = nx_json_get(p_root_value,"YEAR")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"YEAR")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								st_date_time.year = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("St Date Year Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"MON")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"MON")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								st_date_time.month = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("St Date Month Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"DAY")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"DAY")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								st_date_time.day = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("St Date Day Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"HOUR")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"HOUR")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								st_date_time.hour = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("St Date hour Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"MIN")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"MIN")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								st_date_time.minute = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("St Date Minute Not Found\n");
 								goto EXIT;
+							}
+						}
+						else
+						{
+							printf("Start Date Key Not Found\n");
+							goto EXIT;
 						}
 						
-						time_trav = nx_json_get(p_root_value,"END_DATE_TIME");
+						time_trav = nx_json_get(p_root_value,"END_DT_TIME");
 						if(time_trav!=NULL)
 						{
-							p_loc_ptr = nx_json_get(p_root_value,"YEAR")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"YEAR")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								end_date_time.year = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("End Date Year Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"MON")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"MON")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								end_date_time.month = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("End Date Month Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"DAY")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"DAY")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								end_date_time.day = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("End Date Day Not Found\n");
 								goto EXIT;
+							}
 							
-							p_loc_ptr = nx_json_get(p_root_value,"HOUR")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"HOUR")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								end_date_time.hour = atoi(p_loc_ptr);
 							}
 							else
+							{
+								printf("End Date Hour Not Found\n");
 								goto EXIT;
+							}
 						
-							p_loc_ptr = nx_json_get(p_root_value,"MIN")->text_value;
+							p_loc_ptr = nx_json_get(time_trav,"MIN")->text_value;
 							if(p_loc_ptr!=NULL)
 							{
 								end_date_time.minute = atoi(p_loc_ptr);
 							}
 							else
+								{
+								printf("End Date Minute Not Found\n");
 								goto EXIT;
+							}
 						}
 						else
+						{
+							printf("End Date Key Not Found\n");
 							goto EXIT;
+						}
 							
 						send_od_ls_range_det(seq_num,ser_num,st_date_time,end_date_time);
 					}

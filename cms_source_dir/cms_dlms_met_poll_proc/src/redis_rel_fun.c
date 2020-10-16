@@ -4,6 +4,7 @@
 #include "dlms_api.h"
 #include "dlms_fun.h"
 #include "/home/iot-gateway/hiredis/hiredis.h"
+#include "dlms_met_poll_proc.h"
 
 int32_t met_poll_dbg_log(uint8_t mode, const char *p_format, ...);
 

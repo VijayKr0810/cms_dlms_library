@@ -1,0 +1,16 @@
+15/Oct/2020:11:11:17 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin
+15/Oct/2020:11:11:18 : RebootWdtProc() : Message : Current Reboot Status Value 0
+15/Oct/2020:11:11:18 : RebootWdtProc() : Message : Writing Low on WDT Gpio Pin
+15/Oct/2020:11:11:19 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin
+15/Oct/2020:11:11:21 : RebootWdtProc() : Message : Current Reboot Status Value 0
+15/Oct/2020:11:11:21 : RebootWdtProc() : Message : Writing Low on WDT Gpio Pin
+15/Oct/2020:11:11:22 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin
+15/Oct/2020:11:11:24 : RebootWdtProc() : Message : Current Reboot Status Value 0
+15/Oct/2020:11:11:24 : RebootWdtProc() : Message : Writing Low on WDT Gpio Pin
+15/Oct/2020:11:11:25 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin
+15/Oct/2020:11:11:27 : RebootWdtProc() : Message : Current Reboot Status Value 0
+15/Oct/2020:11:11:27 : RebootWdtProc() : Message : Writing Low on WDT Gpio Pin
+15/Oct/2020:11:11:28 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin
+15/Oct/2020:11:11:29 : RebootWdtProc() : Message : Current Reboot Status Value 0
+15/Oct/2020:11:11:30 : RebootWdtProc() : Message : Writing Low on WDT Gpio Pin
+15/Oct/2020:11:11:31 : RebootWdtProc() : Message : Writing High on WDT Gpio Pin

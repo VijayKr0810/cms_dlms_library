@@ -12,6 +12,8 @@
 /* Includes */
 #include "gen_inc.h"
 #include "log.h"
+#include "dlms_api_config.h"
+#include "dbg_logger_proc.h"
 
 /* Globals */
 char 							g_dbg_buff[256],g_msg_str[256];
@@ -20,6 +22,8 @@ static FILE 					*g_dlms_file_ptr;
 /* Extern  */
 extern char 					poll_debug_file_name[];
 extern uint8_t 					g_port_idx,g_midx;
+extern int32_t 					g_win_dbg_soc_fd;
+extern dlms_dcu_config_t 			dlms_dcu_config;
 
 /* -------------------------------------------------------------------------- */
 /**************************************************************************************************
@@ -153,6 +157,20 @@ FILE* write_dbglog(FILE *dbg_fptr_arr, char*log_file_path, char *p_data)
 	if(p_dbg_fptr_arr!=NULL)
 		position = ftell(p_dbg_fptr_arr);
 	
+	#if 1
+	if ( dlms_dcu_config.dlms_dcu_info.dbglog_enable)
+	{
+		p_data[255] = '\0';
+		dbg_log_msg_t win_log_msg;
+		win_log_msg.proc_id = DLMS_MASTER_PROC;
+
+		memset(win_log_msg.msg,0,sizeof(win_log_msg.msg));
+		memcpy(win_log_msg.msg,p_data,256);
+
+		send_dbglog_msg(g_win_dbg_soc_fd,(char *)&win_log_msg,sizeof(dbg_log_msg_t));
+	}
+	#endif
+
 	if(position>=FILE_SIZE_EXCEED)
 	{
 		printf("Dbg File size reached max.\n");
